@@ -1,6 +1,5 @@
 package com.mattprecious.prioritysms;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.media.Ringtone;
@@ -60,7 +59,7 @@ public class PrioritySMS extends PreferenceActivity {
     }
     
     private void updateAlarm() {
-        String alarm = settings.getString("alarm", "");
+        String alarm = settings.getString("alarm", null);
         Uri uri = (alarm == null) ? 
                 RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM) :
                 Uri.parse(alarm);
