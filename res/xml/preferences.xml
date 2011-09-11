@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	android:key="preferences">
+
+	<PreferenceCategory
+		android:title="@string/settings">
+		
+		<CheckBoxPreference
+			android:key="enabled"
+			android:title="@string/enabled" />
+		
+		<EditTextPreference
+			android:key="keyword"
+			android:title="@string/keyword" />
+			
+		<RingtonePreference
+			android:key="alarm"
+			android:title="@string/alarm"
+			android:ringtoneType="alarm"
+			android:showDefault="true"
+			android:showSilent="false" />
+	
+	</PreferenceCategory>
+</PreferenceScreen>
