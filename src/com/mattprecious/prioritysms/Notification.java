@@ -60,8 +60,6 @@ public class Notification extends Activity {
             
             @Override
             public void onClick(View arg0) {
-                stopAlarm();
-                
                 Intent mIntent = new Intent(Intent.ACTION_MAIN);
                 mIntent.setType("vnd.android-dir/mms-sms");
                 
@@ -74,12 +72,18 @@ public class Notification extends Activity {
             
             @Override
             public void onClick(View arg0) {
-                stopAlarm();
                 finish();
             }
         });
             
         startAlarm();
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        
+        stopAlarm();
     }
     
     private void startAlarm() {
