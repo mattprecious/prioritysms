@@ -31,7 +31,7 @@ public class Notification extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notification);
         
-        settings        = getSharedPreferences("com.mattprecious.prioritysms_preferences", 0);
+        settings        = getSharedPreferences(getPackageName() + "_preferences", 0);
         
         messageView     = (TextView) findViewById(R.id.message);
         openButton      = (Button) findViewById(R.id.open);

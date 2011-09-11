@@ -23,7 +23,7 @@ public class SMSReceiver extends BroadcastReceiver {
                 String sender = msgs[i].getOriginatingAddress();
                 String message = msgs[i].getMessageBody();
                 
-                SharedPreferences settings = context.getSharedPreferences("com.mattprecious.prioritysms_preferences", 0);
+                SharedPreferences settings = context.getSharedPreferences(context.getPackageName() + "_preferences", 0);
                 boolean enabled = settings.getBoolean("enabled", false);
                 String keyword = settings.getString("keyword", "");
                 
