@@ -51,14 +51,6 @@ public class PrioritySMS extends PreferenceActivity {
         
         updateKeyword();
         updateAlarm();
-        
-        Intent newIntent = new Intent(this, Notification.class);
-        
-        newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        newIntent.putExtra("sender", "2063956665");
-        newIntent.putExtra("message", "Lorem ipsum");
-        
-        startActivity(newIntent);
     }
     
     private void updateKeyword() {
