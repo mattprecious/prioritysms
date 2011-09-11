@@ -90,7 +90,7 @@ public class Notification extends Activity {
         
         try {
             mediaPlayer = new MediaPlayer();
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
             mediaPlayer.setDataSource(this, uri);
             mediaPlayer.setLooping(true);
             mediaPlayer.prepare();
