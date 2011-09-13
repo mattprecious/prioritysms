@@ -9,9 +9,9 @@
     <string name="enabled">Enabled</string>
     <string name="keyword">Secret Keyword</string>
     <string name="alarm">Alarm</string>
+    <string name="override">Override Silent Mode</string>
+    <string name="vibrate">Vibrate</string>
     
     <string name="open">Open Messages</string>
     <string name="dismiss">Dismiss</string>
-    
-    <string name="vibrate">Vibrate</string>
 </resources>

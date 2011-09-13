@@ -19,6 +19,10 @@
 			android:ringtoneType="alarm"
 			android:showDefault="true"
 			android:showSilent="false" />
+			
+		<CheckBoxPreference
+			android:key="override"
+			android:title="@string/override" />
 		
 		<CheckBoxPreference
 			android:key="vibrate"

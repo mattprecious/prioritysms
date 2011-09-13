@@ -24,17 +24,21 @@ public class Notification extends Activity {
     
     private SharedPreferences settings;
     private MediaPlayer mediaPlayer;
+    private AudioManager audioManager;
     private Vibrator vibrator;
     
     private TextView messageView;
     private Button openButton;
     private Button dismissButton;
+    
+    private boolean alarmPlaying;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notification);
         
+        audioManager    = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         vibrator        = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         
         settings        = getSharedPreferences(getPackageName() + "_preferences", 0);
@@ -97,17 +101,25 @@ public class Notification extends Activity {
         Uri uri = (alarm == null) ? 
                         RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM) :
                         Uri.parse(alarm);
-                        
+        
+        boolean override = settings.getBoolean("override", false);
         boolean vibrate = settings.getBoolean("vibrate", false);
         
+        mediaPlayer = new MediaPlayer();
+        alarmPlaying = false;
+        
         try {
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-            mediaPlayer.setDataSource(this, uri);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
+            
+            if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL || override) {
+                mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+                mediaPlayer.setDataSource(this, uri);
+                mediaPlayer.setLooping(true);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+                
+                alarmPlaying = true;
+            }
             
             if (vibrate) {
                 startVibrate();
@@ -120,7 +132,9 @@ public class Notification extends Activity {
     }
     
     private void stopAlarm() {
-        mediaPlayer.stop();
+        if (alarmPlaying) {
+            mediaPlayer.stop();
+        }
         stopVibrate();
     }
     
