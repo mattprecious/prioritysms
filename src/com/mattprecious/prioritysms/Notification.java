@@ -12,6 +12,7 @@ import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.os.Vibrator;
 import android.provider.ContactsContract.PhoneLookup;
 import android.view.View;
@@ -101,6 +102,7 @@ public class Notification extends Activity {
         
         try {
             mediaPlayer = new MediaPlayer();
+            mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
             mediaPlayer.setDataSource(this, uri);
             mediaPlayer.setLooping(true);
