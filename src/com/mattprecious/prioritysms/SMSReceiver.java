@@ -27,7 +27,7 @@ public class SMSReceiver extends BroadcastReceiver {
                 boolean enabled = settings.getBoolean("enabled", false);
                 String keyword = settings.getString("keyword", "");
                 
-                if (enabled && !keyword.equals("") && message.indexOf(keyword) != -1) {
+                if (enabled && !keyword.equals("") && message.toLowerCase().indexOf(keyword.toLowerCase()) != -1) {
                     Intent newIntent = new Intent(context, Notification.class);
                     
                     newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
