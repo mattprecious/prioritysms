@@ -112,6 +112,9 @@ public class Notification extends Activity {
         stopAlarm();
     }
     
+    /**
+     * Start playing the alarm
+     */
     private void startAlarm() {
         String alarm = settings.getString("alarm", null);
         Uri uri = (alarm == null) ? 
@@ -147,6 +150,9 @@ public class Notification extends Activity {
         }
     }
     
+    /**
+     * Stop the alarm
+     */
     private void stopAlarm() {
         if (alarmPlaying) {
             mediaPlayer.stop();
@@ -154,10 +160,15 @@ public class Notification extends Activity {
         stopVibrate();
     }
     
+    /**
+     * Start vibrating
+     */
     private void startVibrate() {
         int shortVib    = 150;
         int shortPause  = 150;
         int longPause   = 500;
+        
+        // vibrate 3 short times, then pause
         long[] pattern = {
                 0,
                 shortVib,
@@ -171,6 +182,9 @@ public class Notification extends Activity {
         vibrator.vibrate(pattern, 0);
     }
     
+    /**
+     * Stop vibrating
+     */
     private void stopVibrate() {
         vibrator.cancel();
     }
