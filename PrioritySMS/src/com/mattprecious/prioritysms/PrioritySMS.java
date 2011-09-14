@@ -68,12 +68,18 @@ public class PrioritySMS extends PreferenceActivity {
         updateAlarm();
     }
     
+    /**
+     * Show the keyword under the preference title
+     */
     private void updateKeyword() {
         String keyword = settings.getString("keyword", "");
         keyword = (keyword.equals("")) ? "N/A" : keyword;
         findPreference("keyword").setSummary(keyword);
     }
     
+    /**
+     * Show the chosen alarm under the preference title
+     */
     private void updateAlarm() {
         String alarm = settings.getString("alarm", null);
         Uri uri = (alarm == null) ? 
