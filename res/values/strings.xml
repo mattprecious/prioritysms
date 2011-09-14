@@ -7,7 +7,7 @@
     <string name="settings">Settings</string>
     
     <string name="enabled">Enabled</string>
-    <string name="keyword">Secret Keyword</string>
+    <string name="keyword">Keyword</string>
     <string name="alarm">Alarm</string>
     <string name="override">Override Silent Mode</string>
     <string name="vibrate">Vibrate</string>
