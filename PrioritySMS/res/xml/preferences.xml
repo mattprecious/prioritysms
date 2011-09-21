@@ -3,30 +3,41 @@
 	android:key="preferences">
 
 	<PreferenceCategory
-		android:title="@string/settings">
+		android:title="@string/category_status">
 		
 		<CheckBoxPreference
 			android:key="enabled"
-			android:title="@string/enabled" />
+			android:title="@string/status_enabled" />
+		
+	</PreferenceCategory>
+	
+	<PreferenceCategory
+		android:title="@string/category_conditions">
 		
 		<EditTextPreference
 			android:key="keyword"
-			android:title="@string/keyword" />
+			android:title="@string/condition_keyword" />
+			
+	</PreferenceCategory>
+	
+	<PreferenceCategory
+		android:title="category_actions">
 			
 		<RingtonePreference
 			android:key="alarm"
-			android:title="@string/alarm"
+			android:title="@string/action_alarm"
 			android:ringtoneType="alarm"
 			android:showDefault="true"
 			android:showSilent="false" />
 			
 		<CheckBoxPreference
 			android:key="override"
-			android:title="@string/override" />
+			android:title="@string/action_override" />
 		
 		<CheckBoxPreference
 			android:key="vibrate"
-			android:title="@string/vibrate" />
+			android:title="@string/action_vibrate" />
 	
 	</PreferenceCategory>
+	
 </PreferenceScreen>
