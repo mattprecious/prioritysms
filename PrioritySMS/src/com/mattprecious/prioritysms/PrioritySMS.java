@@ -165,6 +165,9 @@ public class PrioritySMS extends PreferenceActivity {
                 Uri.parse(alarm);
                 
         Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(), uri);
-        alarmPreference.setSummary(ringtone.getTitle(getApplicationContext()));
+        
+        if (ringtone != null) {
+            alarmPreference.setSummary(ringtone.getTitle(getApplicationContext()));
+        }
     }
 }
