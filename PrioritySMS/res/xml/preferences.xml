@@ -14,9 +14,23 @@
 	<PreferenceCategory
 		android:title="@string/category_conditions">
 		
+		<CheckBoxPreference
+			android:key="filter_keyword"
+			android:title="@string/condition_filter_keyword" />
+		
 		<EditTextPreference
 			android:key="keyword"
+			android:dependency="filter_keyword"
 			android:title="@string/condition_keyword" />
+			
+		<CheckBoxPreference
+			android:key="filter_contact"
+			android:title="@string/condition_filter_contact" />
+		
+		<Preference
+			android:key="contact"
+			android:dependency="filter_contact"
+			android:title="@string/condition_contact" />
 			
 	</PreferenceCategory>
 	

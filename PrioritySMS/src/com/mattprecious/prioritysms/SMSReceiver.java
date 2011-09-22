@@ -20,7 +20,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract.Contacts;
+import android.provider.ContactsContract.PhoneLookup;
 import android.telephony.SmsMessage;
 
 public class SMSReceiver extends BroadcastReceiver {
@@ -39,12 +43,66 @@ public class SMSReceiver extends BroadcastReceiver {
                 String message = msgs[i].getMessageBody();
 
                 SharedPreferences settings = context.getSharedPreferences(context.getPackageName() + "_preferences", 0);
-                boolean enabled = settings.getBoolean("enabled", false);
-                String keyword = settings.getString("keyword", "");
 
-                // if we're enabled, and the keyword is set, and it's found in
-                // the message, open the notification
-                if (enabled && !keyword.equals("") && message.toLowerCase().indexOf(keyword.toLowerCase()) != -1) {
+                boolean enabled         = settings.getBoolean("enabled", false);
+                boolean filterKeyword   = settings.getBoolean("filter_keyword", false);
+                boolean filterContact   = settings.getBoolean("filter_contact", false);
+
+                String keyword          = settings.getString("keyword", "");
+                String contactLookupKey = settings.getString("contact", "");
+                
+                // return if we aren't filtering by anything
+                if (!filterKeyword && !filterContact) {
+                    return;
+                }
+                
+                boolean keywordCondition = false;
+                boolean contactCondition = false;
+
+                // if we're filtering by keyword,
+                // check if the keyword is set, and
+                // check if the message contains the keyword
+                if (filterKeyword) {
+                    keywordCondition = !keyword.equals("") && (message.toLowerCase().indexOf(keyword.toLowerCase()) != -1);
+                } else {
+                    keywordCondition = true;
+                }
+
+                // if we're filtering by contact,
+                // look up the contact id of our filtered contact, and
+                // look up the contact id of the sender, and
+                // check if they're the same ID
+                if (filterContact && !contactLookupKey.equals("")) {
+                    Uri contactUri = Uri.withAppendedPath(Contacts.CONTENT_LOOKUP_URI, contactLookupKey);
+
+                    String[] columns = new String[] { Contacts._ID };
+                    Cursor c = context.getContentResolver().query(contactUri, columns, null, null, null);
+
+                    if (c.moveToFirst()) {
+                        String contactId = c.getString(c.getColumnIndex(Contacts._ID));
+                        
+                        Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(sender));
+                        
+                        String[] columns2 = new String[] { PhoneLookup._ID };
+                        Cursor c2 = context.getContentResolver().query(phoneUri, columns2, null, null, null);
+                        
+                        if (c2.moveToFirst()) {
+                            String thisContactId = c2.getString(c.getColumnIndex(PhoneLookup._ID));
+                            
+                            contactCondition = thisContactId.equals(contactId);
+                        }
+                        
+                        c2.close();
+                    }
+                    
+                    c.close();
+                } else {
+                    contactCondition = true;
+                }
+
+                // if we're enabled and all of our conditions are met, open the
+                // notification
+                if (enabled && keywordCondition && contactCondition) {
                     Intent newIntent = new Intent(context, Notification.class);
 
                     newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -58,5 +116,4 @@ public class SMSReceiver extends BroadcastReceiver {
         }
 
     }
-
 }
