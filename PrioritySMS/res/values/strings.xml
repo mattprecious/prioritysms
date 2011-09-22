@@ -8,7 +8,10 @@
     
     <string name="status_enabled">Enabled</string>
     
+    <string name="condition_filter_keyword">Filter by Keyword</string>
     <string name="condition_keyword">Keyword</string>
+    <string name="condition_filter_contact">Filter by Contact</string>
+    <string name="condition_contact">Contact</string>
     
     <string name="action_alarm">Alarm</string>
     <string name="action_override">Override Silent Mode</string>
