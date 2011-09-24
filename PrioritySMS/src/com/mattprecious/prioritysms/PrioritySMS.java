@@ -39,7 +39,7 @@ import android.provider.ContactsContract.Contacts;
 
 public class PrioritySMS extends PreferenceActivity {
     
-    private final int VERSION_CODE = 1;
+    private final int VERSION_CODE = 2;
     
     private OnSharedPreferenceChangeListener prefListener;
     private SharedPreferences settings;
