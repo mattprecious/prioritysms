@@ -19,4 +19,13 @@
     
     <string name="notification_open">Open Messages</string>
     <string name="notification_dismiss">Dismiss</string>
+    
+    <string name="ok">OK</string>
+    
+    <string name="whats_new">What\'s New?</string>
+    <string name="change_log">
+    	<ul>
+    		<li>Filter by contact</li>
+    	</ul>
+    </string>
 </resources>
