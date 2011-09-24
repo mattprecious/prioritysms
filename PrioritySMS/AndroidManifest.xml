@@ -17,7 +17,7 @@
         		  android:theme="@android:style/Theme.Dialog" />
         
         <receiver android:name="SMSReceiver">
-            <intent-filter>
+            <intent-filter android:priority="999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"></action>
             </intent-filter>
         </receiver>
