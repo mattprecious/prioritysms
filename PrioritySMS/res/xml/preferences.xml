@@ -35,7 +35,7 @@
 	</PreferenceCategory>
 	
 	<PreferenceCategory
-		android:title="category_actions">
+		android:title="@string/category_actions">
 			
 		<RingtonePreference
 			android:key="alarm"
