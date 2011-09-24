@@ -16,6 +16,9 @@
 
 package com.mattprecious.prioritysms;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -36,6 +39,8 @@ import android.provider.ContactsContract.Contacts;
 
 public class PrioritySMS extends PreferenceActivity {
     
+    private final int VERSION_CODE = 1;
+    
     private OnSharedPreferenceChangeListener prefListener;
     private SharedPreferences settings;
     
@@ -47,6 +52,8 @@ public class PrioritySMS extends PreferenceActivity {
     private RingtonePreference alarmPreference;
     
     private final int REQUEST_CODE_CONTACT_PICKER = 1;
+    
+    private final int DIALOG_ID_CHANGE_LOG = 1;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,6 +98,11 @@ public class PrioritySMS extends PreferenceActivity {
         updateKeyword();
         updateContact();
         updateAlarm();
+        
+        // debug the change log
+        //settings.edit().putInt("version_code", 0).commit();
+        
+        checkAndShowChangeLog();
     }
     
     @Override
@@ -121,6 +133,30 @@ public class PrioritySMS extends PreferenceActivity {
         }
         
         super.onActivityResult(requestCode, resultCode, data);
+    }
+    
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        Dialog dialog;
+        switch(id) {
+            case DIALOG_ID_CHANGE_LOG:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.whats_new)
+                       .setIcon(android.R.drawable.ic_dialog_info)
+                       .setMessage(R.string.change_log)
+                       .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                           
+                           public void onClick(DialogInterface dialog, int id) {
+                               dialog.cancel();
+                           }
+                       })
+                       ;
+                dialog = builder.create();
+                break;
+            default:
+                dialog = null;
+        }
+        return dialog;
     }
     
     /**
@@ -168,6 +204,16 @@ public class PrioritySMS extends PreferenceActivity {
         
         if (ringtone != null) {
             alarmPreference.setSummary(ringtone.getTitle(getApplicationContext()));
+        }
+    }
+    
+    private void checkAndShowChangeLog() {
+        if (settings.getInt("version_code", 0) != VERSION_CODE) {
+            showDialog(DIALOG_ID_CHANGE_LOG);
+            
+            Editor editor = settings.edit();
+            editor.putInt("version_code", VERSION_CODE);
+            editor.commit();
         }
     }
 }
