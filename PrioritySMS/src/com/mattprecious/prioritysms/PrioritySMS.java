@@ -23,6 +23,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -38,8 +41,6 @@ import android.preference.RingtonePreference;
 import android.provider.ContactsContract.Contacts;
 
 public class PrioritySMS extends PreferenceActivity {
-    
-    private final int VERSION_CODE = 2;
     
     private OnSharedPreferenceChangeListener prefListener;
     private SharedPreferences settings;
@@ -208,12 +209,20 @@ public class PrioritySMS extends PreferenceActivity {
     }
     
     private void checkAndShowChangeLog() {
-        if (settings.getInt("version_code", 0) != VERSION_CODE) {
-            showDialog(DIALOG_ID_CHANGE_LOG);
+        PackageManager packageManager = getPackageManager();
+        
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
             
-            Editor editor = settings.edit();
-            editor.putInt("version_code", VERSION_CODE);
-            editor.commit();
+            if (settings.getInt("version_code", 0) != packageInfo.versionCode) {
+                showDialog(DIALOG_ID_CHANGE_LOG);
+                
+                Editor editor = settings.edit();
+                editor.putInt("version_code", packageInfo.versionCode);
+                editor.commit();
+            }
+        } catch (NameNotFoundException e) {
+            
         }
     }
 }
