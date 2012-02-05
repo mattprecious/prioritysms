@@ -49,6 +49,7 @@ public class SMSReceiver extends BroadcastReceiver {
                 boolean filterContact   = settings.getBoolean("filter_contact", false);
 
                 String keyword          = settings.getString("keyword", "");
+                String[] keywordArr     = keyword.split(",");
                 String contactLookupKey = settings.getString("contact", "");
                 
                 // return if we aren't filtering by anything
@@ -63,7 +64,12 @@ public class SMSReceiver extends BroadcastReceiver {
                 // check if the keyword is set, and
                 // check if the message contains the keyword
                 if (filterKeyword) {
-                    keywordCondition = !keyword.equals("") && (message.toLowerCase().indexOf(keyword.toLowerCase()) != -1);
+                    for (String key : keywordArr) {
+                        if (!key.equals("") && (message.toLowerCase().indexOf(key.toLowerCase()) != -1)) {
+                            keywordCondition = true;
+                            break;
+                        }
+                    }
                 } else {
                     keywordCondition = true;
                 }
