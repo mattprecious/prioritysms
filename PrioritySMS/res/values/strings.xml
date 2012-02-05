@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Priority SMS</string>
-    
     <string name="category_status">Status</string>
     <string name="category_conditions">Conditions</string>
     <string name="category_actions">Actions</string>
@@ -23,9 +21,4 @@
     <string name="ok">OK</string>
     
     <string name="whats_new">What\'s New?</string>
-    <string name="change_log">
-    	<ul>
-    		<li>Filter by contact</li>
-    	</ul>
-    </string>
 </resources>
