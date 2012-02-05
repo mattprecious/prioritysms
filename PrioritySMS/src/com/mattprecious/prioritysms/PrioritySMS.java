@@ -196,7 +196,7 @@ public class PrioritySMS extends PreferenceActivity {
             String[] columns = new String[]{Contacts.DISPLAY_NAME};
             Cursor c = getContentResolver().query(lookupUri, columns, null, null, null);
             
-            if (c.moveToFirst()) {
+            if (c != null && c.moveToFirst()) {
                 name = c.getString(c.getColumnIndex(Contacts.DISPLAY_NAME));
             }
             
