@@ -54,4 +54,13 @@
 	
 	</PreferenceCategory>
 	
+	<PreferenceCategory
+		android:title="@string/category_more">
+			
+		<Preference
+			android:key="translate"
+			android:title="@string/translate" />
+	
+	</PreferenceCategory>
+	
 </PreferenceScreen>
