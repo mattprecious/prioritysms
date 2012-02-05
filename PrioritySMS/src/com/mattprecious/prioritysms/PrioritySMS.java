@@ -51,6 +51,7 @@ public class PrioritySMS extends PreferenceActivity {
     private CheckBoxPreference filterContactPreference;
     private Preference         contactPreference;
     private RingtonePreference alarmPreference;
+    private Preference         translatePreference;
     
     private final int REQUEST_CODE_CONTACT_PICKER = 1;
     
@@ -70,6 +71,7 @@ public class PrioritySMS extends PreferenceActivity {
         filterContactPreference = (CheckBoxPreference) findPreference("filter_contact");
         contactPreference       = (Preference)         findPreference("contact");
         alarmPreference         = (RingtonePreference) findPreference("alarm");
+        translatePreference     = (Preference)         findPreference("translate");
         
         // register a listener for changes
         prefListener = new OnSharedPreferenceChangeListener() {
@@ -93,6 +95,18 @@ public class PrioritySMS extends PreferenceActivity {
                 Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
                 startActivityForResult(contactPickerIntent, REQUEST_CODE_CONTACT_PICKER);
                 return false;
+            }
+        });
+        
+        translatePreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("http://crowdin.net/project/priority-sms"));
+                startActivity(intent);
+                
+                return true;
             }
         });
         
