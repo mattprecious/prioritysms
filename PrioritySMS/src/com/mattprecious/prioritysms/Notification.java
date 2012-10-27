@@ -31,6 +31,9 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.provider.ContactsContract.PhoneLookup;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -44,10 +47,13 @@ public class Notification extends Activity {
     private Vibrator vibrator;
     
     private TextView messageView;
-    private Button openButton;
+    private Button actionButton;
     private Button dismissButton;
     
     private boolean alarmPlaying;
+
+    private String number;
+    private boolean isCall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +66,13 @@ public class Notification extends Activity {
         settings        = getSharedPreferences(getPackageName() + "_preferences", 0);
         
         messageView     = (TextView) findViewById(R.id.message);
-        openButton      = (Button) findViewById(R.id.open);
+        actionButton    = (Button) findViewById(R.id.action);
         dismissButton   = (Button) findViewById(R.id.dismiss);
         
         Intent intent   = getIntent();
-        String number   = intent.getStringExtra("sender");
         String message  = intent.getStringExtra("message");
+        number          = intent.getStringExtra("sender");
+        isCall          = intent.getBooleanExtra("is_call", false);
         
         Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
         
@@ -80,14 +87,28 @@ public class Notification extends Activity {
         }
         
         setTitle(sender);
-        messageView.setText(message);
+
+        if (isCall) {
+        	messageView.setText(R.string.incoming_call);
+        	actionButton.setText(R.string.notification_action_call);
+        } else {
+        	messageView.setText(message);
+        	actionButton.setText(R.string.notification_action_messages);
+        }
         
-        openButton.setOnClickListener(new OnClickListener() {
+        actionButton.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View arg0) {
-                Intent mIntent = new Intent(Intent.ACTION_MAIN);
-                mIntent.setType("vnd.android-dir/mms-sms");
+                Intent mIntent;
+                
+                if (isCall) {
+                	String url = "tel:" + number;
+                	mIntent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
+                } else {
+                	mIntent = new Intent(Intent.ACTION_MAIN);
+                    mIntent.setType("vnd.android-dir/mms-sms");
+                }
                 
                 startActivity(mIntent);
                 finish();
@@ -101,7 +122,28 @@ public class Notification extends Activity {
                 finish();
             }
         });
-            
+        
+        // we want to listen to see if the user answers the call, and cancel our alarm if they do
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        telephonyManager.listen(new PhoneStateListener() {
+        	private String incomingNumber;
+
+        	@Override
+        	public void onCallStateChanged(int state, String incomingNumber) {
+        		// store the number while the call is ringing
+        		if (TelephonyManager.CALL_STATE_RINGING == state) {
+        			this.incomingNumber = incomingNumber;
+        		}
+
+        		if (TelephonyManager.CALL_STATE_OFFHOOK == state) {
+        			// check against previously stored number
+	        		if (this.incomingNumber != null && this.incomingNumber.equals(number)) {
+	        			finish();
+	        		}
+        		}
+        	}
+        }, PhoneStateListener.LISTEN_CALL_STATE);
+
         startAlarm();
     }
     

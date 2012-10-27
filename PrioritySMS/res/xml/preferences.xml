@@ -31,6 +31,12 @@
 			android:key="contact"
 			android:dependency="filter_contact"
 			android:title="@string/condition_contact" />
+		
+		<CheckBoxPreference
+		    android:key="contact_call"
+		    android:dependency="filter_contact"
+		    android:title="@string/contact_call"
+			android:summary="@string/contact_call_summary" />
 			
 	</PreferenceCategory>
 	
