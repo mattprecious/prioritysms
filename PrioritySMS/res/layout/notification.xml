@@ -20,11 +20,10 @@
 		android:layout_below="@id/message">
 	
 		<Button
-			android:id="@+id/open"
+			android:id="@+id/action"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="@string/notification_open" />
+			android:layout_weight="1" />
 			
 		<Button
 			android:id="@+id/dismiss"
