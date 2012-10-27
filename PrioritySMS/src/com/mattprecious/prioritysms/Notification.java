@@ -78,6 +78,8 @@ public class Notification extends Activity {
         } else {
             sender = number;
         }
+
+        c.close();
         
         setTitle(sender);
         messageView.setText(message);
