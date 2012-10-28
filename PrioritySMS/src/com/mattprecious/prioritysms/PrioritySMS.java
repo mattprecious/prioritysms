@@ -49,11 +49,14 @@ public class PrioritySMS extends PreferenceActivity {
     private CheckBoxPreference filterKeywordPreference;
     private EditTextPreference keywordPreference;
     private CheckBoxPreference filterContactPreference;
-    private Preference         contactPreference;
+    private Preference         smsContactPreference;
+    private CheckBoxPreference onCallPreference;
+    private Preference         callContactPreference;
     private RingtonePreference alarmPreference;
     private Preference         translatePreference;
     
-    private final int REQUEST_CODE_CONTACT_PICKER = 1;
+    private final int REQUEST_CODE_SMS_CONTACT_PICKER = 1;
+    private final int REQUEST_CODE_CALL_CONTACT_PICKER = 2;
     
     private final int DIALOG_ID_CHANGE_LOG = 1;
     
@@ -69,7 +72,9 @@ public class PrioritySMS extends PreferenceActivity {
         filterKeywordPreference = (CheckBoxPreference) findPreference("filter_keyword");
         keywordPreference       = (EditTextPreference) findPreference("keyword");
         filterContactPreference = (CheckBoxPreference) findPreference("filter_contact");
-        contactPreference       = (Preference)         findPreference("contact");
+        smsContactPreference    = (Preference)         findPreference("sms_contact");
+        onCallPreference        = (CheckBoxPreference) findPreference("on_call");
+        callContactPreference   = (Preference)         findPreference("call_contact");
         alarmPreference         = (RingtonePreference) findPreference("alarm");
         translatePreference     = (Preference)         findPreference("translate");
         
@@ -88,15 +93,26 @@ public class PrioritySMS extends PreferenceActivity {
         
         settings.registerOnSharedPreferenceChangeListener(prefListener);
         
-        contactPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+        smsContactPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             
             @Override
             public boolean onPreferenceClick(Preference arg0) {
                 Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
-                startActivityForResult(contactPickerIntent, REQUEST_CODE_CONTACT_PICKER);
+                startActivityForResult(contactPickerIntent, REQUEST_CODE_SMS_CONTACT_PICKER);
                 return false;
             }
         });
+
+        callContactPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            
+            @Override
+            public boolean onPreferenceClick(Preference arg0) {
+                Intent contactPickerIntent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
+                startActivityForResult(contactPickerIntent, REQUEST_CODE_CALL_CONTACT_PICKER);
+                return false;
+            }
+        });
+        
         
         translatePreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             
@@ -111,7 +127,8 @@ public class PrioritySMS extends PreferenceActivity {
         });
         
         updateKeyword();
-        updateContact();
+        updateContact("sms_contact");
+        updateContact("call_contact");
         updateAlarm();
         
         // debug the change log
@@ -123,25 +140,21 @@ public class PrioritySMS extends PreferenceActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case REQUEST_CODE_CONTACT_PICKER:
-                    Uri contactUri = data.getData();
-                    
-                    String[] columns = new String[]{Contacts.LOOKUP_KEY};
-                    Cursor c = getContentResolver().query(contactUri, columns, null, null, null);
-                    
-                    String lookupKey = "";
-                    if (c.moveToFirst()) {
-                        lookupKey = c.getString(c.getColumnIndex(Contacts.LOOKUP_KEY));
-                    }
-                    
-                    c.close();
+        	Editor editor = settings.edit();
 
-                    Editor editor = settings.edit();
-                    editor.putString("contact", lookupKey);
+            switch (requestCode) {
+            	case REQUEST_CODE_SMS_CONTACT_PICKER:
+                    editor.putString("sms_contact", contactLookup(data.getData()));
                     editor.commit();
                     
-                    updateContact();
+                    updateContact("sms_contact");
+                    
+                    return;
+            	case REQUEST_CODE_CALL_CONTACT_PICKER:
+                    editor.putString("call_contact", contactLookup(data.getData()));
+                    editor.commit();
+                    
+                    updateContact("call_contact");
                     
                     return;
             }
@@ -186,8 +199,8 @@ public class PrioritySMS extends PreferenceActivity {
     /**
      * Show the contact name under the preference title
      */
-    private void updateContact() {
-        String lookupKey = settings.getString("contact", "");
+    private void updateContact(String settingsKey) {
+        String lookupKey = settings.getString(settingsKey, "");
         
         String name = "N/A";
         if (!lookupKey.equals("")) {
@@ -203,7 +216,21 @@ public class PrioritySMS extends PreferenceActivity {
             c.close();
         }
         
-        findPreference("contact").setSummary(name);
+        findPreference(settingsKey).setSummary(name);
+    }
+    
+    private String contactLookup(Uri contactUri) {
+        String[] columns = new String[]{Contacts.LOOKUP_KEY};
+        Cursor c = getContentResolver().query(contactUri, columns, null, null, null);
+        
+        String lookupKey = "";
+        if (c.moveToFirst()) {
+            lookupKey = c.getString(c.getColumnIndex(Contacts.LOOKUP_KEY));
+        }
+        
+        c.close();
+
+        return lookupKey;
     }
     
     /**
