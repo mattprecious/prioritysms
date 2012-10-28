@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 public class PhoneStateReceiver extends BroadcastReceiver {
 
@@ -34,9 +33,8 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         	return;
         }
 
-        boolean filterContact   = settings.getBoolean("filter_contact", false);
-        boolean onCall = settings.getBoolean("contact_call", false);
-        String contactLookupKey = settings.getString("contact", "");
+        boolean onCall = settings.getBoolean("on_call", false);
+        String contactLookupKey = settings.getString("call_contact", "");
 
         boolean contactMatch = false;
 
@@ -45,7 +43,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         // look up the contact id of our filtered contact, and
         // look up the contact id of the caller, and
         // check if they're the same ID
-        if (filterContact && onCall && !contactLookupKey.equals("")) {
+        if (onCall && !contactLookupKey.equals("")) {
             Uri contactUri = Uri.withAppendedPath(Contacts.CONTENT_LOOKUP_URI, contactLookupKey);
 
             String[] columns = new String[] { Contacts._ID };

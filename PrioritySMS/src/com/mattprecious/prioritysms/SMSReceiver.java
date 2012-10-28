@@ -50,7 +50,7 @@ public class SMSReceiver extends BroadcastReceiver {
 
                 String keyword          = settings.getString("keyword", "");
                 String[] keywordArr     = keyword.split(",");
-                String contactLookupKey = settings.getString("contact", "");
+                String contactLookupKey = settings.getString("sms_contact", "");
                 
                 // return if we aren't filtering by anything
                 if (!filterKeyword && !filterContact) {

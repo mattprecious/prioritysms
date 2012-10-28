@@ -12,7 +12,7 @@
 	</PreferenceCategory>
 	
 	<PreferenceCategory
-		android:title="@string/category_conditions">
+		android:title="@string/category_sms_conditions">
 		
 		<CheckBoxPreference
 			android:key="filter_keyword"
@@ -28,16 +28,23 @@
 			android:title="@string/condition_filter_contact" />
 		
 		<Preference
-			android:key="contact"
+			android:key="sms_contact"
 			android:dependency="filter_contact"
 			android:title="@string/condition_contact" />
 		
-		<CheckBoxPreference
-		    android:key="contact_call"
-		    android:dependency="filter_contact"
-		    android:title="@string/contact_call"
-			android:summary="@string/contact_call_summary" />
-			
+	</PreferenceCategory>
+	
+	<PreferenceCategory
+	    android:title="@string/category_phone_conditions">
+	    
+	    <CheckBoxPreference
+		    android:key="on_call"
+		    android:title="@string/condition_contact_call" />
+	    
+	    <Preference
+			android:key="call_contact"
+			android:dependency="on_call"
+			android:title="@string/condition_contact" />
 	</PreferenceCategory>
 	
 	<PreferenceCategory
