@@ -126,15 +126,15 @@ public class PrioritySMS extends PreferenceActivity {
             }
         });
         
+        // debug the change log
+        //settings.edit().putInt("version_code", 0).commit();
+        
+        checkIfUpdated();
+        
         updateKeyword();
         updateContact("sms_contact");
         updateContact("call_contact");
         updateAlarm();
-        
-        // debug the change log
-        //settings.edit().putInt("version_code", 0).commit();
-        
-        checkAndShowChangeLog();
     }
     
     @Override
@@ -249,18 +249,25 @@ public class PrioritySMS extends PreferenceActivity {
         }
     }
     
-    private void checkAndShowChangeLog() {
+    private void checkIfUpdated() {
         PackageManager packageManager = getPackageManager();
         
         try {
             PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
             
             if (settings.getInt("version_code", 0) != packageInfo.versionCode) {
-                showDialog(DIALOG_ID_CHANGE_LOG);
-                
-                Editor editor = settings.edit();
+            	// do some housekeeping
+            	Editor editor = settings.edit();
+            	
+            	// move 'contact' preference to 'sms_contact' (v3 -> v4+)
+            	editor.putString("sms_contact", settings.getString("contact", null));
+            	editor.remove("contact");
+
                 editor.putInt("version_code", packageInfo.versionCode);
                 editor.commit();
+            	
+                // show change log
+                showDialog(DIALOG_ID_CHANGE_LOG);
             }
         } catch (NameNotFoundException e) {
             
