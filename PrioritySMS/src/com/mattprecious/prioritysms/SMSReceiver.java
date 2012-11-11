@@ -16,6 +16,8 @@
 
 package com.mattprecious.prioritysms;
 
+import com.mattprecious.prioritysms.util.ContactHelper;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -79,29 +81,10 @@ public class SMSReceiver extends BroadcastReceiver {
                 // look up the contact id of the sender, and
                 // check if they're the same ID
                 if (filterContact && !contactLookupKey.equals("")) {
-                    Uri contactUri = Uri.withAppendedPath(Contacts.CONTENT_LOOKUP_URI, contactLookupKey);
-
-                    String[] columns = new String[] { Contacts._ID };
-                    Cursor c = context.getContentResolver().query(contactUri, columns, null, null, null);
-
-                    if (c.moveToFirst()) {
-                        String contactId = c.getString(c.getColumnIndex(Contacts._ID));
-                        
-                        Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(sender));
-                        
-                        String[] columns2 = new String[] { PhoneLookup._ID };
-                        Cursor c2 = context.getContentResolver().query(phoneUri, columns2, null, null, null);
-                        
-                        if (c2.moveToFirst()) {
-                            String thisContactId = c2.getString(c.getColumnIndex(PhoneLookup._ID));
-                            
-                            contactCondition = thisContactId.equals(contactId);
-                        }
-                        
-                        c2.close();
-                    }
-                    
-                    c.close();
+                	String contactId = ContactHelper.getContactIdByLookupKey(context, contactLookupKey);
+                	String incomingContactId = ContactHelper.getContactIdByNumber(context, sender);
+                	
+                	contactCondition = contactId != null && contactId.equals(incomingContactId);
                 } else {
                     contactCondition = true;
                 }

@@ -16,6 +16,8 @@
 
 package com.mattprecious.prioritysms;
 
+import com.mattprecious.prioritysms.util.ContactHelper;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -144,14 +146,14 @@ public class PrioritySMS extends PreferenceActivity {
 
             switch (requestCode) {
             	case REQUEST_CODE_SMS_CONTACT_PICKER:
-                    editor.putString("sms_contact", contactLookup(data.getData()));
+                    editor.putString("sms_contact", ContactHelper.getLookupKeyByUri(this, data.getData()));
                     editor.commit();
                     
                     updateContact("sms_contact");
                     
                     return;
             	case REQUEST_CODE_CALL_CONTACT_PICKER:
-                    editor.putString("call_contact", contactLookup(data.getData()));
+                    editor.putString("call_contact", ContactHelper.getLookupKeyByUri(this, data.getData()));
                     editor.commit();
                     
                     updateContact("call_contact");
@@ -201,36 +203,9 @@ public class PrioritySMS extends PreferenceActivity {
      */
     private void updateContact(String settingsKey) {
         String lookupKey = settings.getString(settingsKey, "");
-        
-        String name = "N/A";
-        if (!lookupKey.equals("")) {
-            Uri lookupUri = Uri.withAppendedPath(Contacts.CONTENT_LOOKUP_URI, lookupKey);
-            
-            String[] columns = new String[]{Contacts.DISPLAY_NAME};
-            Cursor c = getContentResolver().query(lookupUri, columns, null, null, null);
-            
-            if (c != null && c.moveToFirst()) {
-                name = c.getString(c.getColumnIndex(Contacts.DISPLAY_NAME));
-            }
-            
-            c.close();
-        }
+        String name = ContactHelper.getNameByLookupKey(this, lookupKey);
         
         findPreference(settingsKey).setSummary(name);
-    }
-    
-    private String contactLookup(Uri contactUri) {
-        String[] columns = new String[]{Contacts.LOOKUP_KEY};
-        Cursor c = getContentResolver().query(contactUri, columns, null, null, null);
-        
-        String lookupKey = "";
-        if (c.moveToFirst()) {
-            lookupKey = c.getString(c.getColumnIndex(Contacts.LOOKUP_KEY));
-        }
-        
-        c.close();
-
-        return lookupKey;
     }
     
     /**
