@@ -18,6 +18,8 @@ package com.mattprecious.prioritysms;
 
 import java.io.IOException;
 
+import com.mattprecious.prioritysms.util.ContactHelper;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -73,19 +75,7 @@ public class Notification extends Activity {
         number          = intent.getStringExtra("sender");
         isCall          = intent.getBooleanExtra("is_call", false);
         
-        Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
-        
-        String[] columns = new String[]{PhoneLookup.DISPLAY_NAME};
-        Cursor c = getContentResolver().query(uri, columns, null, null, null);
-        
-        String sender;
-        if (c.moveToFirst()) {
-            sender = c.getString(c.getColumnIndex(PhoneLookup.DISPLAY_NAME));
-        } else {
-            sender = number;
-        }
-        
-        setTitle(sender);
+        setTitle(ContactHelper.getNameByNumber(this, number));
 
         if (isCall) {
         	messageView.setText(R.string.incoming_call);
