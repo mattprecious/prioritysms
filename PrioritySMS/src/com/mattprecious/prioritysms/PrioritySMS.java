@@ -16,8 +16,6 @@
 
 package com.mattprecious.prioritysms;
 
-import com.mattprecious.prioritysms.util.ContactHelper;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -28,7 +26,6 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.database.Cursor;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -41,6 +38,8 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
 import android.provider.ContactsContract.Contacts;
+
+import com.mattprecious.prioritysms.util.ContactHelper;
 
 public class PrioritySMS extends PreferenceActivity {
     

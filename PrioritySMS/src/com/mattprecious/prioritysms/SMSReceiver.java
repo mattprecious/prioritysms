@@ -16,18 +16,14 @@
 
 package com.mattprecious.prioritysms;
 
-import com.mattprecious.prioritysms.util.ContactHelper;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract.Contacts;
-import android.provider.ContactsContract.PhoneLookup;
 import android.telephony.SmsMessage;
+
+import com.mattprecious.prioritysms.util.ContactHelper;
 
 public class SMSReceiver extends BroadcastReceiver {
 
