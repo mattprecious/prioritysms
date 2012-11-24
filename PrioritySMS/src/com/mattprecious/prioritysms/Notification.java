@@ -18,13 +18,10 @@ package com.mattprecious.prioritysms;
 
 import java.io.IOException;
 
-import com.mattprecious.prioritysms.util.ContactHelper;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
@@ -32,13 +29,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
-import android.provider.ContactsContract.PhoneLookup;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.mattprecious.prioritysms.util.ContactHelper;
 
 public class Notification extends Activity {
     
