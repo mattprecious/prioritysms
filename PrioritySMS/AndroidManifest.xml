@@ -37,6 +37,8 @@
                 <action android:name="android.intent.action.PHONE_STATE"></action>
             </intent-filter>
         </receiver>
+        
+        <service android:name="com.mattprecious.prioritysms.CallLogScanner" />
 
     </application>
     
