@@ -91,7 +91,7 @@ public class Notification extends Activity {
                 
                 if (isCall) {
                 	String url = "tel:" + number;
-                	mIntent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
+                	mIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(url));
                 } else {
                 	mIntent = new Intent(Intent.ACTION_MAIN);
                     mIntent.setType("vnd.android-dir/mms-sms");
