@@ -76,7 +76,7 @@ public class Notification extends Activity {
         setTitle(ContactHelper.getNameByNumber(this, number));
 
         if (isCall) {
-        	messageView.setText(R.string.incoming_call);
+        	messageView.setText(R.string.notification_missed_call);
         	actionButton.setText(R.string.notification_action_call);
         } else {
         	messageView.setText(message);

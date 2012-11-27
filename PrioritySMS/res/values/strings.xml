@@ -13,7 +13,7 @@
     <string name="condition_filter_contact">Filter by Contact</string>
     <string name="condition_contact">Contact</string>
     
-    <string name="condition_contact_call">Alarm on Call</string>
+    <string name="condition_contact_call">Alarm on Missed Call</string>
     
     <string name="action_alarm">Alarm</string>
     <string name="action_override">Override Silent Mode</string>
@@ -22,8 +22,7 @@
     <string name="notification_action_messages">Open Messages</string>
     <string name="notification_action_call">Return Call</string>
     <string name="notification_dismiss">Dismiss</string>
-
-    <string name="incoming_call">Incoming Call</string>
+    <string name="notification_missed_call">Incoming Call</string>
     
     <string name="ok">OK</string>
     
