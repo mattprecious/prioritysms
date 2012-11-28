@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.telephony.SmsMessage;
 
 import com.mattprecious.prioritysms.util.ContactHelper;
@@ -40,7 +41,7 @@ public class SMSReceiver extends BroadcastReceiver {
                 String sender = msgs[i].getOriginatingAddress();
                 String message = msgs[i].getMessageBody();
 
-                SharedPreferences settings = context.getSharedPreferences(context.getPackageName() + "_preferences", 0);
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 
                 boolean enabled         = settings.getBoolean("enabled", false);
                 boolean filterKeyword   = settings.getBoolean("filter_keyword", false);
@@ -71,7 +72,7 @@ public class SMSReceiver extends BroadcastReceiver {
                 } else {
                     keywordCondition = true;
                 }
-
+                
                 // if we're filtering by contact,
                 // look up the contact id of our filtered contact, and
                 // look up the contact id of the sender, and
