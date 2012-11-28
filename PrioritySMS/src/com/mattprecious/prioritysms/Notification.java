@@ -48,6 +48,7 @@ public class Notification extends Activity {
     private Button dismissButton;
     
     private boolean alarmPlaying;
+    private String number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +65,8 @@ public class Notification extends Activity {
         dismissButton   = (Button) findViewById(R.id.dismiss);
         
         Intent intent   = getIntent();
-        String number   = intent.getStringExtra("sender");
         String message  = intent.getStringExtra("message");
+        number   = intent.getStringExtra("sender");
         
         Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
         
@@ -88,10 +89,10 @@ public class Notification extends Activity {
             
             @Override
             public void onClick(View arg0) {
-                Intent mIntent = new Intent(Intent.ACTION_MAIN);
-                mIntent.setType("vnd.android-dir/mms-sms");
+                Intent openSmsIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("smsto",
+                        number, null));
                 
-                startActivity(mIntent);
+                startActivity(openSmsIntent);
                 finish();
             }
         });
