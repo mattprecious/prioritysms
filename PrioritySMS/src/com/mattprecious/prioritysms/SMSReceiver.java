@@ -73,6 +73,10 @@ public class SMSReceiver extends BroadcastReceiver {
                     keywordCondition = true;
                 }
                 
+                if (!keywordCondition) {
+                    return;
+                }
+
                 // if we're filtering by contact,
                 // look up the contact id of our filtered contact, and
                 // look up the contact id of the sender, and
