@@ -30,7 +30,6 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -47,12 +46,7 @@ public class PrioritySMS extends PreferenceActivity {
     private OnSharedPreferenceChangeListener prefListener;
     private SharedPreferences settings;
     
-    private CheckBoxPreference enabledPreference;
-    private CheckBoxPreference filterKeywordPreference;
-    private EditTextPreference keywordPreference;
-    private CheckBoxPreference filterContactPreference;
     private Preference         smsContactPreference;
-    private CheckBoxPreference onCallPreference;
     private Preference         callContactPreference;
     private RingtonePreference alarmPreference;
     private Preference         helpPreference;
@@ -72,12 +66,7 @@ public class PrioritySMS extends PreferenceActivity {
         
         settings = ((PreferenceScreen) findPreference("preferences")).getSharedPreferences();
         
-        enabledPreference       = (CheckBoxPreference) findPreference("enabled");
-        filterKeywordPreference = (CheckBoxPreference) findPreference("filter_keyword");
-        keywordPreference       = (EditTextPreference) findPreference("keyword");
-        filterContactPreference = (CheckBoxPreference) findPreference("filter_contact");
         smsContactPreference    = (Preference)         findPreference("sms_contact");
-        onCallPreference        = (CheckBoxPreference) findPreference("on_call");
         callContactPreference   = (Preference)         findPreference("call_contact");
         alarmPreference         = (RingtonePreference) findPreference("alarm");
         helpPreference          = (Preference)         findPreference("help");
