@@ -16,7 +16,7 @@
     <string name="action_override">Override Silent Mode</string>
     <string name="action_vibrate">Vibrate</string>
     
-    <string name="notification_open">Open Messages</string>
+    <string name="notification_open">Open Message</string>
     <string name="notification_dismiss">Dismiss</string>
     
     <string name="ok">OK</string>
