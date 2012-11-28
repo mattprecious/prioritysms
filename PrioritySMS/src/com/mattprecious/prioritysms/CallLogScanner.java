@@ -21,14 +21,13 @@ public class CallLogScanner extends Service {
 
     @Override
     public void onCreate() {
-        Log.d("CallLogScanner", "onCreate()");
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        
+
         String phoneNumber = null;
 
         String[] columns = { CallLog.Calls.TYPE, CallLog.Calls.CACHED_NAME, CallLog.Calls.NUMBER };
-        Cursor c = getContentResolver().query(CallLog.Calls.CONTENT_URI, columns, null,
-                null, CallLog.Calls.DEFAULT_SORT_ORDER);
+        Cursor c = getContentResolver().query(CallLog.Calls.CONTENT_URI, columns, null, null,
+                CallLog.Calls.DEFAULT_SORT_ORDER);
         try {
             if (c.moveToFirst()) {
                 if (CallLog.Calls.MISSED_TYPE != c.getInt(c.getColumnIndex(CallLog.Calls.TYPE))) {
@@ -40,7 +39,7 @@ public class CallLogScanner extends Service {
         } finally {
             c.close();
         }
-        
+
         // TODO: create a helper for this and the SMS receiver
 
         String contactLookupKey = settings.getString("call_contact", "");
@@ -53,12 +52,10 @@ public class CallLogScanner extends Service {
         // look up the contact id of the caller, and
         // check if they're the same ID
         if (phoneNumber != null && !contactLookupKey.equals("")) {
-            Uri contactUri = Uri.withAppendedPath(Contacts.CONTENT_LOOKUP_URI,
-                    contactLookupKey);
+            Uri contactUri = Uri.withAppendedPath(Contacts.CONTENT_LOOKUP_URI, contactLookupKey);
 
             columns = new String[] { Contacts._ID };
-            c = getContentResolver().query(contactUri, columns, null, null,
-                    null);
+            c = getContentResolver().query(contactUri, columns, null, null, null);
 
             if (c.moveToFirst()) {
                 String contactId = c.getString(c.getColumnIndex(Contacts._ID));
@@ -67,8 +64,7 @@ public class CallLogScanner extends Service {
                         Uri.encode(phoneNumber));
 
                 String[] columns2 = new String[] { PhoneLookup._ID };
-                Cursor c2 = getContentResolver().query(phoneUri, columns2, null,
-                        null, null);
+                Cursor c2 = getContentResolver().query(phoneUri, columns2, null, null, null);
 
                 if (c2.moveToFirst()) {
                     String thisContactId = c2.getString(c.getColumnIndex(PhoneLookup._ID));
@@ -93,8 +89,7 @@ public class CallLogScanner extends Service {
 
             startActivity(newIntent);
         }
-        
-        Log.d("CallLogScanner", "stopping");
+
         stopSelf();
     }
 }

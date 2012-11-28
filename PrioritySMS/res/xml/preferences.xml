@@ -69,6 +69,17 @@
 	
 	<PreferenceCategory
 		android:title="@string/category_more">
+		
+	    <PreferenceScreen
+	        android:title="Advanced Settings">
+	        
+	        <EditTextPreference
+	            android:key="call_log_delay"
+	            android:title="@string/advanced_call_log_delay"
+	            android:summary="@string/advanced_call_log_delay_summary"
+	            android:defaultValue="2000" />
+	        
+	    </PreferenceScreen>
 			
 		<Preference
 			android:key="translate"
