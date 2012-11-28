@@ -81,9 +81,9 @@ public class Notification extends Activity {
         	actionButton.setText(R.string.notification_action_call);
         } else {
         	messageView.setText(message);
-        	actionButton.setText(R.string.notification_action_messages);
+        	actionButton.setText(R.string.notification_action_message);
         }
-        
+
         actionButton.setOnClickListener(new OnClickListener() {
             
             @Override
@@ -94,8 +94,8 @@ public class Notification extends Activity {
                 	String url = "tel:" + number;
                 	mIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(url));
                 } else {
-                	mIntent = new Intent(Intent.ACTION_MAIN);
-                    mIntent.setType("vnd.android-dir/mms-sms");
+                	mIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("smsto",
+                            number, null));
                 }
                 
                 startActivity(mIntent);
