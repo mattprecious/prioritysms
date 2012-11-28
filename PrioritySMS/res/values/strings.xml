@@ -19,7 +19,7 @@
     <string name="action_override">Override Silent Mode</string>
     <string name="action_vibrate">Vibrate</string>
     
-    <string name="notification_action_messages">Open Messages</string>
+    <string name="notification_action_message">Open Message</string>
     <string name="notification_action_call">Return Call</string>
     <string name="notification_dismiss">Dismiss</string>
     <string name="notification_missed_call">Missed Call</string>
