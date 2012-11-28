@@ -55,6 +55,7 @@ public class PrioritySMS extends PreferenceActivity {
     private CheckBoxPreference onCallPreference;
     private Preference         callContactPreference;
     private RingtonePreference alarmPreference;
+    private Preference         helpPreference;
     private Preference         translatePreference;
     private EditTextPreference callLogDelayPreference;
     
@@ -79,6 +80,7 @@ public class PrioritySMS extends PreferenceActivity {
         onCallPreference        = (CheckBoxPreference) findPreference("on_call");
         callContactPreference   = (Preference)         findPreference("call_contact");
         alarmPreference         = (RingtonePreference) findPreference("alarm");
+        helpPreference          = (Preference)         findPreference("help");
         translatePreference     = (Preference)         findPreference("translate");
         callLogDelayPreference  = (EditTextPreference) findPreference("call_log_delay");
         
@@ -117,6 +119,16 @@ public class PrioritySMS extends PreferenceActivity {
             }
         });
         
+        helpPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri
+                        .parse("http://www.mattprecious.com/help/prioritysms.html"));
+                startActivity(browserIntent);
+                return true;
+            }
+        });
         
         translatePreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
             

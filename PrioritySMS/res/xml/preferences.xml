@@ -80,6 +80,10 @@
 	            android:defaultValue="2000" />
 	        
 	    </PreferenceScreen>
+	    
+	    <Preference
+	        android:key="help"
+	        android:title="@string/help" />
 			
 		<Preference
 			android:key="translate"
