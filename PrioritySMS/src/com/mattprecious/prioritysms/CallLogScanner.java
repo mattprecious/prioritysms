@@ -1,18 +1,14 @@
 package com.mattprecious.prioritysms;
 
-import com.mattprecious.prioritysms.util.ContactHelper;
-
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.CallLog;
-import android.provider.ContactsContract.Contacts;
-import android.provider.ContactsContract.PhoneLookup;
-import android.util.Log;
+
+import com.mattprecious.prioritysms.util.ContactHelper;
 
 public class CallLogScanner extends Service {
 
