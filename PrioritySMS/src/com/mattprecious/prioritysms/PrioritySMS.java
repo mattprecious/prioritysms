@@ -198,7 +198,7 @@ public class PrioritySMS extends PreferenceActivity {
      */
     private void updateKeyword() {
         String keyword = settings.getString("keyword", "");
-        keyword = (keyword.equals("")) ? "N/A" : keyword;
+        keyword = (keyword.equals("")) ? getString(R.string.na) : keyword;
         findPreference("keyword").setSummary(keyword);
     }
     

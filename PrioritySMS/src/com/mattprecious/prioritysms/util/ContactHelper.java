@@ -1,5 +1,7 @@
 package com.mattprecious.prioritysms.util;
 
+import com.mattprecious.prioritysms.R;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -22,7 +24,7 @@ public class ContactHelper {
     }
 	
 	public static String getNameByLookupKey(Context context, String lookupKey) {
-		String name = "N/A";
+		String name = context.getString(R.string.na);
         if (!lookupKey.equals("")) {
             Uri lookupUri = Uri.withAppendedPath(Contacts.CONTENT_LOOKUP_URI, lookupKey);
             
