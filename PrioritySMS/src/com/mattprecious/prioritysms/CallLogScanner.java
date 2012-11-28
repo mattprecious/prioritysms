@@ -1,5 +1,7 @@
 package com.mattprecious.prioritysms;
 
+import com.mattprecious.prioritysms.util.ContactHelper;
+
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,44 +42,18 @@ public class CallLogScanner extends Service {
             c.close();
         }
 
-        // TODO: create a helper for this and the SMS receiver
-
         String contactLookupKey = settings.getString("call_contact", "");
 
         boolean contactMatch = false;
 
-        // if we're filtering by contact, and
-        // if we're alarming on phone call,
         // look up the contact id of our filtered contact, and
         // look up the contact id of the caller, and
         // check if they're the same ID
         if (phoneNumber != null && !contactLookupKey.equals("")) {
-            Uri contactUri = Uri.withAppendedPath(Contacts.CONTENT_LOOKUP_URI, contactLookupKey);
-
-            columns = new String[] { Contacts._ID };
-            c = getContentResolver().query(contactUri, columns, null, null, null);
-
-            if (c.moveToFirst()) {
-                String contactId = c.getString(c.getColumnIndex(Contacts._ID));
-
-                Uri phoneUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI,
-                        Uri.encode(phoneNumber));
-
-                String[] columns2 = new String[] { PhoneLookup._ID };
-                Cursor c2 = getContentResolver().query(phoneUri, columns2, null, null, null);
-
-                if (c2.moveToFirst()) {
-                    String thisContactId = c2.getString(c.getColumnIndex(PhoneLookup._ID));
-
-                    contactMatch = thisContactId.equals(contactId);
-                }
-
-                c2.close();
-            }
-
-            c.close();
-        } else {
-            contactMatch = false;
+            String contactId = ContactHelper.getContactIdByLookupKey(this, contactLookupKey);
+            String incomingContactId = ContactHelper.getContactIdByNumber(this, phoneNumber);
+            
+            contactMatch = contactId != null && contactId.equals(incomingContactId);
         }
 
         if (contactMatch) {
