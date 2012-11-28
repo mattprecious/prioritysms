@@ -1,17 +1,15 @@
 /*
  * Copyright 2011 Matthew Precious
  * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.mattprecious.prioritysms;
@@ -45,19 +43,19 @@ public class SMSReceiver extends BroadcastReceiver {
 
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 
-                boolean enabled         = settings.getBoolean("enabled", false);
-                boolean filterKeyword   = settings.getBoolean("filter_keyword", false);
-                boolean filterContact   = settings.getBoolean("filter_contact", false);
+                boolean enabled = settings.getBoolean("enabled", false);
+                boolean filterKeyword = settings.getBoolean("filter_keyword", false);
+                boolean filterContact = settings.getBoolean("filter_contact", false);
 
-                String keyword          = settings.getString("keyword", "");
-                String[] keywordArr     = keyword.split(",");
+                String keyword = settings.getString("keyword", "");
+                String[] keywordArr = keyword.split(",");
                 String contactLookupKey = settings.getString("sms_contact", "");
-                
+
                 // return if we aren't filtering by anything
                 if (!filterKeyword && !filterContact) {
                     return;
                 }
-                
+
                 boolean keywordCondition = false;
                 boolean contactCondition = false;
 
@@ -76,7 +74,7 @@ public class SMSReceiver extends BroadcastReceiver {
                 } else {
                     keywordCondition = true;
                 }
-                
+
                 if (!keywordCondition) {
                     return;
                 }
@@ -86,10 +84,11 @@ public class SMSReceiver extends BroadcastReceiver {
                 // look up the contact id of the sender, and
                 // check if they're the same ID
                 if (filterContact && !contactLookupKey.equals("")) {
-                	String contactId = ContactHelper.getContactIdByLookupKey(context, contactLookupKey);
-                	String incomingContactId = ContactHelper.getContactIdByNumber(context, sender);
-                	
-                	contactCondition = contactId != null && contactId.equals(incomingContactId);
+                    String contactId = ContactHelper.getContactIdByLookupKey(context,
+                            contactLookupKey);
+                    String incomingContactId = ContactHelper.getContactIdByNumber(context, sender);
+
+                    contactCondition = contactId != null && contactId.equals(incomingContactId);
                 } else {
                     contactCondition = true;
                 }

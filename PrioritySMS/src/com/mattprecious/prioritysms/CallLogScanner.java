@@ -31,7 +31,7 @@ public class CallLogScanner extends Service {
                 if (CallLog.Calls.MISSED_TYPE != c.getInt(c.getColumnIndex(CallLog.Calls.TYPE))) {
                     return;
                 }
-                
+
                 // TODO: make sure this entry is recent and isn't from a previous call
 
                 phoneNumber = c.getString(c.getColumnIndex(CallLog.Calls.NUMBER));
@@ -50,7 +50,7 @@ public class CallLogScanner extends Service {
         if (phoneNumber != null && !contactLookupKey.equals("")) {
             String contactId = ContactHelper.getContactIdByLookupKey(this, contactLookupKey);
             String incomingContactId = ContactHelper.getContactIdByNumber(this, phoneNumber);
-            
+
             contactMatch = contactId != null && contactId.equals(incomingContactId);
         }
 
