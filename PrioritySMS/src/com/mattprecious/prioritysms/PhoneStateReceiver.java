@@ -30,6 +30,10 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, new Intent(context,
                 CallLogScanner.class), 0);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 2000, pendingIntent);
+        alarmManager
+                .set(AlarmManager.RTC_WAKEUP,
+                        System.currentTimeMillis()
+                                + Long.valueOf(settings.getString("call_log_delay", "2000")),
+                        pendingIntent);
     }
 }

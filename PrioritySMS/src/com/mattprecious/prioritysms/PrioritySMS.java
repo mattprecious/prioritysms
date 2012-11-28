@@ -38,6 +38,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
 import android.provider.ContactsContract.Contacts;
+import android.text.InputType;
 
 import com.mattprecious.prioritysms.util.ContactHelper;
 
@@ -55,6 +56,7 @@ public class PrioritySMS extends PreferenceActivity {
     private Preference         callContactPreference;
     private RingtonePreference alarmPreference;
     private Preference         translatePreference;
+    private EditTextPreference callLogDelayPreference;
     
     private final int REQUEST_CODE_SMS_CONTACT_PICKER = 1;
     private final int REQUEST_CODE_CALL_CONTACT_PICKER = 2;
@@ -78,6 +80,7 @@ public class PrioritySMS extends PreferenceActivity {
         callContactPreference   = (Preference)         findPreference("call_contact");
         alarmPreference         = (RingtonePreference) findPreference("alarm");
         translatePreference     = (Preference)         findPreference("translate");
+        callLogDelayPreference  = (EditTextPreference) findPreference("call_log_delay");
         
         // register a listener for changes
         prefListener = new OnSharedPreferenceChangeListener() {
@@ -126,6 +129,8 @@ public class PrioritySMS extends PreferenceActivity {
                 return true;
             }
         });
+        
+        callLogDelayPreference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
         
         // debug the change log
         //settings.edit().putInt("version_code", 0).commit();

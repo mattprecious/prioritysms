@@ -22,7 +22,12 @@
     <string name="notification_action_messages">Open Messages</string>
     <string name="notification_action_call">Return Call</string>
     <string name="notification_dismiss">Dismiss</string>
-    <string name="notification_missed_call">Incoming Call</string>
+    <string name="notification_missed_call">Missed Call</string>
+    
+    <string name="advanced_call_log_delay">Call Log Delay</string>
+    <string name="advanced_call_log_delay_summary">
+        Wait this long (in ms) after a phone call to check the call log. Increase this time if the alarm isn\'t working after a missed call.
+    </string>
     
     <string name="ok">OK</string>
     
