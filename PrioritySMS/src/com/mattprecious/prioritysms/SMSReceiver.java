@@ -16,6 +16,8 @@
 
 package com.mattprecious.prioritysms;
 
+import java.util.Locale;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -64,7 +66,9 @@ public class SMSReceiver extends BroadcastReceiver {
                 // check if the message contains the keyword
                 if (filterKeyword) {
                     for (String key : keywordArr) {
-                        if (!key.equals("") && (message.toLowerCase().indexOf(key.toLowerCase()) != -1)) {
+                        if (!key.equals("")
+                                && (message.toLowerCase(Locale.getDefault()).indexOf(
+                                        key.toLowerCase(Locale.getDefault())) != -1)) {
                             keywordCondition = true;
                             break;
                         }
