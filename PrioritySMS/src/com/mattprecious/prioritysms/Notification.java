@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.View;
@@ -62,7 +63,7 @@ public class Notification extends Activity {
         audioManager    = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         vibrator        = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         
-        settings        = getSharedPreferences(getPackageName() + "_preferences", 0);
+        settings        = PreferenceManager.getDefaultSharedPreferences(this);
         
         messageView     = (TextView) findViewById(R.id.message);
         actionButton    = (Button) findViewById(R.id.action);
