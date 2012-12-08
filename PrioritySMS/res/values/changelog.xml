@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="change_log">
-        \n&#8226; Use multiple keywords (OR), separated by commas
-   		\n&#8226; Finnish, Italian, and Japanese translations. Thanks to the contributors on Crowdin!
- 		\n&#8226; \'Holo\' theme for 3.0+ devices
+        &#8226; Alarm on missed phone call
+        \n&#8226; Directly open text conversation
+        \n&#8226; Minor bug fixes 
     </string>
 </resources>
