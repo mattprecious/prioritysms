@@ -1,0 +1,50 @@
+@require(pagetitle, topics)
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/>
+		<title>@pagetitle</title>
+		<link rel="stylesheet" href="style.css" type="text/css" />
+		<link href="http://roboto-webfont.googlecode.com/svn/trunk/roboto.all.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="jquery-1.8.3.min.js"></script>
+		<script type="text/javascript" src="js.js"></script>
+	</head>
+	<body>
+		<div id="bg">&nbsp;</div>
+		<div id="topbar">
+			<h1>@pagetitle</h1>
+		</div>
+
+		<div id="page">
+			<a name="top" />
+			<ul>
+				@for i, topic in enumerate(topics):
+				<li>
+					<a href="#@i!s">@topic['title']</a>
+				</li>
+				@end
+			</ul>
+
+			<div id="topics">
+				@for i, topic in enumerate(topics):
+				<div class="topic">
+					<div class="question">
+						<a name="@i!s">@topic['title']</a>
+					</div>
+					<div class="answer">
+						@topic['body']
+					</div>
+					<div class="top">
+						<a href="#top">back to top</a>
+					</div>
+				</div>
+				@end
+			</div>
+		</div>
+		<div id="footer">
+			Copyright &copy; 2012 by Matthew Precious<br />
+			All Rights Reserved.<br/>
+		</div>
+	</body>
+</html>
