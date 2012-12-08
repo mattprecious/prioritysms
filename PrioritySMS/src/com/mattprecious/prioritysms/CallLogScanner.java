@@ -46,7 +46,9 @@ public class CallLogScanner extends Service {
                     return;
                 }
 
-                // TODO: make sure this entry is recent and isn't from a previous call
+                // TODO: make sure this entry is recent and isn't from a previous call.
+                // Problem is that the date logged is the time the ringing was initiated and not
+                // when the call was missed.
 
                 phoneNumber = c.getString(c.getColumnIndex(CallLog.Calls.NUMBER));
             }
