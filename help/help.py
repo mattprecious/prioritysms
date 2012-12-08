@@ -8,6 +8,35 @@ topics = [
 		''',
 	},
 	{
+		'title': "Permissions",
+		'body': '''
+			<dl>
+				<dt>RECEIVE_SMS</dt>
+				<dd>Required to receive and read incoming SMS messages.</dd>
+			</dl>
+			<dl>
+				<dt>READ_CALL_LOG</dt>
+				<dd>Required to read the call log to determine if a call was missed.</dd>
+			</dl>
+			<dl>
+				<dt>READ_CONTACTS</dt>
+				<dd>Required to determine if the incoming sms/phone call is from your specified contact.</dd>
+			</dl>
+			<dl>
+				<dt>READ_PHONE_STATE</dt>
+				<dd>Required to trigger a scan of the call log when the phone goes from 'ringing' to 'idle'.</dd>
+			</dl>
+			<dl>
+				<dt>VIBRATE</dt>
+				<dd>Required to vibrate the device.</dd>
+			</dl>
+			<dl>
+				<dt>WAKE_LOCK</dt>
+				<dd>Required to keep your device awake when the alarm is sounding.</dd>
+			</dl>
+		''',
+	},
+	{
 		'title': "How can I specify multiple keywords?",
 		'body': '''
 			Enter your keywords as a comma-separated list.<br /><br />
