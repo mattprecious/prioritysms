@@ -9,11 +9,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
+import com.google.common.collect.Lists;
 import com.mattprecious.prioritysms.model.BaseProfile;
 import com.mattprecious.prioritysms.model.PhoneProfile;
 import com.mattprecious.prioritysms.model.SmsProfile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DbAdapter {
@@ -66,7 +66,7 @@ public class DbAdapter {
     }
 
     public List<BaseProfile> getProfiles() {
-        List<BaseProfile> profiles = new ArrayList<BaseProfile>();
+        List<BaseProfile> profiles = Lists.newArrayList();
 
         Cursor c = db.rawQuery(PROFILES_QUERY, null);
 
@@ -249,7 +249,7 @@ public class DbAdapter {
     }
 
     private static List<ContentValues> profileToContactValues(BaseProfile profile) {
-        List<ContentValues> list = new ArrayList<ContentValues>();
+        List<ContentValues> list = Lists.newArrayList();
 
         for (String lookup : profile.getContacts()) {
             ContentValues values = new ContentValues();
@@ -263,7 +263,7 @@ public class DbAdapter {
     }
 
     private static List<ContentValues> profileToKeywordValues(BaseProfile profile) {
-        List<ContentValues> list = new ArrayList<ContentValues>();
+        List<ContentValues> list = Lists.newArrayList();
 
         if (profile instanceof SmsProfile) {
             SmsProfile smsProfile = (SmsProfile) profile;
