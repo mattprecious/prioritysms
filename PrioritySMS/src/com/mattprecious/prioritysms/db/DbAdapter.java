@@ -88,7 +88,7 @@ public class DbAdapter {
                 return false;
             }
 
-            profile.setId(rowId);
+            profile.setId((int) rowId);
 
             ContentValues actionValues = profileToActionValues(profile);
             if (db.insert(DbHelper.ACTIONS_TABLE_NAME, null, actionValues) < 0) {
@@ -198,7 +198,7 @@ public class DbAdapter {
             profile = new PhoneProfile();
         }
 
-        profile.setId(getLong(c, DbHelper.PROFILES_KEY_ID));
+        profile.setId(getInt(c, DbHelper.PROFILES_KEY_ID));
         profile.setName(getString(c, DbHelper.PROFILES_KEY_NAME));
         profile.setEnabled(getBoolean(c, DbHelper.PROFILES_KEY_ENABLED));
 
@@ -281,10 +281,6 @@ public class DbAdapter {
 
     private static int getInt(Cursor c, String columnName) {
         return c.getInt(c.getColumnIndexOrThrow(columnName));
-    }
-
-    private static long getLong(Cursor c, String columnName) {
-        return c.getLong(c.getColumnIndexOrThrow(columnName));
     }
 
     private static String getString(Cursor c, String columnName) {
