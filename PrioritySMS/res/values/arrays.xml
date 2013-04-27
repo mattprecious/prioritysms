@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="alarm_drawables">
+        <item>@android:drawable/ic_menu_call</item>
+        <item>@android:drawable/stat_notify_chat</item>
+        <item>@android:drawable/ic_menu_close_clear_cancel</item>
+        <item>@null</item>
+    </array>
+    <array name="alarm_descriptions">
+        <item>Call</item>
+        <item>Reply</item>
+        <item>Dismiss</item>
+        <item>@null</item>
+    </array>
+    <array name="alarm_direction_descriptions">
+        <item>right</item>
+        <item>top</item>
+        <item>left</item>
+        <item>@null</item>
+    </array>
+
+</resources>
