@@ -41,6 +41,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ProfileListActivity" />
         </activity>
+        <activity
+            android:name="com.mattprecious.prioritysms.activity.AlarmActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:showOnLockScreen="true"
+            android:theme="@style/Theme.Sherlock.NoActionBar" />
 
         <receiver android:name="SMSReceiver" >
             <intent-filter>
@@ -54,7 +60,22 @@
                 </action>
             </intent-filter>
         </receiver>
+        <receiver
+            android:name="com.mattprecious.prioritysms.receiver.AlarmReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.mattprecious.prioritysms.ALERT" />
+                <action android:name="alarm_killed" />
+            </intent-filter>
+        </receiver>
 
+        <service
+            android:name="com.mattprecious.prioritysms.service.AlarmService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.mattprecious.prioritysms.ALERT" />
+            </intent-filter>
+        </service>
         <service android:name="com.mattprecious.prioritysms.CallLogScanner" />
     </application>
 
