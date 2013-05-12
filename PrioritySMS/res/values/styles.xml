@@ -1,0 +1,43 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="RedTheme">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+        <item name="switchStyle">@style/SwitchAppTheme</item>
+        <item name="switchStyleAb">@style/SwitchAbAppTheme</item>
+    </style>
+    
+    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
+        <item name="android:layout_height">60dip</item>
+        <item name="android:background">@drawable/tab_indicator_ab_red</item>
+    </style>
+    
+    <style name="SwitchAppTheme" parent="Widget.Holo.Light.CompoundButton.Switch">
+        <item name="track">@drawable/switch_track_holo_light</item>
+        <item name="thumb">@drawable/switch_inner_holo_light</item>
+        <item name="switchTextAppearance">@style/SwitchTextAppearance</item>
+    </style>
+
+    <style name="SwitchAbAppTheme" parent="Widget.Holo.CompoundButton.Switch">
+        <item name="track">@drawable/switch_track_holo_dark</item>
+        <item name="thumb">@drawable/switch_inner_holo_dark</item>
+        <item name="switchTextAppearance">@style/SwitchTextAppearance</item>
+    </style>
+    
+    <style name="SwitchTextAppearance" parent="android:TextAppearance.Small.Inverse">
+        <item name="android:textColor">#FFFFFFFF</item>
+    </style>
+
+</resources>
