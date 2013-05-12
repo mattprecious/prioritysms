@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="NewApi">
+
+  <style name="RedTheme" parent="Theme.Red">
+
+    <item name="android:editTextStyle">@style/EditTextRedTheme</item>
+
+    <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewRedTheme</item>
+
+    <item name="android:checkboxStyle">@style/CheckBoxRedTheme</item>
+
+    <item name="android:radioButtonStyle">@style/RadioButtonRedTheme</item>
+
+    <item name="android:buttonStyle">@style/ButtonRedTheme</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonRedTheme</item>
+
+    <item name="android:spinnerStyle">@style/SpinnerRedTheme</item>
+
+    <item name="android:dropDownSpinnerStyle">@style/SpinnerRedTheme.DropDown</item>
+
+    <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemRedTheme</item>
+
+    <item name="android:progressBarStyleHorizontal">@style/ProgressBarRedTheme</item>
+
+    <item name="android:seekBarStyle">@style/SeekBarRedTheme</item>
+
+    <item name="android:ratingBarStyle">@style/RatingBarRedTheme</item>
+
+    <item name="android:ratingBarStyleIndicator">@style/RatingBarBigRedTheme</item>
+
+    <item name="android:ratingBarStyleSmall">@style/RatingBarSmallRedTheme</item>
+
+    <item name="android:buttonStyleToggle">@style/ToggleRedTheme</item>
+
+    <item name="android:listViewStyle">@style/ListViewRedTheme</item>
+
+    <item name="android:listViewWhiteStyle">@style/ListViewRedTheme.White</item>
+
+    <item name="android:spinnerItemStyle">@style/SpinnerItemRedTheme</item>
+
+  </style>
+
+</resources>
