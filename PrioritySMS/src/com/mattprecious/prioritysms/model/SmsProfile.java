@@ -6,30 +6,36 @@ import android.os.Parcelable;
 
 import com.google.common.collect.Sets;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class SmsProfile extends BaseProfile {
     private Set<String> keywords;
 
     public SmsProfile() {
-        keywords = new HashSet<String>();
+        keywords = Sets.newHashSet();
     }
 
     public Set<String> getKeywords() {
-        return keywords;
+        Set<String> ret = Sets.newHashSet();
+        ret.addAll(keywords);
+        return ret;
     }
 
     public void setKeywords(Set<String> keywords) {
-        this.keywords = keywords;
+        this.keywords = Sets.newHashSet();
+        this.keywords.addAll(keywords);
     }
 
     public void addKeyword(String keyword) {
-        keywords.add(keyword);
+        if (keyword != null) {
+            keywords.add(keyword);
+        }
     }
 
     public void removeKeyword(String keyword) {
-        keywords.remove(keyword);
+        if (keyword != null) {
+            keywords.remove(keyword);
+        }
     }
 
     @Override

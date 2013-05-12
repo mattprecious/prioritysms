@@ -16,8 +16,6 @@
     <string name="condition_contact_call">Alarm on Missed Call</string>
     
     <string name="action_alarm">Alarm</string>
-    <string name="action_override">Override Silent Mode</string>
-    <string name="action_vibrate">Vibrate</string>
     
     <string name="notification_action_message">Open Message</string>
     <string name="notification_action_call">Return Call</string>
@@ -36,4 +34,49 @@
     <string name="translate">Contribute Translations</string>
     
     <string name="whats_new">What\'s New?</string>
+
+    <!-- profile list -->
+    <string name="crouton_profile_saved">Profile saved</string>
+    <string name="crouton_profile_discarded">Profile saved</string>
+    <string name="crouton_profile_deleted">Profile deleted. Tap to undo</string>
+
+    <!-- profile detail -->
+    <string name="detail_tab_conditions">Conditions</string>
+    <string name="detail_tab_actions">Actions</string>
+    <string name="detail_empty_title_new">New profile</string>
+    <string name="detail_empty_title_edit">Edit profile</string>
+    <string name="detail_name_hint">Profile name</string>
+    <string name="detail_name_done_description">Done renaming</string>
+    <string name="detail_error">Please fix the errors and try again</string>
+    <string name="detail_error_empty_name">Name must not be empty</string>
+    
+    <!-- profile detail conditions -->
+    <string name="conditions_contacts_header">Contacts</string>
+    <string name="conditions_contact_add">Add contact</string>
+    <string name="conditions_contact_delete">Remove contact</string>
+    <string name="conditions_contact_not_found">Contact not found</string>
+    <string name="conditions_keywords_header">Keywords</string>
+    <string name="conditions_keywords_method_all">[ALL]</string>
+    <string name="conditions_keyword_add">Add keyword</string>
+    <string name="conditions_keyword_hint">Keyword</string>
+    <string name="conditions_keyword_delete">Remove keyword</string>
+    
+    <!-- profile detail actions -->
+    <string name="actions_ringtone_silent">Silent</string>
+    <string name="actions_ringtone">Sound: %s</string>
+    <string name="actions_override">Override silent mode</string>
+    <string name="actions_vibrate">Vibrate</string>
+
+    <!-- list menu -->
+    <string name="menu_new_profile">Add new profile</string>
+    <string name="menu_new_profile_sms">SMS</string>
+    <string name="menu_new_profile_phone">Phone</string>
+    <string name="menu_sort">Sort</string>
+
+    <!-- detail menu -->
+    <string name="menu_save">Save</string>
+    <string name="menu_discard">Discard</string>
+    <string name="menu_rename">Rename</string>
+    <string name="menu_delete">Delete</string>
+    
 </resources>
