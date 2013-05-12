@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/ProfileDetailHeader"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/conditions_keywords_header" />
+
+        <TextView
+            style="@style/ProfileDetailHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/conditions_keywords_method_all" />
+    </LinearLayout>
+
+    <View
+        style="@style/ProfileDetailHeaderDivider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_detail_header_divider_height" />
+
+    <LinearLayout
+        android:id="@+id/keyword_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <Button
+        android:id="@+id/add_keyword"
+        style="@style/ClearButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@android:drawable/ic_input_add"
+        android:text="@string/conditions_keyword_add" />
+
+</LinearLayout>

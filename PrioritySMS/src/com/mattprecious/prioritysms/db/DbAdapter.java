@@ -4,7 +4,6 @@ package com.mattprecious.prioritysms.db;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
@@ -19,6 +18,7 @@ import java.util.List;
 public class DbAdapter {
     // TODO: this is so dirty... the query is unreadable
     private static final String CONCAT_SEPARATOR = " | ";
+    private static final String CONCAT_SEPARATOR_REGEX = " \\| ";
     private static final String KEYWORDS_ALIAS = "keywords";
     private static final String CONTACTS_ALIAS = "contact_lookups";
     private static final String PROFILES_QUERY = String.format("" +
@@ -47,39 +47,32 @@ public class DbAdapter {
             DbHelper.PROFILES_KEY_NAME);
 
     private DbHelper dbHelper;
-    private SQLiteDatabase db;
 
     public DbAdapter(Context context) {
         dbHelper = new DbHelper(context);
     }
 
-    public void openReadable() throws SQLException {
-        db = dbHelper.getReadableDatabase();
-    }
-
-    public void openWritable() throws SQLException {
-        db = dbHelper.getWritableDatabase();
-    }
-
-    public void close() {
-        dbHelper.close();
-    }
-
     public List<BaseProfile> getProfiles() {
         List<BaseProfile> profiles = Lists.newArrayList();
 
-        Cursor c = db.rawQuery(PROFILES_QUERY, null);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        try {
+            Cursor c = db.rawQuery(PROFILES_QUERY, null);
 
-        c.moveToFirst();
-        while (!c.isAfterLast()) {
-            profiles.add(cursorToProfile(c));
-            c.moveToNext();
+            c.moveToFirst();
+            while (!c.isAfterLast()) {
+                profiles.add(cursorToProfile(c));
+                c.moveToNext();
+            }
+        } finally {
+            db.close();
         }
 
         return profiles;
     }
 
     public boolean insertProfile(BaseProfile profile) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.beginTransaction();
         try {
             ContentValues profileValues = profileToProfileValues(profile);
@@ -115,6 +108,7 @@ public class DbAdapter {
 
         } finally {
             db.endTransaction();
+            db.close();
         }
 
         return false;
@@ -135,6 +129,7 @@ public class DbAdapter {
                 String.valueOf(profile.getId())
         };
 
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.beginTransaction();
         try {
             if (db.update(DbHelper.PROFILES_TABLE_NAME, profileValues, profilesWhere, whereArgs) < 0) {
@@ -165,18 +160,26 @@ public class DbAdapter {
 
         } finally {
             db.endTransaction();
+            db.close();
         }
 
         return false;
     }
 
     public boolean deleteProfile(BaseProfile profile) {
-        String selection = String.format("%s=?", DbHelper.PROFILES_KEY_ID);
-        String[] selectionArgs = {
-                String.valueOf(profile.getId())
-        };
+        int result = 0;
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        try {
+            String selection = String.format("%s=?", DbHelper.PROFILES_KEY_ID);
+            String[] selectionArgs = {
+                    String.valueOf(profile.getId())
+            };
 
-        int result = db.delete(DbHelper.PROFILES_TABLE_NAME, selection, selectionArgs);
+            result = db.delete(DbHelper.PROFILES_TABLE_NAME, selection, selectionArgs);
+
+        } finally {
+            db.close();
+        }
 
         return result > 0;
     }
@@ -190,9 +193,13 @@ public class DbAdapter {
             profile = new SmsProfile();
 
             SmsProfile smsProfile = (SmsProfile) profile;
-            String[] keywords = getString(c, KEYWORDS_ALIAS).split(CONCAT_SEPARATOR);
-            for (String keyword : keywords) {
-                smsProfile.addKeyword(keyword);
+
+            String keywords = getString(c, KEYWORDS_ALIAS);
+            if (keywords != null) {
+                String[] keywordsArr = keywords.split(CONCAT_SEPARATOR_REGEX);
+                for (String keyword : keywordsArr) {
+                    smsProfile.addKeyword(keyword);
+                }
             }
         } else {
             profile = new PhoneProfile();
@@ -207,9 +214,12 @@ public class DbAdapter {
         profile.setOverrideSilent(getBoolean(c, DbHelper.ACTIONS_KEY_OVERRIDE_SILENT));
         profile.setVibrate(getBoolean(c, DbHelper.ACTIONS_KEY_VIBRATE));
 
-        String[] lookups = getString(c, CONTACTS_ALIAS).split(CONCAT_SEPARATOR);
-        for (String lookup : lookups) {
-            profile.addContact(lookup);
+        String lookups = getString(c, CONTACTS_ALIAS);
+        if (lookups != null) {
+            String[] lookupsArr = lookups.split(CONCAT_SEPARATOR_REGEX);
+            for (String lookup : lookupsArr) {
+                profile.addContact(lookup);
+            }
         }
 
         return profile;

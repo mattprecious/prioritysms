@@ -1,13 +1,14 @@
 
 package com.mattprecious.prioritysms.model;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.common.collect.Sets;
+import com.mattprecious.prioritysms.db.DbAdapter;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public abstract class BaseProfile implements Parcelable {
@@ -23,7 +24,30 @@ public abstract class BaseProfile implements Parcelable {
 
     protected BaseProfile() {
         id = -1;
-        contacts = new HashSet<String>();
+        contacts = Sets.newHashSet();
+    }
+
+    public boolean isNew() {
+        return id == -1;
+    }
+
+    public void save(Context context) {
+        DbAdapter db = new DbAdapter(context);
+
+        if (getId() == -1) {
+            db.insertProfile(this);
+        } else {
+            db.updateProfile(this);
+        }
+    }
+
+    public void delete(Context context) {
+        if (getId() == -1) {
+            return;
+        }
+
+        DbAdapter db = new DbAdapter(context);
+        db.deleteProfile(this);
     }
 
     public int getId() {
@@ -83,19 +107,26 @@ public abstract class BaseProfile implements Parcelable {
     }
 
     public Set<String> getContacts() {
-        return contacts;
+        Set<String> ret = Sets.newHashSet();
+        ret.addAll(contacts);
+        return ret;
     }
 
     public void setContacts(Set<String> contacts) {
-        this.contacts = contacts;
+        this.contacts = Sets.newHashSet();
+        this.contacts.addAll(contacts);
     }
 
     public void addContact(String lookupKey) {
-        contacts.add(lookupKey);
+        if (lookupKey != null) {
+            contacts.add(lookupKey);
+        }
     }
 
     public void removeContact(String lookupKey) {
-        contacts.remove(lookupKey);
+        if (lookupKey != null) {
+            contacts.remove(lookupKey);
+        }
     }
 
     @Override
