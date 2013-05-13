@@ -1,9 +1,7 @@
 
 package com.mattprecious.prioritysms.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -56,7 +54,7 @@ public class ProfileDetailActivity extends SherlockFragmentActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                NavUtils.navigateUpTo(this, new Intent(this, ProfileListActivity.class));
+                onDiscard();
                 return true;
         }
         return super.onOptionsItemSelected(item);
