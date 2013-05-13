@@ -54,7 +54,7 @@
                 </action>
             </intent-filter>
         </receiver>
-        <receiver android:name="PhoneStateReceiver" >
+        <receiver android:name="com.mattprecious.prioritysms.receiver.PhoneStateReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" >
                 </action>
@@ -76,7 +76,7 @@
                 <action android:name="com.mattprecious.prioritysms.ALERT" />
             </intent-filter>
         </service>
-        <service android:name="com.mattprecious.prioritysms.CallLogScanner" />
+        <service android:name="com.mattprecious.prioritysms.service.CallLogScanner" />
     </application>
 
 </manifest>
