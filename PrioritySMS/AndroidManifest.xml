@@ -48,7 +48,7 @@
             android:showOnLockScreen="true"
             android:theme="@style/Theme.Sherlock.NoActionBar" />
 
-        <receiver android:name="SMSReceiver" >
+        <receiver android:name="com.mattprecious.prioritysms.receiver.SmsReceiver" >
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" >
                 </action>

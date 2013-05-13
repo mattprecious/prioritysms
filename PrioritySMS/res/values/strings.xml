@@ -56,7 +56,7 @@
     <string name="conditions_contact_delete">Remove contact</string>
     <string name="conditions_contact_not_found">Contact not found</string>
     <string name="conditions_keywords_header">Keywords</string>
-    <string name="conditions_keywords_method_all">[ALL]</string>
+    <string name="conditions_keywords_method_all">[ANY]</string>
     <string name="conditions_keyword_add">Add keyword</string>
     <string name="conditions_keyword_hint">Keyword</string>
     <string name="conditions_keyword_delete">Remove keyword</string>

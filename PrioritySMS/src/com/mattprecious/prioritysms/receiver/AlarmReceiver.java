@@ -136,6 +136,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 profile.getId(), callIntent, 0);
 
         Intent activityIntent = new Intent(context, AlarmActivity.class);
+        activityIntent.setAction(String.valueOf(System.currentTimeMillis()));
         activityIntent.putExtra(Intents.EXTRA_PROFILE, profile);
         activityIntent.putExtra(Intents.EXTRA_NUMBER, number);
         activityIntent.putExtra(Intents.EXTRA_MESSAGE, message);

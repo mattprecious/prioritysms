@@ -1,10 +1,12 @@
 
 package com.mattprecious.prioritysms.model;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.common.collect.Sets;
+import com.mattprecious.prioritysms.util.ContactHelper;
 
 import java.util.Set;
 
@@ -13,6 +15,46 @@ public class SmsProfile extends BaseProfile {
 
     public SmsProfile() {
         keywords = Sets.newHashSet();
+    }
+
+    public boolean messageMatches(Context context, String number, String message) {
+        boolean matches = true;
+
+        Set<String> contacts = getContacts();
+        if (contacts.size() > 0) {
+            matches = false;
+
+            String incomingContactId = ContactHelper.getContactIdByNumber(context, number);
+            if (incomingContactId == null) {
+                matches = false;
+            } else {
+                for (String lookupKey : contacts) {
+                    String contactId = ContactHelper.getContactIdByLookupKey(context, lookupKey);
+                    if (incomingContactId.equals(contactId)) {
+                        matches = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!matches) {
+            return false;
+        }
+
+        Set<String> keywords = getKeywords();
+        if (keywords.size() > 0) {
+            matches = false;
+
+            for (String keyword : keywords) {
+                if (message.contains(keyword)) {
+                    matches = true;
+                    break;
+                }
+            }
+        }
+
+        return matches;
     }
 
     public Set<String> getKeywords() {
