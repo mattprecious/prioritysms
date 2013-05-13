@@ -21,8 +21,7 @@ public class SmsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean enabled = settings.getBoolean(context.getString(R.string.pref_key_enabled),
-                false);
+        boolean enabled = settings.getBoolean(context.getString(R.string.pref_key_enabled), false);
         if (!enabled) {
             return;
         }
