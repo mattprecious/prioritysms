@@ -45,6 +45,35 @@ public class DbAdapter {
             CONTACTS_ALIAS,
             CONCAT_SEPARATOR,
             DbHelper.PROFILES_KEY_NAME);
+    private static final String ENABLED_SMS_PROFILES_QUERY = String.format("" +
+            "SELECT *, " +
+            "group_concat(%5$s.%9$s, '%13$s') as %10$s, " +
+            "group_concat(%7$s.%11$s, '%13$s') as %12$s " +
+            "FROM %1$s " +
+            "LEFT OUTER JOIN %3$s ON %1$s.%2$s = %3$s.%4$s " +
+            "LEFT OUTER JOIN %5$s ON %1$s.%2$s = %5$s.%6$s " +
+            "LEFT OUTER JOIN %7$s ON %1$s.%2$s = %7$s.%8$s " +
+            "WHERE %1$s.%15$s = 1 AND " +
+            "%1$s.%16$s = '%17$s' " +
+            "GROUP BY %1$s.%2$s " +
+            "ORDER BY %1$s.%14$s",
+            DbHelper.PROFILES_TABLE_NAME,
+            DbHelper.PROFILES_KEY_ID,
+            DbHelper.ACTIONS_TABLE_NAME,
+            DbHelper.ACTIONS_KEY_PROFILE_ID,
+            DbHelper.KEYWORDS_TABLE_NAME,
+            DbHelper.KEYWORDS_KEY_PROFILE_ID,
+            DbHelper.CONTACTS_TABLE_NAME,
+            DbHelper.CONTACTS_KEY_PROFILE_ID,
+            DbHelper.KEYWORDS_KEY_KEYWORD,
+            KEYWORDS_ALIAS,
+            DbHelper.CONTACTS_KEY_CONTACT_LOOKUP,
+            CONTACTS_ALIAS,
+            CONCAT_SEPARATOR,
+            DbHelper.PROFILES_KEY_NAME,
+            DbHelper.PROFILES_KEY_ENABLED,
+            DbHelper.PROFILES_KEY_TYPE,
+            DbHelper.TYPE_ENUM_SMS);
 
     private DbHelper dbHelper;
 
@@ -62,6 +91,25 @@ public class DbAdapter {
             c.moveToFirst();
             while (!c.isAfterLast()) {
                 profiles.add(cursorToProfile(c));
+                c.moveToNext();
+            }
+        } finally {
+            db.close();
+        }
+
+        return profiles;
+    }
+    
+    public List<SmsProfile> getEnabledSmsProfiles() {
+        List<SmsProfile> profiles = Lists.newArrayList();
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        try {
+            Cursor c = db.rawQuery(ENABLED_SMS_PROFILES_QUERY, null);
+
+            c.moveToFirst();
+            while (!c.isAfterLast()) {
+                profiles.add((SmsProfile) cursorToProfile(c));
                 c.moveToNext();
             }
         } finally {
