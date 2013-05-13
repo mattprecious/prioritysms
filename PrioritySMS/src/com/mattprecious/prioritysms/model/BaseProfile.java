@@ -24,6 +24,8 @@ public abstract class BaseProfile implements Parcelable {
 
     protected BaseProfile() {
         id = -1;
+        enabled = true;
+        overrideSilent = true;
         contacts = Sets.newHashSet();
     }
 
