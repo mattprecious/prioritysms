@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import butterknife.InjectView;
+import butterknife.Views;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
@@ -131,6 +132,7 @@ public class ProfileDetailFragment extends SherlockFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_profile_detail, container, false);
+        Views.inject(this, rootView);
 
         mCallbacks.onNameUpdated(mProfile.getName());
 
