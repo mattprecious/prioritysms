@@ -1,15 +1,16 @@
 
 package com.mattprecious.prioritysms.model;
 
+import com.mattprecious.prioritysms.util.ContactHelper;
+
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.mattprecious.prioritysms.util.ContactHelper;
-
 import java.util.Set;
 
 public class PhoneProfile extends BaseProfile {
+
     public PhoneProfile() {
     }
 
@@ -41,7 +42,8 @@ public class PhoneProfile extends BaseProfile {
         super(in);
     }
 
-    public static final Parcelable.Creator<PhoneProfile> CREATOR = new Parcelable.Creator<PhoneProfile>() {
+    public static final Parcelable.Creator<PhoneProfile> CREATOR
+            = new Parcelable.Creator<PhoneProfile>() {
         @Override
         public PhoneProfile createFromParcel(Parcel source) {
             return new PhoneProfile(source);

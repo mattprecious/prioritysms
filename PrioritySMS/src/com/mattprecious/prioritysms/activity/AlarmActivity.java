@@ -1,6 +1,15 @@
 
 package com.mattprecious.prioritysms.activity;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.model.BaseProfile;
+import com.mattprecious.prioritysms.model.SmsProfile;
+import com.mattprecious.prioritysms.util.ContactHelper;
+import com.mattprecious.prioritysms.util.Intents;
+
+import net.sebastianopoggi.ui.GlowPadBackport.GlowPadView;
+
 import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -19,31 +28,31 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.mattprecious.prioritysms.R;
-import com.mattprecious.prioritysms.model.BaseProfile;
-import com.mattprecious.prioritysms.model.SmsProfile;
-import com.mattprecious.prioritysms.util.Intents;
-import com.mattprecious.prioritysms.util.ContactHelper;
-
-import net.sebastianopoggi.ui.GlowPadBackport.GlowPadView;
-
 public class AlarmActivity extends SherlockFragmentActivity implements
         GlowPadView.OnTriggerListener {
+
     private static final String TAG = AlarmActivity.class.getSimpleName();
 
     private static final int WHAT_PING_MESSAGE = 101;
+
     private static final boolean ENABLE_PING_AUTO_REPEAT = true;
+
     private static final long PING_AUTO_REPEAT_DELAY_MSEC = 1200;
 
     private TextView mNameView;
+
     private TextView mMessageView;
+
     private GlowPadView mGlowPadView;
 
     private BaseProfile mProfile;
+
     private String mNumber;
+
     private String mName;
+
     private String mMessage;
+
     private boolean mPingEnabled = true;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {

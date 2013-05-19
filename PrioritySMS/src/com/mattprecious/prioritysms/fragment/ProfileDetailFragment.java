@@ -1,6 +1,14 @@
 
 package com.mattprecious.prioritysms.fragment;
 
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.model.BaseProfile;
+import com.viewpagerindicator.TabPageIndicator;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,19 +28,11 @@ import android.widget.ImageButton;
 
 import butterknife.InjectView;
 import butterknife.Views;
-
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.mattprecious.prioritysms.R;
-import com.mattprecious.prioritysms.model.BaseProfile;
-import com.viewpagerindicator.TabPageIndicator;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class ProfileDetailFragment extends SherlockFragment {
+
     private static final String TAG = ProfileDetailFragment.class.getSimpleName();
 
     public static final String EXTRA_PROFILE = "profile";
@@ -40,6 +40,7 @@ public class ProfileDetailFragment extends SherlockFragment {
     private static final int ERROR_FLAG_NAME = 1 << 0;
 
     public interface Callbacks {
+
         public void onNameUpdated(String name);
 
         public void onDiscard();
@@ -85,12 +86,16 @@ public class ProfileDetailFragment extends SherlockFragment {
 
     @InjectView(R.id.profile_name_container)
     View mNameContainer;
+
     @InjectView(R.id.profile_name)
     EditText mNameText;
+
     @InjectView(R.id.close_rename)
     ImageButton mCloseRenameButton;
+
     @InjectView(R.id.pager)
     ViewPager mPager;
+
     @InjectView(R.id.indicator)
     TabPageIndicator mTitleIndicator;
 
@@ -258,8 +263,11 @@ public class ProfileDetailFragment extends SherlockFragment {
     }
 
     private class ProfilePagerAdapter extends FragmentStatePagerAdapter {
+
         private final int NUM_FRAGMENTS = 2;
+
         private final BaseDetailFragment[] FRAGMENTS = new BaseDetailFragment[NUM_FRAGMENTS];
+
         private final String[] TITLES = new String[NUM_FRAGMENTS];
 
         public ProfilePagerAdapter(FragmentManager fm) {
@@ -309,6 +317,7 @@ public class ProfileDetailFragment extends SherlockFragment {
     }
 
     public abstract static class BaseDetailFragment extends SherlockFragment {
+
         public abstract void updateProfile(BaseProfile profile);
     }
 }

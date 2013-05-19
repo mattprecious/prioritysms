@@ -20,8 +20,8 @@ import android.content.Context;
 import android.os.PowerManager;
 
 /**
- * Hold a wakelock that can be acquired in the AlarmReceiver and
- * released in the AlarmAlert activity
+ * Hold a wakelock that can be acquired in the AlarmReceiver and released in the AlarmAlert
+ * activity
  */
 public class AlarmAlertWakeLock {
 

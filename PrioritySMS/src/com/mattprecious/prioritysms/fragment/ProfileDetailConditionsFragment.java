@@ -1,7 +1,13 @@
 
 package com.mattprecious.prioritysms.fragment;
 
-import static butterknife.Views.findById;
+import com.google.common.collect.Sets;
+
+import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.BaseDetailFragment;
+import com.mattprecious.prioritysms.model.BaseProfile;
+import com.mattprecious.prioritysms.model.SmsProfile;
+import com.mattprecious.prioritysms.util.ContactHelper;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,19 +21,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.Set;
+
 import butterknife.InjectView;
 import butterknife.Views;
 
-import com.google.common.collect.Sets;
-import com.mattprecious.prioritysms.R;
-import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.BaseDetailFragment;
-import com.mattprecious.prioritysms.model.BaseProfile;
-import com.mattprecious.prioritysms.model.SmsProfile;
-import com.mattprecious.prioritysms.util.ContactHelper;
-
-import java.util.Set;
+import static butterknife.Views.findById;
 
 public class ProfileDetailConditionsFragment extends BaseDetailFragment {
+
     public static final String EXTRA_PROFILE = "profile";
 
     public static ProfileDetailConditionsFragment create(BaseProfile profile) {
@@ -42,18 +44,24 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
     private static final int REQUEST_CONTACT_PICKER = 1;
 
     private LayoutInflater mInflater;
+
     private BaseProfile mProfile;
+
     private SmsProfile mSmsProfile;
     // private PhoneProfile mPhoneProfile;
 
     @InjectView(R.id.contact_list)
     ViewGroup mContactsList;
+
     @InjectView(R.id.keywords_container)
     ViewGroup mKeywordsContainer;
+
     @InjectView(R.id.keyword_list)
     ViewGroup mKeywordsList;
+
     @InjectView(R.id.add_contact)
     Button addContactButton;
+
     @InjectView(R.id.add_keyword)
     Button addKeywordButton;
 
@@ -80,7 +88,8 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.profile_detail_conditions, container, false);
         Views.inject(this, rootView);
 

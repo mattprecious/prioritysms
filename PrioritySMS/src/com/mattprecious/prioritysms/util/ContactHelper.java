@@ -23,8 +23,9 @@ import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 
 public class ContactHelper {
+
     public static String getLookupKeyByUri(Context context, Uri contactUri) {
-        String[] columns = new String[] { Contacts.LOOKUP_KEY };
+        String[] columns = new String[]{Contacts.LOOKUP_KEY};
         Cursor c = context.getContentResolver().query(contactUri, columns, null, null, null);
 
         String lookupKey = "";
@@ -42,7 +43,7 @@ public class ContactHelper {
         if (!lookupKey.equals("")) {
             Uri lookupUri = Uri.withAppendedPath(Contacts.CONTENT_LOOKUP_URI, lookupKey);
 
-            String[] columns = new String[] { Contacts.DISPLAY_NAME };
+            String[] columns = new String[]{Contacts.DISPLAY_NAME};
             Cursor c = context.getContentResolver().query(lookupUri, columns, null, null, null);
 
             if (c != null && c.moveToFirst()) {
@@ -58,7 +59,7 @@ public class ContactHelper {
     public static String getNameByNumber(Context context, String number) {
         Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
 
-        String[] columns = new String[] { PhoneLookup.DISPLAY_NAME };
+        String[] columns = new String[]{PhoneLookup.DISPLAY_NAME};
         Cursor c = context.getContentResolver().query(uri, columns, null, null, null);
 
         String name = number;
@@ -74,7 +75,7 @@ public class ContactHelper {
     public static String getContactIdByLookupKey(Context context, String lookupKey) {
         Uri uri = Uri.withAppendedPath(Contacts.CONTENT_LOOKUP_URI, lookupKey);
 
-        String[] columns = new String[] { Contacts._ID };
+        String[] columns = new String[]{Contacts._ID};
         Cursor c = context.getContentResolver().query(uri, columns, null, null, null);
 
         String contactId = null;
@@ -90,7 +91,7 @@ public class ContactHelper {
     public static String getContactIdByNumber(Context context, String number) {
         Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
 
-        String[] columns = new String[] { PhoneLookup._ID };
+        String[] columns = new String[]{PhoneLookup._ID};
         Cursor c = context.getContentResolver().query(uri, columns, null, null, null);
 
         String contactId = null;

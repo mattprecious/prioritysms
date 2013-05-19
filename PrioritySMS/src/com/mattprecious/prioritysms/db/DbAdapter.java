@@ -1,22 +1,24 @@
 
 package com.mattprecious.prioritysms.db;
 
+import com.google.common.collect.Lists;
+
+import com.mattprecious.prioritysms.model.BaseProfile;
+import com.mattprecious.prioritysms.model.PhoneProfile;
+import com.mattprecious.prioritysms.model.SmsProfile;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-
 import android.util.Log;
-import com.google.common.collect.Lists;
-import com.mattprecious.prioritysms.model.BaseProfile;
-import com.mattprecious.prioritysms.model.PhoneProfile;
-import com.mattprecious.prioritysms.model.SmsProfile;
 
 import java.util.List;
 
 public class DbAdapter {
+
     private static final String TAG = DbAdapter.class.getSimpleName();
 
     private DbHelper dbHelper;
@@ -145,7 +147,8 @@ public class DbAdapter {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.beginTransaction();
         try {
-            if (db.update(DbHelper.PROFILES_TABLE_NAME, profileValues, profilesWhere, whereArgs) < 0) {
+            if (db.update(DbHelper.PROFILES_TABLE_NAME, profileValues, profilesWhere, whereArgs)
+                    < 0) {
                 return false;
             }
 
@@ -270,7 +273,8 @@ public class DbAdapter {
 
         values.put(DbHelper.PROFILES_KEY_NAME, profile.getName());
         values.put(DbHelper.PROFILES_KEY_TYPE,
-                (profile instanceof SmsProfile) ? DbHelper.TYPE_ENUM_SMS : DbHelper.TYPE_ENUM_PHONE);
+                (profile instanceof SmsProfile) ? DbHelper.TYPE_ENUM_SMS
+                        : DbHelper.TYPE_ENUM_PHONE);
         values.put(DbHelper.PROFILES_KEY_ENABLED, profile.isEnabled());
 
         Uri ringtone = profile.getRingtone();
@@ -336,8 +340,8 @@ public class DbAdapter {
     private static class DbHelper extends SQLiteOpenHelper {
 
         private static final int DATABASE_VERSION = 1;
-        private static final String DATABASE_NAME = "profiles.db";
 
+        private static final String DATABASE_NAME = "profiles.db";
         private static final String PRAGMA = "PRAGMA foreign_keys=ON;";
 
         private static final String PROFILES_TABLE_NAME = "profiles";
@@ -351,7 +355,6 @@ public class DbAdapter {
         private static final String TYPE_TABLE_NAME = "profile_type";
         private static final String TYPE_KEY_TYPE = "type";
         private static final String TYPE_KEY_NUM = "num";
-
         private static final String TYPE_ENUM_SMS = "sms";
         private static final String TYPE_ENUM_PHONE = "phone";
 

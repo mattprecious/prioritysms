@@ -3,12 +3,12 @@
     xmlns:glowpad="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="1" >
+        android:layout_weight="1">
 
         <ImageView
             android:id="@+id/image"
@@ -35,7 +35,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/contact_name" >
+            android:layout_below="@id/contact_name">
 
             <TextView
                 android:id="@+id/message"

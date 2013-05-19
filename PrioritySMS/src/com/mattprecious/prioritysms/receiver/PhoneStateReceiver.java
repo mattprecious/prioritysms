@@ -1,6 +1,9 @@
 
 package com.mattprecious.prioritysms.receiver;
 
+import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.service.CallLogScanner;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -9,9 +12,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
-
-import com.mattprecious.prioritysms.R;
-import com.mattprecious.prioritysms.service.CallLogScanner;
 
 public class PhoneStateReceiver extends BroadcastReceiver {
 

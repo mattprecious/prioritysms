@@ -2,6 +2,7 @@
 package com.mattprecious.prioritysms.util;
 
 public class Intents {
+
     private Intents() {
     }
 
@@ -36,7 +37,9 @@ public class Intents {
     public static final String ALARM_REPLACED = "alarm_replaced";
 
     public static final String EXTRA_PROFILE = "profile";
+
     public static final String EXTRA_NUMBER = "number";
+
     public static final String EXTRA_MESSAGE = "message";
 
 }

@@ -14,6 +14,8 @@
 
 package com.mattprecious.prioritysms;
 
+import com.mattprecious.prioritysms.util.ContactHelper;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -37,21 +39,26 @@ import android.preference.RingtonePreference;
 import android.provider.ContactsContract.Contacts;
 import android.text.InputType;
 
-import com.mattprecious.prioritysms.util.ContactHelper;
-
 public class PrioritySMS extends PreferenceActivity {
 
     private OnSharedPreferenceChangeListener prefListener;
+
     private SharedPreferences settings;
 
     private Preference smsContactPreference;
+
     private Preference callContactPreference;
+
     private RingtonePreference alarmPreference;
+
     private Preference helpPreference;
+
     private Preference translatePreference;
+
     private EditTextPreference callLogDelayPreference;
 
     private final int REQUEST_CODE_SMS_CONTACT_PICKER = 1;
+
     private final int REQUEST_CODE_CALL_CONTACT_PICKER = 2;
 
     private final int DIALOG_ID_CHANGE_LOG = 1;

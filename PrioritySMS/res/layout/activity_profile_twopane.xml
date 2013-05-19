@@ -6,7 +6,7 @@
     android:divider="@drawable/list_divider_holo_light"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context=".ProfileListActivity" >
+    tools:context=".ProfileListActivity">
 
     <fragment
         android:id="@+id/profile_list"

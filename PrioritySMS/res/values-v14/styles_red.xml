@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- File created by the Android Action Bar Style Generator
+<?xml version="1.0" encoding="utf-8"?><!-- File created by the Android Action Bar Style Generator
 
      Copyright (C) 2011 The Android Open Source Project
      Copyright (C) 2012 readyState Software Ltd
@@ -29,8 +28,8 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_red</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_red</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Red</item>
-        
-                <!-- Light.DarkActionBar specific -->
+
+        <!-- Light.DarkActionBar specific -->
         <item name="android:actionBarWidgetTheme">@style/Theme.Red.Widget</item>
 
     </style>
@@ -46,7 +45,7 @@
         <item name="android:background">@drawable/ab_transparent_red</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Red</item>
     </style>
-    
+
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
     <style name="Theme.Red.Widget" parent="@style/Theme.Sherlock">
         <item name="android:popupMenuStyle">@style/PopupMenu.Red</item>

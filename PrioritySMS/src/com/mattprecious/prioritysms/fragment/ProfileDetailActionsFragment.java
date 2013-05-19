@@ -1,6 +1,10 @@
 
 package com.mattprecious.prioritysms.fragment;
 
+import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.BaseDetailFragment;
+import com.mattprecious.prioritysms.model.BaseProfile;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.media.RingtoneManager;
@@ -16,11 +20,8 @@ import android.widget.CheckBox;
 import butterknife.InjectView;
 import butterknife.Views;
 
-import com.mattprecious.prioritysms.R;
-import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.BaseDetailFragment;
-import com.mattprecious.prioritysms.model.BaseProfile;
-
 public class ProfileDetailActionsFragment extends BaseDetailFragment {
+
     public static final String EXTRA_PROFILE = "profile";
 
     public static ProfileDetailActionsFragment create(BaseProfile profile) {
@@ -38,6 +39,7 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
 
     @InjectView(R.id.action_sound)
     Button mSoundButton;
+
     @InjectView(R.id.action_vibrate)
     CheckBox mVibrateCheckBox;
 
@@ -52,7 +54,8 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.profile_detail_actions, container, false);
         Views.inject(this, rootView);
 

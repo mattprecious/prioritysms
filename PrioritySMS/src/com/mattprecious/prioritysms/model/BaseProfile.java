@@ -1,21 +1,27 @@
 
 package com.mattprecious.prioritysms.model;
 
+import com.google.common.collect.Sets;
+
+import com.mattprecious.prioritysms.db.DbAdapter;
+
 import android.content.Context;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.common.collect.Sets;
-import com.mattprecious.prioritysms.db.DbAdapter;
-
 import java.util.Set;
 
 public abstract class BaseProfile implements Parcelable {
+
     private int id;
+
     private String name;
+
     private boolean enabled;
+
     private Uri ringtone;
+
     private boolean vibrate;
 
     private Set<String> contacts;
