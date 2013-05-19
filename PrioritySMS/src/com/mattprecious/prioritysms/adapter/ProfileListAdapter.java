@@ -1,7 +1,11 @@
 
 package com.mattprecious.prioritysms.adapter;
 
-import static butterknife.Views.findById;
+import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.db.DbAdapter;
+import com.mattprecious.prioritysms.model.BaseProfile;
+
+import org.jraf.android.backport.switchwidget.Switch;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,18 +16,18 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-import com.mattprecious.prioritysms.R;
-import com.mattprecious.prioritysms.db.DbAdapter;
-import com.mattprecious.prioritysms.model.BaseProfile;
-
-import org.jraf.android.backport.switchwidget.Switch;
-
 import java.util.List;
 
+import static butterknife.Views.findById;
+
 public class ProfileListAdapter extends BaseAdapter {
+
     private Context context;
+
     private LayoutInflater inflater;
+
     private DbAdapter dbAdapter;
+
     private List<BaseProfile> data;
 
     public ProfileListAdapter(Context context) {

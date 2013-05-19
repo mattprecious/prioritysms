@@ -1,6 +1,13 @@
 
 package com.mattprecious.prioritysms.receiver;
 
+import com.mattprecious.prioritysms.activity.AlarmActivity;
+import com.mattprecious.prioritysms.model.BaseProfile;
+import com.mattprecious.prioritysms.model.SmsProfile;
+import com.mattprecious.prioritysms.util.AlarmAlertWakeLock;
+import com.mattprecious.prioritysms.util.AsyncHandler;
+import com.mattprecious.prioritysms.util.Intents;
+
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -12,13 +19,6 @@ import android.os.Build;
 import android.os.PowerManager.WakeLock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-
-import com.mattprecious.prioritysms.activity.AlarmActivity;
-import com.mattprecious.prioritysms.model.BaseProfile;
-import com.mattprecious.prioritysms.model.SmsProfile;
-import com.mattprecious.prioritysms.util.AlarmAlertWakeLock;
-import com.mattprecious.prioritysms.util.AsyncHandler;
-import com.mattprecious.prioritysms.util.Intents;
 
 /*
  * Copyright (C) 2007 The Android Open Source Project
@@ -37,10 +37,10 @@ import com.mattprecious.prioritysms.util.Intents;
  */
 
 /**
- * Glue class: connects AlarmAlert IntentReceiver to AlarmAlert activity. Passes
- * through Alarm ID.
+ * Glue class: connects AlarmAlert IntentReceiver to AlarmAlert activity. Passes through Alarm ID.
  */
 public class AlarmReceiver extends BroadcastReceiver {
+
     private static final String TAG = AlarmReceiver.class.getSimpleName();
 
     @Override

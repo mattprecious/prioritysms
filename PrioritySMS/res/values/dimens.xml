@@ -2,11 +2,11 @@
 <resources>
 
     <dimen name="action_bar_switch_padding">16dip</dimen>
-    
+
     <!-- profile list -->
     <dimen name="profile_list_margin">16dip</dimen>
     <dimen name="profile_list_item_padding">12dip</dimen>
-    
+
     <!-- profile detail -->
     <dimen name="profile_detail_padding">8dip</dimen>
     <dimen name="profile_detail_header_divider_height">2dip</dimen>

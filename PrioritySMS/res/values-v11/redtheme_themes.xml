@@ -3,40 +3,42 @@
 <!-- Generated with http://android-holo-colors.com -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <style name="RedTheme" parent="Theme.Red">
+    <style name="RedTheme" parent="Theme.Red">
 
-    <item name="android:editTextBackground">@drawable/edit_text_holo_light</item>
+        <item name="android:editTextBackground">@drawable/edit_text_holo_light</item>
 
-    <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewRedTheme</item>
+        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewRedTheme</item>
 
-    <item name="android:listChoiceIndicatorMultiple">@drawable/btn_check_holo_light</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/btn_check_holo_light</item>
 
-    <item name="android:listChoiceIndicatorSingle">@drawable/btn_radio_holo_light</item>
+        <item name="android:listChoiceIndicatorSingle">@drawable/btn_radio_holo_light</item>
 
-    <item name="android:buttonStyle">@style/ButtonRedTheme</item>
+        <item name="android:buttonStyle">@style/ButtonRedTheme</item>
 
-    <item name="android:imageButtonStyle">@style/ImageButtonRedTheme</item>
+        <item name="android:imageButtonStyle">@style/ImageButtonRedTheme</item>
 
-    <item name="android:dropDownSpinnerStyle">@style/SpinnerRedTheme</item>
+        <item name="android:dropDownSpinnerStyle">@style/SpinnerRedTheme</item>
 
-    <item name="android:progressBarStyleHorizontal">@style/ProgressBarRedTheme</item>
+        <item name="android:progressBarStyleHorizontal">@style/ProgressBarRedTheme</item>
 
-    <item name="android:seekBarStyle">@style/SeekBarRedTheme</item>
+        <item name="android:seekBarStyle">@style/SeekBarRedTheme</item>
 
-    <item name="android:ratingBarStyle">@style/RatingBarRedTheme</item>
+        <item name="android:ratingBarStyle">@style/RatingBarRedTheme</item>
 
-    <item name="android:ratingBarStyleIndicator">@style/RatingBarBigRedTheme</item>
+        <item name="android:ratingBarStyleIndicator">@style/RatingBarBigRedTheme</item>
 
-    <item name="android:ratingBarStyleSmall">@style/RatingBarSmallRedTheme</item>
+        <item name="android:ratingBarStyleSmall">@style/RatingBarSmallRedTheme</item>
 
-    <item name="android:buttonStyleToggle">@style/ToggleRedTheme</item>
+        <item name="android:buttonStyleToggle">@style/ToggleRedTheme</item>
 
-    <item name="android:listChoiceBackgroundIndicator">@drawable/list_selector_holo_light</item>
+        <item name="android:listChoiceBackgroundIndicator">@drawable/list_selector_holo_light</item>
 
-    <item name="android:activatedBackgroundIndicator">@drawable/activated_background_holo_light</item>
+        <item name="android:activatedBackgroundIndicator">
+            @drawable/activated_background_holo_light
+        </item>
 
-    <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb_holo</item>
+        <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb_holo</item>
 
-  </style>
+    </style>
 
 </resources>

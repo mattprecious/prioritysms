@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/menu_add"
@@ -9,16 +9,16 @@
         <menu>
             <item
                 android:id="@+id/menu_add_sms"
-                android:title="@string/menu_new_profile_sms"/>
+                android:title="@string/menu_new_profile_sms" />
             <item
                 android:id="@+id/menu_add_phone"
-                android:title="@string/menu_new_profile_phone"/>
+                android:title="@string/menu_new_profile_phone" />
         </menu>
     </item>
     <item
         android:id="@+id/menu_sort"
         android:icon="@drawable/ic_action_sort"
         android:showAsAction="ifRoom"
-        android:title="@string/menu_sort"/>
+        android:title="@string/menu_sort" />
 
 </menu>

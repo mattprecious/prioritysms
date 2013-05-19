@@ -1,19 +1,21 @@
 
 package com.mattprecious.prioritysms.activity;
 
-import android.os.Bundle;
+import com.google.common.base.Strings;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.common.base.Strings;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.fragment.ProfileDetailFragment;
 import com.mattprecious.prioritysms.model.BaseProfile;
+
+import android.os.Bundle;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class ProfileDetailActivity extends SherlockFragmentActivity implements
         ProfileDetailFragment.Callbacks {
+
     public static final int RESULT_DELETED = 10;
 
     private String emptyTitle = null;

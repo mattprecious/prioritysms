@@ -1,6 +1,11 @@
 
 package com.mattprecious.prioritysms.receiver;
 
+import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.db.DbAdapter;
+import com.mattprecious.prioritysms.model.SmsProfile;
+import com.mattprecious.prioritysms.util.Intents;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,11 +13,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.SmsMessage;
-
-import com.mattprecious.prioritysms.R;
-import com.mattprecious.prioritysms.db.DbAdapter;
-import com.mattprecious.prioritysms.model.SmsProfile;
-import com.mattprecious.prioritysms.util.Intents;
 
 import java.util.List;
 

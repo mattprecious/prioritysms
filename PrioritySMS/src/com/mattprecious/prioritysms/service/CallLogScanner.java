@@ -1,15 +1,15 @@
 
 package com.mattprecious.prioritysms.service;
 
+import com.mattprecious.prioritysms.db.DbAdapter;
+import com.mattprecious.prioritysms.model.PhoneProfile;
+import com.mattprecious.prioritysms.util.Intents;
+
 import android.app.Service;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.IBinder;
 import android.provider.CallLog;
-
-import com.mattprecious.prioritysms.db.DbAdapter;
-import com.mattprecious.prioritysms.model.PhoneProfile;
-import com.mattprecious.prioritysms.util.Intents;
 
 import java.util.List;
 

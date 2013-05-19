@@ -1,6 +1,11 @@
 
 package com.mattprecious.prioritysms.service;
 
+import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.model.BaseProfile;
+import com.mattprecious.prioritysms.util.AlarmAlertWakeLock;
+import com.mattprecious.prioritysms.util.Intents;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -20,31 +25,34 @@ import android.telephony.TelephonyManager;
 import android.text.format.DateUtils;
 import android.util.Log;
 
-import com.mattprecious.prioritysms.R;
-import com.mattprecious.prioritysms.model.BaseProfile;
-import com.mattprecious.prioritysms.util.AlarmAlertWakeLock;
-import com.mattprecious.prioritysms.util.Intents;
-
 public class AlarmService extends Service {
+
     private static final String TAG = AlarmService.class.getSimpleName();
 
     // Default of 30 minutes until alarm is silenced.
     private static final String DEFAULT_ALARM_TIMEOUT = "30";
 
-    private static final long[] sVibratePattern = new long[] {
+    private static final long[] sVibratePattern = new long[]{
             500, 500
     };
 
     private boolean mPlaying = false;
+
     private Vibrator mVibrator;
+
     private MediaPlayer mMediaPlayer;
+
     private BaseProfile mCurrentProfile;
+
     private long mStartTime;
+
     private TelephonyManager mTelephonyManager;
+
     private int mInitialCallState;
 
     // Internal messages
     private static final int KILLER = 1000;
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -170,7 +178,7 @@ public class AlarmService extends Service {
                 // Check if we are in a call. If we are, use the in-call alarm
                 // resource at a low volume to not disrupt the call.
                 if (mTelephonyManager.getCallState()
-                != TelephonyManager.CALL_STATE_IDLE) {
+                        != TelephonyManager.CALL_STATE_IDLE) {
                     Log.v(TAG, "Using the in-call alarm");
                     mMediaPlayer.setVolume(IN_CALL_VOLUME, IN_CALL_VOLUME);
                     setDataSourceFromResource(getResources(), mMediaPlayer,
@@ -255,9 +263,9 @@ public class AlarmService extends Service {
     }
 
     /**
-     * Kills alarm audio after ALARM_TIMEOUT_SECONDS, so the alarm won't run all
-     * day. This just cancels the audio, but leaves the notification popped, so
-     * the user will know that the alarm tripped.
+     * Kills alarm audio after ALARM_TIMEOUT_SECONDS, so the alarm won't run all day. This just
+     * cancels the audio, but leaves the notification popped, so the user will know that the alarm
+     * tripped.
      */
     private void enableKiller(BaseProfile profile) {
         final String autoSnooze =

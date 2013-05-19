@@ -1,6 +1,16 @@
 
 package com.mattprecious.prioritysms.activity;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
+import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.fragment.ProfileDetailFragment;
+import com.mattprecious.prioritysms.fragment.ProfileListFragment;
+import com.mattprecious.prioritysms.model.BaseProfile;
+
+import org.jraf.android.backport.switchwidget.Switch;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,21 +21,12 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
-import com.mattprecious.prioritysms.R;
-import com.mattprecious.prioritysms.fragment.ProfileDetailFragment;
-import com.mattprecious.prioritysms.fragment.ProfileListFragment;
-import com.mattprecious.prioritysms.model.BaseProfile;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-import org.jraf.android.backport.switchwidget.Switch;
-
 public class ProfileListActivity extends SherlockFragmentActivity
         implements ProfileListFragment.Callbacks, ProfileDetailFragment.Callbacks {
+
     private static final String STATE_DETAIL_FRAGMENT = "detail_fragment";
 
     private static final int REQUEST_ID_PROFILE_EDIT = 1;
@@ -33,9 +34,11 @@ public class ProfileListActivity extends SherlockFragmentActivity
     private boolean mTwoPane;
 
     private SharedPreferences mPreferences;
+
     private Switch mActionBarSwitch;
 
     private ProfileListFragment mListFragment;
+
     private Fragment mDetailFragment;
 
     @Override

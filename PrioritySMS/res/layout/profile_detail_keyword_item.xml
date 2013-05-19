@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:divider="@drawable/list_divider_holo_light"
     android:orientation="horizontal"
-    android:showDividers="middle" >
+    android:showDividers="middle">
 
     <EditText
         android:id="@+id/text"

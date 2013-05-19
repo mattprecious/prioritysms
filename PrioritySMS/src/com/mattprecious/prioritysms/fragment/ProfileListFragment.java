@@ -1,11 +1,6 @@
 
 package com.mattprecious.prioritysms.fragment;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ListView;
-
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -15,6 +10,11 @@ import com.mattprecious.prioritysms.adapter.ProfileListAdapter;
 import com.mattprecious.prioritysms.model.BaseProfile;
 import com.mattprecious.prioritysms.model.PhoneProfile;
 import com.mattprecious.prioritysms.model.SmsProfile;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
 
 public class ProfileListFragment extends SherlockListFragment {
 
@@ -27,6 +27,7 @@ public class ProfileListFragment extends SherlockListFragment {
     private ProfileListAdapter mAdapter;
 
     public interface Callbacks {
+
         public void onItemSelected(BaseProfile profile);
 
         public void onNewProfile(BaseProfile profile);
@@ -50,7 +51,7 @@ public class ProfileListFragment extends SherlockListFragment {
         mAdapter = new ProfileListAdapter(getActivity());
         setListAdapter(mAdapter);
     }
-    
+
     @Override
     public void onResume() {
         super.onResume();

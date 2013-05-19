@@ -1,16 +1,18 @@
 
 package com.mattprecious.prioritysms.model;
 
+import com.google.common.collect.Sets;
+
+import com.mattprecious.prioritysms.util.ContactHelper;
+
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.common.collect.Sets;
-import com.mattprecious.prioritysms.util.ContactHelper;
-
 import java.util.Set;
 
 public class SmsProfile extends BaseProfile {
+
     private Set<String> keywords;
 
     public SmsProfile() {
@@ -92,7 +94,8 @@ public class SmsProfile extends BaseProfile {
         }
     }
 
-    public static final Parcelable.Creator<SmsProfile> CREATOR = new Parcelable.Creator<SmsProfile>() {
+    public static final Parcelable.Creator<SmsProfile> CREATOR
+            = new Parcelable.Creator<SmsProfile>() {
         @Override
         public SmsProfile createFromParcel(Parcel source) {
             return new SmsProfile(source);

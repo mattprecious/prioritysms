@@ -1,94 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-	android:key="preferences">
+    android:key="preferences">
 
-	<PreferenceCategory
-		android:title="@string/category_status">
-		
-		<CheckBoxPreference
-			android:key="enabled"
-			android:title="@string/status_enabled" />
-		
-	</PreferenceCategory>
-	
-	<PreferenceCategory
-		android:title="@string/category_sms_conditions">
-		
-		<CheckBoxPreference
-			android:key="filter_keyword"
-			android:title="@string/condition_filter_keyword" />
-		
-		<EditTextPreference
-			android:key="keyword"
-			android:dependency="filter_keyword"
-			android:title="@string/condition_keyword" />
-			
-		<CheckBoxPreference
-			android:key="filter_contact"
-			android:title="@string/condition_filter_contact" />
-		
-		<Preference
-			android:key="sms_contact"
-			android:dependency="filter_contact"
-			android:title="@string/condition_contact" />
-		
-	</PreferenceCategory>
-	
-	<PreferenceCategory
-	    android:title="@string/category_phone_conditions">
-	    
-	    <CheckBoxPreference
-		    android:key="on_call"
-		    android:title="@string/condition_contact_call" />
-	    
-	    <Preference
-			android:key="call_contact"
-			android:dependency="on_call"
-			android:title="@string/condition_contact" />
-	</PreferenceCategory>
-	
-	<PreferenceCategory
-		android:title="@string/category_actions">
-			
-		<RingtonePreference
-			android:key="alarm"
-			android:title="@string/action_alarm"
-			android:ringtoneType="alarm"
-			android:showDefault="true"
-			android:showSilent="false" />
-			
-		<CheckBoxPreference
-			android:key="override"
-			android:title="@string/action_override" />
-		
-		<CheckBoxPreference
-			android:key="vibrate"
-			android:title="@string/action_vibrate" />
-	
-	</PreferenceCategory>
-	
-	<PreferenceCategory
-		android:title="@string/category_more">
-		
-	    <PreferenceScreen
-	        android:title="Advanced Settings">
-	        
-	        <EditTextPreference
-	            android:key="call_log_delay"
-	            android:title="@string/advanced_call_log_delay"
-	            android:summary="@string/advanced_call_log_delay_summary"
-	            android:defaultValue="2000" />
-	        
-	    </PreferenceScreen>
-	    
-	    <Preference
-	        android:key="help"
-	        android:title="@string/help" />
-			
-		<Preference
-			android:key="translate"
-			android:title="@string/translate" />
-	
-	</PreferenceCategory>
-	
+    <PreferenceCategory android:title="@string/category_status">
+
+        <CheckBoxPreference
+            android:key="enabled"
+            android:title="@string/status_enabled" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/category_sms_conditions">
+
+        <CheckBoxPreference
+            android:key="filter_keyword"
+            android:title="@string/condition_filter_keyword" />
+
+        <EditTextPreference
+            android:key="keyword"
+            android:dependency="filter_keyword"
+            android:title="@string/condition_keyword" />
+
+        <CheckBoxPreference
+            android:key="filter_contact"
+            android:title="@string/condition_filter_contact" />
+
+        <Preference
+            android:key="sms_contact"
+            android:dependency="filter_contact"
+            android:title="@string/condition_contact" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/category_phone_conditions">
+
+        <CheckBoxPreference
+            android:key="on_call"
+            android:title="@string/condition_contact_call" />
+
+        <Preference
+            android:key="call_contact"
+            android:dependency="on_call"
+            android:title="@string/condition_contact" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/category_actions">
+
+        <RingtonePreference
+            android:key="alarm"
+            android:title="@string/action_alarm"
+            android:ringtoneType="alarm"
+            android:showDefault="true"
+            android:showSilent="false" />
+
+        <CheckBoxPreference
+            android:key="override"
+            android:title="@string/action_override" />
+
+        <CheckBoxPreference
+            android:key="vibrate"
+            android:title="@string/action_vibrate" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/category_more">
+
+        <PreferenceScreen android:title="Advanced Settings">
+
+            <EditTextPreference
+                android:key="call_log_delay"
+                android:title="@string/advanced_call_log_delay"
+                android:summary="@string/advanced_call_log_delay_summary"
+                android:defaultValue="2000" />
+
+        </PreferenceScreen>
+
+        <Preference
+            android:key="help"
+            android:title="@string/help" />
+
+        <Preference
+            android:key="translate"
+            android:title="@string/translate" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

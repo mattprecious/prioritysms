@@ -14,7 +14,7 @@
 
 package com.mattprecious.prioritysms;
 
-import java.io.IOException;
+import com.mattprecious.prioritysms.util.ContactHelper;
 
 import android.app.Activity;
 import android.content.Context;
@@ -35,22 +35,28 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.mattprecious.prioritysms.util.ContactHelper;
+import java.io.IOException;
 
 public class Notification extends Activity {
 
     private SharedPreferences settings;
+
     private MediaPlayer mediaPlayer;
+
     private AudioManager audioManager;
+
     private Vibrator vibrator;
 
     private TextView messageView;
+
     private Button actionButton;
+
     private Button dismissButton;
 
     private boolean alarmPlaying;
 
     private String number;
+
     private boolean isCall;
 
     @Override
@@ -92,7 +98,8 @@ public class Notification extends Activity {
                     String url = "tel:" + number;
                     mIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(url));
                 } else {
-                    mIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("smsto", number, null));
+                    mIntent = new Intent(Intent.ACTION_SENDTO,
+                            Uri.fromParts("smsto", number, null));
                 }
 
                 startActivity(mIntent);
@@ -109,7 +116,8 @@ public class Notification extends Activity {
         });
 
         // we want to listen to see if the user answers the call, and cancel our alarm if they do
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(
+                Context.TELEPHONY_SERVICE);
         telephonyManager.listen(new PhoneStateListener() {
             private String incomingNumber;
 
@@ -195,7 +203,7 @@ public class Notification extends Activity {
         int longPause = 500;
 
         // vibrate 3 short times, then pause
-        long[] pattern = { 0, shortVib, shortPause, shortVib, shortPause, shortVib, longPause };
+        long[] pattern = {0, shortVib, shortPause, shortVib, shortPause, shortVib, longPause};
 
         vibrator.vibrate(pattern, 0);
     }
