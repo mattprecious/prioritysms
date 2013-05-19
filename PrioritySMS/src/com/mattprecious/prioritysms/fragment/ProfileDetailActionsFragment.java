@@ -38,8 +38,6 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
 
     @InjectView(R.id.action_sound)
     Button mSoundButton;
-    @InjectView(R.id.action_override_silent)
-    CheckBox mOverrideSilentCheckBox;
     @InjectView(R.id.action_vibrate)
     CheckBox mVibrateCheckBox;
 
@@ -76,7 +74,6 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
             }
         });
 
-        mOverrideSilentCheckBox.setChecked(mProfile.isOverrideSilent());
         mVibrateCheckBox.setChecked(mProfile.isVibrate());
 
         return rootView;
@@ -103,7 +100,6 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
     @Override
     public void updateProfile(BaseProfile profile) {
         profile.setRingtone((Uri) mSoundButton.getTag());
-        profile.setOverrideSilent(mOverrideSilentCheckBox.isChecked());
         profile.setVibrate(mVibrateCheckBox.isChecked());
     }
 
