@@ -16,8 +16,6 @@ public abstract class BaseProfile implements Parcelable {
     private String name;
     private boolean enabled;
     private Uri ringtone;
-    private int volume;
-    private boolean overrideSilent;
     private boolean vibrate;
 
     private Set<String> contacts;
@@ -25,7 +23,6 @@ public abstract class BaseProfile implements Parcelable {
     protected BaseProfile() {
         id = -1;
         enabled = true;
-        overrideSilent = true;
         contacts = Sets.newHashSet();
     }
 
@@ -84,22 +81,6 @@ public abstract class BaseProfile implements Parcelable {
         this.ringtone = ringtone;
     }
 
-    public int getVolume() {
-        return volume;
-    }
-
-    public void setVolume(int volume) {
-        this.volume = volume;
-    }
-
-    public boolean isOverrideSilent() {
-        return overrideSilent;
-    }
-
-    public void setOverrideSilent(boolean overrideSilent) {
-        this.overrideSilent = overrideSilent;
-    }
-
     public boolean isVibrate() {
         return vibrate;
     }
@@ -125,12 +106,6 @@ public abstract class BaseProfile implements Parcelable {
         }
     }
 
-    public void removeContact(String lookupKey) {
-        if (lookupKey != null) {
-            contacts.remove(lookupKey);
-        }
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -142,10 +117,8 @@ public abstract class BaseProfile implements Parcelable {
         dest.writeString(name);
         dest.writeByte((byte) (enabled ? 1 : 0));
         dest.writeString((ringtone == null) ? null : ringtone.toString());
-        dest.writeInt(volume);
-        dest.writeByte((byte) (overrideSilent ? 1 : 0));
         dest.writeByte((byte) (vibrate ? 1 : 0));
-        dest.writeStringArray(contacts.toArray(new String[0]));
+        dest.writeStringArray(contacts.toArray(new String[contacts.size()]));
     }
 
     public BaseProfile(Parcel in) {
@@ -156,8 +129,6 @@ public abstract class BaseProfile implements Parcelable {
         String ringtoneStr = in.readString();
         ringtone = (ringtoneStr == null) ? null : Uri.parse(ringtoneStr);
 
-        volume = in.readInt();
-        overrideSilent = in.readByte() == 1;
         vibrate = in.readByte() == 1;
 
         String[] contactsArr = in.createStringArray();
@@ -171,8 +142,7 @@ public abstract class BaseProfile implements Parcelable {
     @Override
     public String toString() {
         return "BaseProfile [id=" + id + ", name=" + name + ", enabled=" + enabled + ", ringtone="
-                + ringtone + ", volume=" + volume + ", overrideSilent=" + overrideSilent
-                + ", vibrate=" + vibrate + ", contacts=" + contacts + "]";
+                + ringtone + ", vibrate=" + vibrate + ", contacts=" + contacts + "]";
     }
 
 }

@@ -74,12 +74,6 @@ public class SmsProfile extends BaseProfile {
         }
     }
 
-    public void removeKeyword(String keyword) {
-        if (keyword != null) {
-            keywords.remove(keyword);
-        }
-    }
-
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);

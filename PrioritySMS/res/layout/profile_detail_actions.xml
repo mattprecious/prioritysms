@@ -18,12 +18,6 @@
             android:layout_height="wrap_content" />
 
         <CheckBox
-            android:id="@+id/action_override_silent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/actions_override" />
-
-        <CheckBox
             android:id="@+id/action_vibrate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

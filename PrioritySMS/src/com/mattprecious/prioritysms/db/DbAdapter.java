@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
+import android.util.Log;
 import com.google.common.collect.Lists;
 import com.mattprecious.prioritysms.model.BaseProfile;
 import com.mattprecious.prioritysms.model.PhoneProfile;
@@ -16,93 +17,7 @@ import com.mattprecious.prioritysms.model.SmsProfile;
 import java.util.List;
 
 public class DbAdapter {
-    // TODO: this is so dirty... the query is unreadable
-    private static final String CONCAT_SEPARATOR = " | ";
-    private static final String CONCAT_SEPARATOR_REGEX = " \\| ";
-    private static final String KEYWORDS_ALIAS = "keywords";
-    private static final String CONTACTS_ALIAS = "contact_lookups";
-    private static final String PROFILES_QUERY = String.format("" +
-            "SELECT *, " +
-            "group_concat(%5$s.%9$s, '%13$s') as %10$s, " +
-            "group_concat(%7$s.%11$s, '%13$s') as %12$s " +
-            "FROM %1$s " +
-            "LEFT OUTER JOIN %3$s ON %1$s.%2$s = %3$s.%4$s " +
-            "LEFT OUTER JOIN %5$s ON %1$s.%2$s = %5$s.%6$s " +
-            "LEFT OUTER JOIN %7$s ON %1$s.%2$s = %7$s.%8$s " +
-            "GROUP BY %1$s.%2$s " +
-            "ORDER BY %1$s.%14$s",
-            DbHelper.PROFILES_TABLE_NAME,
-            DbHelper.PROFILES_KEY_ID,
-            DbHelper.ACTIONS_TABLE_NAME,
-            DbHelper.ACTIONS_KEY_PROFILE_ID,
-            DbHelper.KEYWORDS_TABLE_NAME,
-            DbHelper.KEYWORDS_KEY_PROFILE_ID,
-            DbHelper.CONTACTS_TABLE_NAME,
-            DbHelper.CONTACTS_KEY_PROFILE_ID,
-            DbHelper.KEYWORDS_KEY_KEYWORD,
-            KEYWORDS_ALIAS,
-            DbHelper.CONTACTS_KEY_CONTACT_LOOKUP,
-            CONTACTS_ALIAS,
-            CONCAT_SEPARATOR,
-            DbHelper.PROFILES_KEY_NAME);
-    private static final String ENABLED_SMS_PROFILES_QUERY = String.format("" +
-            "SELECT *, " +
-            "group_concat(%5$s.%9$s, '%13$s') as %10$s, " +
-            "group_concat(%7$s.%11$s, '%13$s') as %12$s " +
-            "FROM %1$s " +
-            "LEFT OUTER JOIN %3$s ON %1$s.%2$s = %3$s.%4$s " +
-            "LEFT OUTER JOIN %5$s ON %1$s.%2$s = %5$s.%6$s " +
-            "LEFT OUTER JOIN %7$s ON %1$s.%2$s = %7$s.%8$s " +
-            "WHERE %1$s.%15$s = 1 AND " +
-            "%1$s.%16$s = '%17$s' " +
-            "GROUP BY %1$s.%2$s " +
-            "ORDER BY %1$s.%14$s",
-            DbHelper.PROFILES_TABLE_NAME,
-            DbHelper.PROFILES_KEY_ID,
-            DbHelper.ACTIONS_TABLE_NAME,
-            DbHelper.ACTIONS_KEY_PROFILE_ID,
-            DbHelper.KEYWORDS_TABLE_NAME,
-            DbHelper.KEYWORDS_KEY_PROFILE_ID,
-            DbHelper.CONTACTS_TABLE_NAME,
-            DbHelper.CONTACTS_KEY_PROFILE_ID,
-            DbHelper.KEYWORDS_KEY_KEYWORD,
-            KEYWORDS_ALIAS,
-            DbHelper.CONTACTS_KEY_CONTACT_LOOKUP,
-            CONTACTS_ALIAS,
-            CONCAT_SEPARATOR,
-            DbHelper.PROFILES_KEY_NAME,
-            DbHelper.PROFILES_KEY_ENABLED,
-            DbHelper.PROFILES_KEY_TYPE,
-            DbHelper.TYPE_ENUM_SMS);
-    private static final String ENABLED_PHONE_PROFILES_QUERY = String.format("" +
-            "SELECT *, " +
-            "group_concat(%5$s.%9$s, '%13$s') as %10$s, " +
-            "group_concat(%7$s.%11$s, '%13$s') as %12$s " +
-            "FROM %1$s " +
-            "LEFT OUTER JOIN %3$s ON %1$s.%2$s = %3$s.%4$s " +
-            "LEFT OUTER JOIN %5$s ON %1$s.%2$s = %5$s.%6$s " +
-            "LEFT OUTER JOIN %7$s ON %1$s.%2$s = %7$s.%8$s " +
-            "WHERE %1$s.%15$s = 1 AND " +
-            "%1$s.%16$s = '%17$s' " +
-            "GROUP BY %1$s.%2$s " +
-            "ORDER BY %1$s.%14$s",
-            DbHelper.PROFILES_TABLE_NAME,
-            DbHelper.PROFILES_KEY_ID,
-            DbHelper.ACTIONS_TABLE_NAME,
-            DbHelper.ACTIONS_KEY_PROFILE_ID,
-            DbHelper.KEYWORDS_TABLE_NAME,
-            DbHelper.KEYWORDS_KEY_PROFILE_ID,
-            DbHelper.CONTACTS_TABLE_NAME,
-            DbHelper.CONTACTS_KEY_PROFILE_ID,
-            DbHelper.KEYWORDS_KEY_KEYWORD,
-            KEYWORDS_ALIAS,
-            DbHelper.CONTACTS_KEY_CONTACT_LOOKUP,
-            CONTACTS_ALIAS,
-            CONCAT_SEPARATOR,
-            DbHelper.PROFILES_KEY_NAME,
-            DbHelper.PROFILES_KEY_ENABLED,
-            DbHelper.PROFILES_KEY_TYPE,
-            DbHelper.TYPE_ENUM_PHONE);
+    private static final String TAG = DbAdapter.class.getSimpleName();
 
     private DbHelper dbHelper;
 
@@ -115,7 +30,8 @@ public class DbAdapter {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         try {
-            Cursor c = db.rawQuery(PROFILES_QUERY, null);
+            Cursor c = db.query(DbHelper.PROFILES_TABLE_NAME, null, null, null, null, null,
+                    DbHelper.PROFILES_KEY_NAME);
 
             c.moveToFirst();
             while (!c.isAfterLast()) {
@@ -128,13 +44,17 @@ public class DbAdapter {
 
         return profiles;
     }
-    
+
     public List<SmsProfile> getEnabledSmsProfiles() {
         List<SmsProfile> profiles = Lists.newArrayList();
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         try {
-            Cursor c = db.rawQuery(ENABLED_SMS_PROFILES_QUERY, null);
+            String selection = String.format("%s = ?", DbHelper.PROFILES_KEY_TYPE);
+            String[] selectionArgs = {DbHelper.TYPE_ENUM_SMS};
+
+            Cursor c = db.query(DbHelper.PROFILES_TABLE_NAME, null, selection, selectionArgs, null,
+                    null, DbHelper.PROFILES_KEY_NAME);
 
             c.moveToFirst();
             while (!c.isAfterLast()) {
@@ -147,13 +67,17 @@ public class DbAdapter {
 
         return profiles;
     }
-    
+
     public List<PhoneProfile> getEnabledPhoneProfiles() {
         List<PhoneProfile> profiles = Lists.newArrayList();
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         try {
-            Cursor c = db.rawQuery(ENABLED_PHONE_PROFILES_QUERY, null);
+            String selection = String.format("%s=?", DbHelper.PROFILES_KEY_TYPE);
+            String[] selectionArgs = {DbHelper.TYPE_ENUM_PHONE};
+
+            Cursor c = db.query(DbHelper.PROFILES_TABLE_NAME, null, selection, selectionArgs, null,
+                    null, DbHelper.PROFILES_KEY_NAME);
 
             c.moveToFirst();
             while (!c.isAfterLast()) {
@@ -179,11 +103,6 @@ public class DbAdapter {
 
             profile.setId((int) rowId);
 
-            ContentValues actionValues = profileToActionValues(profile);
-            if (db.insert(DbHelper.ACTIONS_TABLE_NAME, null, actionValues) < 0) {
-                return false;
-            }
-
             List<ContentValues> contactValues = profileToContactValues(profile);
             for (ContentValues values : contactValues) {
                 if (db.insert(DbHelper.CONTACTS_TABLE_NAME, null, values) < 0) {
@@ -201,7 +120,7 @@ public class DbAdapter {
             db.setTransactionSuccessful();
             return true;
         } catch (Exception e) {
-
+            Log.e(TAG, "failed to insert profile", e);
         } finally {
             db.endTransaction();
             db.close();
@@ -212,12 +131,10 @@ public class DbAdapter {
 
     public boolean updateProfile(BaseProfile profile) {
         ContentValues profileValues = profileToProfileValues(profile);
-        ContentValues actionValues = profileToActionValues(profile);
         List<ContentValues> contactValues = profileToContactValues(profile);
         List<ContentValues> keywordValues = profileToKeywordValues(profile);
 
         final String profilesWhere = String.format("%s=?", DbHelper.PROFILES_KEY_ID);
-        final String actionsWhere = String.format("%s=?", DbHelper.ACTIONS_KEY_PROFILE_ID);
         final String contactsWhere = String.format("%s=?", DbHelper.CONTACTS_KEY_PROFILE_ID);
         final String keywordsWhere = String.format("%s=?", DbHelper.KEYWORDS_KEY_PROFILE_ID);
 
@@ -229,10 +146,6 @@ public class DbAdapter {
         db.beginTransaction();
         try {
             if (db.update(DbHelper.PROFILES_TABLE_NAME, profileValues, profilesWhere, whereArgs) < 0) {
-                return false;
-            }
-
-            if (db.update(DbHelper.ACTIONS_TABLE_NAME, actionValues, actionsWhere, whereArgs) < 0) {
                 return false;
             }
 
@@ -253,7 +166,7 @@ public class DbAdapter {
             db.setTransactionSuccessful();
             return true;
         } catch (Exception e) {
-
+            Log.e(TAG, "failed to update profile", e);
         } finally {
             db.endTransaction();
             db.close();
@@ -287,16 +200,6 @@ public class DbAdapter {
         if (DbHelper.TYPE_ENUM_SMS.equals(c.getString(c
                 .getColumnIndex(DbHelper.PROFILES_KEY_TYPE)))) {
             profile = new SmsProfile();
-
-            SmsProfile smsProfile = (SmsProfile) profile;
-
-            String keywords = getString(c, KEYWORDS_ALIAS);
-            if (keywords != null) {
-                String[] keywordsArr = keywords.split(CONCAT_SEPARATOR_REGEX);
-                for (String keyword : keywordsArr) {
-                    smsProfile.addKeyword(keyword);
-                }
-            }
         } else {
             profile = new PhoneProfile();
         }
@@ -304,21 +207,58 @@ public class DbAdapter {
         profile.setId(getInt(c, DbHelper.PROFILES_KEY_ID));
         profile.setName(getString(c, DbHelper.PROFILES_KEY_NAME));
         profile.setEnabled(getBoolean(c, DbHelper.PROFILES_KEY_ENABLED));
+        profile.setRingtone(getUri(c, DbHelper.PROFILES_KEY_RINGTONE));
+        profile.setVibrate(getBoolean(c, DbHelper.PROFILES_KEY_VIBRATE));
 
-        profile.setRingtone(getUri(c, DbHelper.ACTIONS_KEY_RINGTONE));
-        profile.setVolume(getInt(c, DbHelper.ACTIONS_KEY_VOLUME));
-        profile.setOverrideSilent(getBoolean(c, DbHelper.ACTIONS_KEY_OVERRIDE_SILENT));
-        profile.setVibrate(getBoolean(c, DbHelper.ACTIONS_KEY_VIBRATE));
+        fillContactLookups(profile);
 
-        String lookups = getString(c, CONTACTS_ALIAS);
-        if (lookups != null) {
-            String[] lookupsArr = lookups.split(CONCAT_SEPARATOR_REGEX);
-            for (String lookup : lookupsArr) {
-                profile.addContact(lookup);
-            }
+        if (profile instanceof SmsProfile) {
+            fillKeywords((SmsProfile) profile);
         }
 
         return profile;
+    }
+
+    private void fillContactLookups(BaseProfile profile) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        try {
+            String selection = String.format("%s=?", DbHelper.CONTACTS_KEY_PROFILE_ID);
+            String[] selectionArgs = {
+                    String.valueOf(profile.getId())
+            };
+
+            Cursor c = db.query(DbHelper.CONTACTS_TABLE_NAME, null, selection, selectionArgs, null,
+                    null, null);
+
+            c.moveToFirst();
+            while (!c.isAfterLast()) {
+                profile.addContact(getString(c, DbHelper.CONTACTS_KEY_CONTACT_LOOKUP));
+                c.moveToNext();
+            }
+        } finally {
+            db.close();
+        }
+    }
+
+    private void fillKeywords(SmsProfile profile) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        try {
+            String selection = String.format("%s=?", DbHelper.KEYWORDS_KEY_PROFILE_ID);
+            String[] selectionArgs = {
+                    String.valueOf(profile.getId())
+            };
+
+            Cursor c = db.query(DbHelper.KEYWORDS_TABLE_NAME, null, selection, selectionArgs, null,
+                    null, null);
+
+            c.moveToFirst();
+            while (!c.isAfterLast()) {
+                profile.addKeyword(getString(c, DbHelper.KEYWORDS_KEY_KEYWORD));
+                c.moveToNext();
+            }
+        } finally {
+            db.close();
+        }
     }
 
     private static ContentValues profileToProfileValues(BaseProfile profile) {
@@ -333,23 +273,14 @@ public class DbAdapter {
                 (profile instanceof SmsProfile) ? DbHelper.TYPE_ENUM_SMS : DbHelper.TYPE_ENUM_PHONE);
         values.put(DbHelper.PROFILES_KEY_ENABLED, profile.isEnabled());
 
-        return values;
-    }
-
-    private static ContentValues profileToActionValues(BaseProfile profile) {
-        ContentValues values = new ContentValues();
-        values.put(DbHelper.ACTIONS_KEY_PROFILE_ID, profile.getId());
-
         Uri ringtone = profile.getRingtone();
         if (ringtone == null) {
-            values.putNull(DbHelper.ACTIONS_KEY_RINGTONE);
+            values.putNull(DbHelper.PROFILES_KEY_RINGTONE);
         } else {
-            values.put(DbHelper.ACTIONS_KEY_RINGTONE, ringtone.toString());
+            values.put(DbHelper.PROFILES_KEY_RINGTONE, ringtone.toString());
         }
 
-        values.put(DbHelper.ACTIONS_KEY_VOLUME, profile.getVolume());
-        values.put(DbHelper.ACTIONS_KEY_OVERRIDE_SILENT, profile.isOverrideSilent());
-        values.put(DbHelper.ACTIONS_KEY_VIBRATE, profile.isVibrate());
+        values.put(DbHelper.PROFILES_KEY_VIBRATE, profile.isVibrate());
 
         return values;
     }
@@ -414,6 +345,8 @@ public class DbAdapter {
         private static final String PROFILES_KEY_NAME = "name";
         private static final String PROFILES_KEY_TYPE = "type";
         private static final String PROFILES_KEY_ENABLED = "enabled";
+        private static final String PROFILES_KEY_RINGTONE = "ringtone";
+        private static final String PROFILES_KEY_VIBRATE = "vibrate";
 
         private static final String TYPE_TABLE_NAME = "profile_type";
         private static final String TYPE_KEY_TYPE = "type";
@@ -430,24 +363,21 @@ public class DbAdapter {
         private static final String KEYWORDS_KEY_PROFILE_ID = "profile_id";
         private static final String KEYWORDS_KEY_KEYWORD = "keyword";
 
-        private static final String ACTIONS_TABLE_NAME = "profile_actions";
-        private static final String ACTIONS_KEY_PROFILE_ID = "profile_id";
-        private static final String ACTIONS_KEY_RINGTONE = "ringtone";
-        private static final String ACTIONS_KEY_OVERRIDE_SILENT = "override_silent";
-        private static final String ACTIONS_KEY_VIBRATE = "vibrate";
-        private static final String ACTIONS_KEY_VOLUME = "volume";
-
         private static final String PROFILES_TABLE_CREATE = String.format("" +
                 "CREATE TABLE %s (" +
                 "%s INTEGER PRIMARY KEY AUTOINCREMENT, " + // _id
                 "%s TEXT NOT NULL, " + // name
                 "%s TEXT NOT NULL REFERENCES %s(%s) ON UPDATE CASCADE, " + // type
-                "%s INTEGER NOT NULL);", // enabled
+                "%s INTEGER NOT NULL, " + // enabled
+                "%s TEXT, " + // ringtone
+                "%s INTEGER NOT NULL);", // vibrate
                 PROFILES_TABLE_NAME,
                 PROFILES_KEY_ID,
                 PROFILES_KEY_NAME,
                 PROFILES_KEY_TYPE, TYPE_TABLE_NAME, TYPE_KEY_TYPE,
-                PROFILES_KEY_ENABLED);
+                PROFILES_KEY_ENABLED,
+                PROFILES_KEY_RINGTONE,
+                PROFILES_KEY_VIBRATE);
 
         private static final String TYPE_TABLE_CREATE = String.format("" +
                 "CREATE TABLE %s (" +
@@ -475,21 +405,6 @@ public class DbAdapter {
                 KEYWORDS_KEY_PROFILE_ID, PROFILES_TABLE_NAME, PROFILES_KEY_ID,
                 KEYWORDS_KEY_KEYWORD);
 
-        private static final String ACTIONS_TABLE_CREATE = String.format("" +
-                "CREATE TABLE %s (" +
-                "%s INTEGER KEY NOT NULL REFERENCES %s(%s) " + // profile_id
-                "ON UPDATE CASCADE ON DELETE CASCADE, " +
-                "%s TEXT, " + // ringtone
-                "%s INTEGER NOT NULL, " + // override_silent
-                "%s INTEGER NOT NULL, " + // vibrate
-                "%s INTEGER NOT NULL);", // volume
-                ACTIONS_TABLE_NAME,
-                ACTIONS_KEY_PROFILE_ID, PROFILES_TABLE_NAME, PROFILES_KEY_ID,
-                ACTIONS_KEY_RINGTONE,
-                ACTIONS_KEY_OVERRIDE_SILENT,
-                ACTIONS_KEY_VIBRATE,
-                ACTIONS_KEY_VOLUME);
-
         private static final String TYPE_TABLE_POPULATE = String.format("" +
                 "INSERT INTO %s(%s, %s) VALUES " +
                 "('%s', 1)," + // sms
@@ -510,7 +425,6 @@ public class DbAdapter {
             db.execSQL(TYPE_TABLE_CREATE);
             db.execSQL(CONTACTS_TABLE_CREATE);
             db.execSQL(KEYWORDS_TABLE_CREATE);
-            db.execSQL(ACTIONS_TABLE_CREATE);
 
             db.execSQL(TYPE_TABLE_POPULATE);
         }
