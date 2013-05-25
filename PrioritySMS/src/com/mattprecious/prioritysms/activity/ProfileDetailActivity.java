@@ -18,7 +18,7 @@ public class ProfileDetailActivity extends SherlockFragmentActivity implements
 
     public static final int RESULT_DELETED = 10;
 
-    private String emptyTitle = null;
+    private String mEmptyTitle = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class ProfileDetailActivity extends SherlockFragmentActivity implements
             BaseProfile profile = getIntent().getParcelableExtra(
                     ProfileDetailFragment.EXTRA_PROFILE);
 
-            emptyTitle = getString(profile.isNew() ? R.string.detail_empty_title_new
+            mEmptyTitle = getString(profile.isNew() ? R.string.detail_empty_title_new
                     : R.string.detail_empty_title_edit);
 
             setTitle(profile.getName());
@@ -68,7 +68,7 @@ public class ProfileDetailActivity extends SherlockFragmentActivity implements
     }
 
     private void setTitle(String title) {
-        getSupportActionBar().setTitle(Strings.isNullOrEmpty(title) ? emptyTitle : title);
+        getSupportActionBar().setTitle(Strings.isNullOrEmpty(title) ? mEmptyTitle : title);
     }
 
     @Override
