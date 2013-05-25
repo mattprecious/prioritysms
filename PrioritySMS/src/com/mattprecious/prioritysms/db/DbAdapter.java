@@ -29,16 +29,16 @@ public class DbAdapter {
             DbHelper.SMS_PROFILES_TABLE_NAME,
             DbHelper.SMS_PROFILES_KEY_PROFILE_ID);
 
-    private DbHelper dbHelper;
+    private DbHelper mDbHelper;
 
     public DbAdapter(Context context) {
-        dbHelper = new DbHelper(context);
+        mDbHelper = new DbHelper(context);
     }
 
     public List<BaseProfile> getProfiles() {
         List<BaseProfile> profiles = Lists.newArrayList();
 
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
         try {
             SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
             builder.setTables(JOIN_QUERY);
@@ -60,7 +60,7 @@ public class DbAdapter {
     public List<SmsProfile> getEnabledSmsProfiles() {
         List<SmsProfile> profiles = Lists.newArrayList();
 
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
         try {
             SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
             builder.setTables(JOIN_QUERY);
@@ -86,7 +86,7 @@ public class DbAdapter {
     public List<PhoneProfile> getEnabledPhoneProfiles() {
         List<PhoneProfile> profiles = Lists.newArrayList();
 
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
         try {
             SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
             builder.setTables(JOIN_QUERY);
@@ -110,7 +110,7 @@ public class DbAdapter {
     }
 
     public boolean insertProfile(BaseProfile profile) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.beginTransaction();
         try {
             ContentValues profileValues = profileToProfileValues(profile);
@@ -169,7 +169,7 @@ public class DbAdapter {
                 String.valueOf(profile.getId())
         };
 
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.beginTransaction();
         try {
             if (db.update(DbHelper.PROFILES_TABLE_NAME, profileValues, profilesWhere, whereArgs)
@@ -212,7 +212,7 @@ public class DbAdapter {
 
     public boolean deleteProfile(BaseProfile profile) {
         int result = 0;
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
         try {
             String selection = String.format("%s=?", DbHelper.PROFILES_KEY_ID);
             String[] selectionArgs = {
@@ -267,7 +267,7 @@ public class DbAdapter {
     }
 
     private void fillContactLookups(BaseProfile profile) {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
         try {
             String selection = String.format("%s=?", DbHelper.CONTACTS_KEY_PROFILE_ID);
             String[] selectionArgs = {
@@ -288,7 +288,7 @@ public class DbAdapter {
     }
 
     private void fillKeywords(SmsProfile profile) {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
         try {
             String selection = String.format("%s=?", DbHelper.KEYWORDS_KEY_PROFILE_ID);
             String[] selectionArgs = {

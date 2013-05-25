@@ -15,7 +15,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -63,15 +62,15 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
     ViewGroup mKeywordsList;
 
     @InjectView(R.id.add_contact)
-    Button addContactButton;
+    Button mAddContactButton;
 
     @InjectView(R.id.keyword_method)
     TextView mKeywordMethodButton;
 
     @InjectView(R.id.add_keyword)
-    Button addKeywordButton;
+    Button mAddKeywordButton;
 
-    private View contactPickerSource;
+    private View mContactPickerSource;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,8 +112,8 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
             updateKeywordMethod();
         }
 
-        addContactButton.setOnClickListener(addContactListener);
-        addKeywordButton.setOnClickListener(addKeywordListener);
+        mAddContactButton.setOnClickListener(addContactListener);
+        mAddKeywordButton.setOnClickListener(addKeywordListener);
 
         return rootView;
     }
@@ -125,14 +124,14 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
             case REQUEST_CONTACT_PICKER:
                 if (resultCode == Activity.RESULT_OK) {
                     String lookup = ContactHelper.getLookupKeyByUri(getActivity(), data.getData());
-                    if (contactPickerSource == null) {
+                    if (mContactPickerSource == null) {
                         addContact(lookup);
                     } else {
-                        updateContact((TextView) contactPickerSource, lookup);
+                        updateContact((TextView) mContactPickerSource, lookup);
                     }
                 }
 
-                contactPickerSource = null;
+                mContactPickerSource = null;
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -282,7 +281,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
 
         @Override
         public void onClick(View v) {
-            contactPickerSource = v;
+            mContactPickerSource = v;
             openContactPicker();
         }
     };

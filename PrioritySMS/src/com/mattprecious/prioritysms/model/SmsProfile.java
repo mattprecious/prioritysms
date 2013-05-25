@@ -4,8 +4,6 @@ package com.mattprecious.prioritysms.model;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
-import com.mattprecious.prioritysms.util.ContactHelper;
-
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -15,11 +13,11 @@ import java.util.Set;
 public class SmsProfile extends BaseProfile {
 
     private LogicMethod mKeywordMethod;
-    private Set<String> keywords;
+    private Set<String> mKeywords;
 
     public SmsProfile() {
         mKeywordMethod = LogicMethod.ANY;
-        keywords = Sets.newHashSet();
+        mKeywords = Sets.newHashSet();
     }
 
     public boolean messageMatches(Context context, String number, String message) {
@@ -70,18 +68,18 @@ public class SmsProfile extends BaseProfile {
 
     public Set<String> getKeywords() {
         Set<String> ret = Sets.newHashSet();
-        ret.addAll(keywords);
+        ret.addAll(mKeywords);
         return ret;
     }
 
     public void setKeywords(Set<String> keywords) {
-        this.keywords = Sets.newHashSet();
-        this.keywords.addAll(keywords);
+        mKeywords = Sets.newHashSet();
+        mKeywords.addAll(keywords);
     }
 
     public void addKeyword(String keyword) {
         if (keyword != null) {
-            keywords.add(keyword.trim());
+            mKeywords.add(keyword.trim());
         }
     }
 
@@ -90,7 +88,7 @@ public class SmsProfile extends BaseProfile {
         super.writeToParcel(dest, flags);
 
         dest.writeInt(mKeywordMethod.ordinal());
-        dest.writeStringArray(keywords.toArray(new String[0]));
+        dest.writeStringArray(mKeywords.toArray(new String[0]));
     }
 
     public SmsProfile(Parcel in) {
@@ -100,9 +98,9 @@ public class SmsProfile extends BaseProfile {
 
         String[] keywordsArr = in.createStringArray();
         if (keywordsArr == null) {
-            keywords = Sets.newHashSet();
+            mKeywords = Sets.newHashSet();
         } else {
-            keywords = Sets.newHashSet(keywordsArr);
+            mKeywords = Sets.newHashSet(keywordsArr);
         }
     }
 
@@ -121,6 +119,7 @@ public class SmsProfile extends BaseProfile {
 
     @Override
     public String toString() {
-        return "SmsProfile [keywords=" + keywords + ", super.toString()=" + super.toString() + "]";
+        return "SmsProfile [mKeywords=" + mKeywords + ", super.toString()=" + super.toString() +
+                "]";
     }
 }

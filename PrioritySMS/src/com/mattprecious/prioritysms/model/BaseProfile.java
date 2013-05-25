@@ -15,26 +15,26 @@ import java.util.Set;
 
 public abstract class BaseProfile implements Parcelable {
 
-    private int id;
+    private int mId;
 
-    private String name;
+    private String mName;
 
-    private boolean enabled;
+    private boolean mEnabled;
 
-    private Uri ringtone;
+    private Uri mRingtone;
 
-    private boolean vibrate;
+    private boolean mVibrate;
 
-    private Set<String> contacts;
+    private Set<String> mContacts;
 
     protected BaseProfile() {
-        id = -1;
-        enabled = true;
-        contacts = Sets.newHashSet();
+        mId = -1;
+        mEnabled = true;
+        mContacts = Sets.newHashSet();
     }
 
     public boolean isNew() {
-        return id == -1;
+        return mId == -1;
     }
 
     public void save(Context context) {
@@ -76,59 +76,59 @@ public abstract class BaseProfile implements Parcelable {
     }
 
     public int getId() {
-        return id;
+        return mId;
     }
 
-    public void setId(int rowId) {
-        this.id = rowId;
+    public void setId(int id) {
+        mId = id;
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        mName = name;
     }
 
     public boolean isEnabled() {
-        return enabled;
+        return mEnabled;
     }
 
     public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+        mEnabled = enabled;
     }
 
     public Uri getRingtone() {
-        return ringtone;
+        return mRingtone;
     }
 
     public void setRingtone(Uri ringtone) {
-        this.ringtone = ringtone;
+        mRingtone = ringtone;
     }
 
     public boolean isVibrate() {
-        return vibrate;
+        return mVibrate;
     }
 
     public void setVibrate(boolean vibrate) {
-        this.vibrate = vibrate;
+        mVibrate = vibrate;
     }
 
     public Set<String> getContacts() {
         Set<String> ret = Sets.newHashSet();
-        ret.addAll(contacts);
+        ret.addAll(mContacts);
         return ret;
     }
 
     public void setContacts(Set<String> contacts) {
-        this.contacts = Sets.newHashSet();
-        this.contacts.addAll(contacts);
+        mContacts = Sets.newHashSet();
+        mContacts.addAll(contacts);
     }
 
     public void addContact(String lookupKey) {
         if (lookupKey != null) {
-            contacts.add(lookupKey);
+            mContacts.add(lookupKey);
         }
     }
 
@@ -139,36 +139,37 @@ public abstract class BaseProfile implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(name);
-        dest.writeByte((byte) (enabled ? 1 : 0));
-        dest.writeString((ringtone == null) ? null : ringtone.toString());
-        dest.writeByte((byte) (vibrate ? 1 : 0));
-        dest.writeStringArray(contacts.toArray(new String[contacts.size()]));
+        dest.writeInt(mId);
+        dest.writeString(mName);
+        dest.writeByte((byte) (mEnabled ? 1 : 0));
+        dest.writeString((mRingtone == null) ? null : mRingtone.toString());
+        dest.writeByte((byte) (mVibrate ? 1 : 0));
+        dest.writeStringArray(mContacts.toArray(new String[mContacts.size()]));
     }
 
     public BaseProfile(Parcel in) {
-        id = in.readInt();
-        name = in.readString();
-        enabled = in.readByte() == 1;
+        mId = in.readInt();
+        mName = in.readString();
+        mEnabled = in.readByte() == 1;
 
         String ringtoneStr = in.readString();
-        ringtone = (ringtoneStr == null) ? null : Uri.parse(ringtoneStr);
+        mRingtone = (ringtoneStr == null) ? null : Uri.parse(ringtoneStr);
 
-        vibrate = in.readByte() == 1;
+        mVibrate = in.readByte() == 1;
 
         String[] contactsArr = in.createStringArray();
         if (contactsArr == null) {
-            contacts = Sets.newHashSet();
+            mContacts = Sets.newHashSet();
         } else {
-            contacts = Sets.newHashSet(contactsArr);
+            mContacts = Sets.newHashSet(contactsArr);
         }
     }
 
     @Override
     public String toString() {
-        return "BaseProfile [id=" + id + ", name=" + name + ", enabled=" + enabled + ", ringtone="
-                + ringtone + ", vibrate=" + vibrate + ", contacts=" + contacts + "]";
+        return "BaseProfile [mId=" + mId + ", mName=" + mName + ", mEnabled=" + mEnabled +
+                ", mRingtone=" + mRingtone + ", mVibrate=" + mVibrate + ", mContacts=" + mContacts +
+                "]";
     }
 
 }

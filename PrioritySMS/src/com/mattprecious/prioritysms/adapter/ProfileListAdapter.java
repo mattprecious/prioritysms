@@ -22,23 +22,23 @@ import static butterknife.Views.findById;
 
 public class ProfileListAdapter extends BaseAdapter {
 
-    private Context context;
+    private Context mContext;
 
-    private LayoutInflater inflater;
+    private LayoutInflater mInflater;
 
-    private DbAdapter dbAdapter;
+    private DbAdapter mDbAdapter;
 
-    private List<BaseProfile> data;
+    private List<BaseProfile> mData;
 
     public ProfileListAdapter(Context context) {
-        this.context = context;
-        inflater = LayoutInflater.from(context);
-        dbAdapter = new DbAdapter(context);
+        mContext = context;
+        mInflater = LayoutInflater.from(context);
+        mDbAdapter = new DbAdapter(context);
         refreshData();
     }
 
     private void refreshData() {
-        data = dbAdapter.getProfiles();
+        mData = mDbAdapter.getProfiles();
     }
 
     @Override
@@ -49,17 +49,17 @@ public class ProfileListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return data.size();
+        return mData.size();
     }
 
     @Override
     public BaseProfile getItem(int position) {
-        return data.get(position);
+        return mData.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return data.get(position).getId();
+        return mData.get(position).getId();
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ProfileListAdapter extends BaseAdapter {
         BaseProfile profile = getItem(position);
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.profile_list_item, null);
+            convertView = mInflater.inflate(R.layout.profile_list_item, null);
         }
 
         TextView nameView = findById(convertView, R.id.profile_name);
@@ -87,7 +87,7 @@ public class ProfileListAdapter extends BaseAdapter {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             BaseProfile profile = (BaseProfile) buttonView.getTag();
             profile.setEnabled(isChecked);
-            profile.save(context);
+            profile.save(mContext);
         }
     };
 
