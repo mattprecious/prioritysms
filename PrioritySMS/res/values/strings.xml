@@ -64,10 +64,10 @@
     <string name="conditions_keyword_hint">Keyword</string>
     <string name="conditions_keyword_delete">Remove keyword</string>
 
-    <string name="keywords_method_title">Alarm will be triggered if&#8230;</string>
-    <string name="keywords_method_description_any">the message contains <b>any</b> of these keywords</string>
-    <string name="keywords_method_description_all">the message contains <b>all</b> of these keywords</string>
-    <string name="keywords_method_description_only">the message is <b>only</b> this keyword (and nothing else)</string>
+    <string name="keywords_method_title">Keyword trigger</string>
+    <string name="keywords_method_description_any">Any keyword match will trigger this alarm</string>
+    <string name="keywords_method_description_all">All keywords are required to trigger this alarm</string>
+    <string name="keywords_method_description_only">The keyword must be the only text in the message to trigger this alarm</string>
 
     <!-- profile detail actions -->
     <string name="actions_ringtone_silent">Silent</string>
