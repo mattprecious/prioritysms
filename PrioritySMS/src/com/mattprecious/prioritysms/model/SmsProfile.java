@@ -1,6 +1,7 @@
 
 package com.mattprecious.prioritysms.model;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
 import com.mattprecious.prioritysms.util.ContactHelper;
@@ -13,26 +14,42 @@ import java.util.Set;
 
 public class SmsProfile extends BaseProfile {
 
+    private LogicMethod mKeywordMethod;
     private Set<String> keywords;
 
     public SmsProfile() {
+        mKeywordMethod = LogicMethod.ANY;
         keywords = Sets.newHashSet();
     }
 
     public boolean messageMatches(Context context, String number, String message) {
-        boolean matches = true;
+        boolean matches = super.matches(context, number);
 
-        Set<String> contacts = getContacts();
-        if (contacts.size() > 0) {
-            matches = false;
+        if (!matches) {
+            return false;
+        }
 
-            String incomingContactId = ContactHelper.getContactIdByNumber(context, number);
-            if (incomingContactId == null) {
+        if (Strings.isNullOrEmpty(message)) {
+            return false;
+        }
+
+        Set<String> keywords = getKeywords();
+        if (keywords.size() > 0) {
+            if (getKeywordMethod() == LogicMethod.ALL) {
+                matches = true;
+                for (String keyword : keywords) {
+                    if (!message.contains(keyword)) {
+                        matches = false;
+                        break;
+                    }
+                }
+            } else if (getKeywordMethod() == LogicMethod.ONLY) {
+                String keyword = keywords.toArray(new String[keywords.size()])[0];
+                matches = keyword.equals(message.trim());
+            } else { // if (getKeywordMethod() == LogicMethod.ANY)
                 matches = false;
-            } else {
-                for (String lookupKey : contacts) {
-                    String contactId = ContactHelper.getContactIdByLookupKey(context, lookupKey);
-                    if (incomingContactId.equals(contactId)) {
+                for (String keyword : keywords) {
+                    if (message.contains(keyword)) {
                         matches = true;
                         break;
                     }
@@ -40,23 +57,15 @@ public class SmsProfile extends BaseProfile {
             }
         }
 
-        if (!matches) {
-            return false;
-        }
-
-        Set<String> keywords = getKeywords();
-        if (keywords.size() > 0) {
-            matches = false;
-
-            for (String keyword : keywords) {
-                if (message.contains(keyword)) {
-                    matches = true;
-                    break;
-                }
-            }
-        }
-
         return matches;
+    }
+
+    public LogicMethod getKeywordMethod() {
+        return mKeywordMethod;
+    }
+
+    public void setKeywordMethod(LogicMethod keywordMethod) {
+        mKeywordMethod = keywordMethod;
     }
 
     public Set<String> getKeywords() {
@@ -72,7 +81,7 @@ public class SmsProfile extends BaseProfile {
 
     public void addKeyword(String keyword) {
         if (keyword != null) {
-            keywords.add(keyword);
+            keywords.add(keyword.trim());
         }
     }
 
@@ -80,11 +89,14 @@ public class SmsProfile extends BaseProfile {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
 
+        dest.writeInt(mKeywordMethod.ordinal());
         dest.writeStringArray(keywords.toArray(new String[0]));
     }
 
     public SmsProfile(Parcel in) {
         super(in);
+
+        mKeywordMethod = LogicMethod.values()[in.readInt()];
 
         String[] keywordsArr = in.createStringArray();
         if (keywordsArr == null) {

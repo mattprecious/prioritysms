@@ -4,6 +4,7 @@ package com.mattprecious.prioritysms.db;
 import com.google.common.collect.Lists;
 
 import com.mattprecious.prioritysms.model.BaseProfile;
+import com.mattprecious.prioritysms.model.LogicMethod;
 import com.mattprecious.prioritysms.model.PhoneProfile;
 import com.mattprecious.prioritysms.model.SmsProfile;
 
@@ -12,14 +13,21 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
 import java.util.List;
 
 public class DbAdapter {
-
     private static final String TAG = DbAdapter.class.getSimpleName();
+
+    private static final String JOIN_QUERY = String.format(
+            "%1$s LEFT OUTER JOIN %3$s ON (%1$s.%2$s = %3$s.%4$s)",
+            DbHelper.PROFILES_TABLE_NAME,
+            DbHelper.PROFILES_KEY_ID,
+            DbHelper.SMS_PROFILES_TABLE_NAME,
+            DbHelper.SMS_PROFILES_KEY_PROFILE_ID);
 
     private DbHelper dbHelper;
 
@@ -32,8 +40,10 @@ public class DbAdapter {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         try {
-            Cursor c = db.query(DbHelper.PROFILES_TABLE_NAME, null, null, null, null, null,
-                    DbHelper.PROFILES_KEY_NAME);
+            SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+            builder.setTables(JOIN_QUERY);
+
+            Cursor c = builder.query(db, null, null, null, null, null, DbHelper.PROFILES_KEY_NAME);
 
             c.moveToFirst();
             while (!c.isAfterLast()) {
@@ -52,11 +62,14 @@ public class DbAdapter {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         try {
+            SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+            builder.setTables(JOIN_QUERY);
+
             String selection = String.format("%s = ?", DbHelper.PROFILES_KEY_TYPE);
             String[] selectionArgs = {DbHelper.TYPE_ENUM_SMS};
 
-            Cursor c = db.query(DbHelper.PROFILES_TABLE_NAME, null, selection, selectionArgs, null,
-                    null, DbHelper.PROFILES_KEY_NAME);
+            Cursor c = builder.query(db, null, selection, selectionArgs, null, null,
+                    DbHelper.PROFILES_KEY_NAME);
 
             c.moveToFirst();
             while (!c.isAfterLast()) {
@@ -75,11 +88,14 @@ public class DbAdapter {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         try {
+            SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+            builder.setTables(JOIN_QUERY);
+
             String selection = String.format("%s=?", DbHelper.PROFILES_KEY_TYPE);
             String[] selectionArgs = {DbHelper.TYPE_ENUM_PHONE};
 
-            Cursor c = db.query(DbHelper.PROFILES_TABLE_NAME, null, selection, selectionArgs, null,
-                    null, DbHelper.PROFILES_KEY_NAME);
+            Cursor c = builder.query(db, null, selection, selectionArgs, null, null,
+                    DbHelper.PROFILES_KEY_NAME);
 
             c.moveToFirst();
             while (!c.isAfterLast()) {
@@ -104,6 +120,13 @@ public class DbAdapter {
             }
 
             profile.setId((int) rowId);
+
+            ContentValues smsProfileValues = profileToSmsProfileValues(profile);
+            if (smsProfileValues.size() > 0) {
+                if (db.insert(DbHelper.SMS_PROFILES_TABLE_NAME, null, smsProfileValues) < 0) {
+                    return false;
+                }
+            }
 
             List<ContentValues> contactValues = profileToContactValues(profile);
             for (ContentValues values : contactValues) {
@@ -133,10 +156,12 @@ public class DbAdapter {
 
     public boolean updateProfile(BaseProfile profile) {
         ContentValues profileValues = profileToProfileValues(profile);
+        ContentValues smsProfileValues = profileToSmsProfileValues(profile);
         List<ContentValues> contactValues = profileToContactValues(profile);
         List<ContentValues> keywordValues = profileToKeywordValues(profile);
 
         final String profilesWhere = String.format("%s=?", DbHelper.PROFILES_KEY_ID);
+        final String smsProfilesWhere = String.format("%s=?", DbHelper.SMS_PROFILES_KEY_PROFILE_ID);
         final String contactsWhere = String.format("%s=?", DbHelper.CONTACTS_KEY_PROFILE_ID);
         final String keywordsWhere = String.format("%s=?", DbHelper.KEYWORDS_KEY_PROFILE_ID);
 
@@ -159,10 +184,17 @@ public class DbAdapter {
                 }
             }
 
-            db.delete(DbHelper.KEYWORDS_TABLE_NAME, keywordsWhere, whereArgs);
-            for (ContentValues values : keywordValues) {
-                if (db.insert(DbHelper.KEYWORDS_TABLE_NAME, null, values) < 0) {
+            if (profile instanceof SmsProfile) {
+                if (db.update(DbHelper.SMS_PROFILES_TABLE_NAME, smsProfileValues, smsProfilesWhere,
+                        whereArgs) < 0) {
                     return false;
+                }
+
+                db.delete(DbHelper.KEYWORDS_TABLE_NAME, keywordsWhere, whereArgs);
+                for (ContentValues values : keywordValues) {
+                    if (db.insert(DbHelper.KEYWORDS_TABLE_NAME, null, values) < 0) {
+                        return false;
+                    }
                 }
             }
 
@@ -216,7 +248,19 @@ public class DbAdapter {
         fillContactLookups(profile);
 
         if (profile instanceof SmsProfile) {
-            fillKeywords((SmsProfile) profile);
+            String keywordMethodString = getString(c, DbHelper.SMS_PROFILES_KEY_KEYWORDS_METHOD);
+
+            LogicMethod keywordMethod = LogicMethod.ANY;
+            if (DbHelper.METHOD_ENUM_ALL.equals(keywordMethodString)) {
+                keywordMethod = LogicMethod.ALL;
+            } else if (DbHelper.METHOD_ENUM_ONLY.equals(keywordMethodString)) {
+                keywordMethod = LogicMethod.ONLY;
+            }
+
+            SmsProfile smsProfile = (SmsProfile) profile;
+            smsProfile.setKeywordMethod(keywordMethod);
+
+            fillKeywords(smsProfile);
         }
 
         return profile;
@@ -285,6 +329,36 @@ public class DbAdapter {
         }
 
         values.put(DbHelper.PROFILES_KEY_VIBRATE, profile.isVibrate());
+
+        return values;
+    }
+
+    private static ContentValues profileToSmsProfileValues(BaseProfile profile) {
+        ContentValues values = new ContentValues();
+
+        if (profile instanceof SmsProfile) {
+            SmsProfile smsProfile = (SmsProfile) profile;
+
+            if (profile.getId() >= 0) {
+                values.put(DbHelper.SMS_PROFILES_KEY_PROFILE_ID, profile.getId());
+            }
+
+            String methodString;
+            switch (smsProfile.getKeywordMethod()) {
+                case ALL:
+                    methodString = DbHelper.METHOD_ENUM_ALL;
+                    break;
+                case ONLY:
+                    methodString = DbHelper.METHOD_ENUM_ONLY;
+                    break;
+                case ANY:
+                default:
+                    methodString = DbHelper.METHOD_ENUM_ANY;
+                    break;
+            }
+
+            values.put(DbHelper.SMS_PROFILES_KEY_KEYWORDS_METHOD, methodString);
+        }
 
         return values;
     }
@@ -358,6 +432,17 @@ public class DbAdapter {
         private static final String TYPE_ENUM_SMS = "sms";
         private static final String TYPE_ENUM_PHONE = "phone";
 
+        private static final String SMS_PROFILES_TABLE_NAME = "sms_profiles";
+        private static final String SMS_PROFILES_KEY_PROFILE_ID = "profile_id";
+        private static final String SMS_PROFILES_KEY_KEYWORDS_METHOD = "keywords_method";
+
+        private static final String METHOD_TABLE_NAME = "logic_method";
+        private static final String METHOD_KEY_METHOD = "method";
+        private static final String METHOD_KEY_NUM = "num";
+        private static final String METHOD_ENUM_ALL = "all";
+        private static final String METHOD_ENUM_ANY = "any";
+        private static final String METHOD_ENUM_ONLY = "only";
+
         private static final String CONTACTS_TABLE_NAME = "profile_contacts";
         private static final String CONTACTS_KEY_PROFILE_ID = "profile_id";
         private static final String CONTACTS_KEY_CONTACT_LOOKUP = "contact_lookup";
@@ -390,6 +475,23 @@ public class DbAdapter {
                 TYPE_KEY_TYPE,
                 TYPE_KEY_NUM);
 
+        private static final String SMS_PROFILES_TABLE_CREATE = String.format("" +
+                "CREATE TABLE %s (" +
+                "%s INTEGER KEY NOT NULL REFERENCES %s(%s) " + // profile_id
+                "ON UPDATE CASCADE ON DELETE CASCADE, " +
+                "%s TEXT NOT NULL REFERENCES %s(%s) ON UPDATE CASCADE);", // method
+                SMS_PROFILES_TABLE_NAME,
+                SMS_PROFILES_KEY_PROFILE_ID, PROFILES_TABLE_NAME, PROFILES_KEY_ID,
+                SMS_PROFILES_KEY_KEYWORDS_METHOD, METHOD_TABLE_NAME, METHOD_KEY_METHOD);
+
+        private static final String METHOD_TABLE_CREATE = String.format("" +
+                "CREATE TABLE %s (" +
+                "%s TEXT PRIMARY KEY NOT NULL, " + // method
+                "%s INTEGER NOT NULL);", // num
+                METHOD_TABLE_NAME,
+                METHOD_KEY_METHOD,
+                METHOD_KEY_NUM);
+
         private static final String CONTACTS_TABLE_CREATE = String.format("" +
                 "CREATE TABLE %s (" +
                 "%s INTEGER KEY NOT NULL REFERENCES %s(%s) " + // profile_id
@@ -416,6 +518,16 @@ public class DbAdapter {
                 TYPE_ENUM_SMS,
                 TYPE_ENUM_PHONE);
 
+        private static final String METHOD_TABLE_POPULATE = String.format("" +
+                "INSERT INTO %s(%s, %s) VALUES " +
+                "('%s', 1), " + // all
+                "('%s', 2), " + // any
+                "('%s', 3);", // only
+                METHOD_TABLE_NAME, METHOD_KEY_METHOD, METHOD_KEY_NUM,
+                METHOD_ENUM_ALL,
+                METHOD_ENUM_ANY,
+                METHOD_ENUM_ONLY);
+
         public DbHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
@@ -426,10 +538,13 @@ public class DbAdapter {
 
             db.execSQL(PROFILES_TABLE_CREATE);
             db.execSQL(TYPE_TABLE_CREATE);
+            db.execSQL(SMS_PROFILES_TABLE_CREATE);
+            db.execSQL(METHOD_TABLE_CREATE);
             db.execSQL(CONTACTS_TABLE_CREATE);
             db.execSQL(KEYWORDS_TABLE_CREATE);
 
             db.execSQL(TYPE_TABLE_POPULATE);
+            db.execSQL(METHOD_TABLE_POPULATE);
         }
 
         @Override

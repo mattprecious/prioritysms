@@ -4,6 +4,7 @@ package com.mattprecious.prioritysms.model;
 import com.google.common.collect.Sets;
 
 import com.mattprecious.prioritysms.db.DbAdapter;
+import com.mattprecious.prioritysms.util.ContactHelper;
 
 import android.content.Context;
 import android.net.Uri;
@@ -53,6 +54,25 @@ public abstract class BaseProfile implements Parcelable {
 
         DbAdapter db = new DbAdapter(context);
         db.deleteProfile(this);
+    }
+
+    protected boolean matches(Context context, String number) {
+        Set<String> contacts = getContacts();
+        if (contacts.size() > 0) {
+            String incomingContactId = ContactHelper.getContactIdByNumber(context, number);
+            if (incomingContactId == null) {
+                return false;
+            } else {
+                for (String lookupKey : contacts) {
+                    String contactId = ContactHelper.getContactIdByLookupKey(context, lookupKey);
+                    if (incomingContactId.equals(contactId)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     public int getId() {

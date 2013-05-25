@@ -1,11 +1,13 @@
 
 package com.mattprecious.prioritysms.fragment;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.BaseDetailFragment;
 import com.mattprecious.prioritysms.model.BaseProfile;
+import com.mattprecious.prioritysms.model.LogicMethod;
 import com.mattprecious.prioritysms.model.SmsProfile;
 import com.mattprecious.prioritysms.util.ContactHelper;
 
@@ -13,6 +15,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,6 +65,9 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
     @InjectView(R.id.add_contact)
     Button addContactButton;
 
+    @InjectView(R.id.keyword_method)
+    TextView mKeywordMethodButton;
+
     @InjectView(R.id.add_keyword)
     Button addKeywordButton;
 
@@ -102,6 +108,9 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
             for (String keyword : mSmsProfile.getKeywords()) {
                 addKeyword(keyword);
             }
+
+            mKeywordMethodButton.setOnClickListener(keywordMethodListener);
+            updateKeywordMethod();
         }
 
         addContactButton.setOnClickListener(addContactListener);
@@ -144,12 +153,14 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         if (profile instanceof SmsProfile) {
             SmsProfile smsProfile = (SmsProfile) profile;
 
+            smsProfile.setKeywordMethod(mSmsProfile.getKeywordMethod());
+
             Set<String> keywords = Sets.newHashSet();
             for (int i = 0; i < mKeywordsList.getChildCount(); i++) {
                 View v = mKeywordsList.getChildAt(i);
                 String keyword = ((TextView) v.getTag()).getText().toString();
-                if (keyword != null && keyword.length() > 0) {
-                    keywords.add(keyword);
+                if (!Strings.isNullOrEmpty(keyword)) {
+                    keywords.add(keyword.trim());
                 }
             }
 
@@ -211,6 +222,25 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
                 REQUEST_CONTACT_PICKER);
     }
 
+    private void updateKeywordMethod() {
+        int methodResId;
+
+        switch (mSmsProfile.getKeywordMethod()) {
+            case ALL:
+                methodResId = R.string.conditions_keywords_method_all;
+                break;
+            case ONLY:
+                methodResId = R.string.conditions_keywords_method_only;
+                break;
+            case ANY:
+            default:
+                methodResId = R.string.conditions_keywords_method_any;
+                break;
+        }
+
+        mKeywordMethodButton.setText(methodResId);
+    }
+
     private OnClickListener addContactListener = new OnClickListener() {
 
         @Override
@@ -218,6 +248,27 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
             openContactPicker();
         }
     };
+
+    private OnClickListener keywordMethodListener = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            SmsMethodDialogFragment methodFragment = SmsMethodDialogFragment
+                    .create(mSmsProfile.getKeywordMethod());
+            methodFragment.setCallbacks(mKeywordMethodCallback);
+            methodFragment.show(getFragmentManager(), null);
+        }
+    };
+
+    private SmsMethodDialogFragment.Callbacks mKeywordMethodCallback =
+            new SmsMethodDialogFragment.Callbacks() {
+
+                @Override
+                public void onSelected(LogicMethod method) {
+                    mSmsProfile.setKeywordMethod(method);
+                    updateKeywordMethod();
+                }
+            };
 
     private OnClickListener addKeywordListener = new OnClickListener() {
 

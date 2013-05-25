@@ -57,10 +57,17 @@
     <string name="conditions_contact_delete">Remove contact</string>
     <string name="conditions_contact_not_found">Contact not found</string>
     <string name="conditions_keywords_header">Keywords</string>
-    <string name="conditions_keywords_method_all">[ANY]</string>
+    <string name="conditions_keywords_method_any">[ANY]</string>
+    <string name="conditions_keywords_method_all">[ALL]</string>
+    <string name="conditions_keywords_method_only">[ONLY]</string>
     <string name="conditions_keyword_add">Add keyword</string>
     <string name="conditions_keyword_hint">Keyword</string>
     <string name="conditions_keyword_delete">Remove keyword</string>
+
+    <string name="keywords_method_title">Alarm will be triggered if&#8230;</string>
+    <string name="keywords_method_description_any">the message contains <b>any</b> of these keywords</string>
+    <string name="keywords_method_description_all">the message contains <b>all</b> of these keywords</string>
+    <string name="keywords_method_description_only">the message is <b>only</b> this keyword (and nothing else)</string>
 
     <!-- profile detail actions -->
     <string name="actions_ringtone_silent">Silent</string>
