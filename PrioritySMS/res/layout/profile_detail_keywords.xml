@@ -17,10 +17,10 @@
             android:text="@string/conditions_keywords_header" />
 
         <TextView
+            android:id="@+id/keyword_method"
             style="@style/ProfileDetailHeader"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/conditions_keywords_method_all" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <View

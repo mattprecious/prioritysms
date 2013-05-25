@@ -1,13 +1,9 @@
 
 package com.mattprecious.prioritysms.model;
 
-import com.mattprecious.prioritysms.util.ContactHelper;
-
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.util.Set;
 
 public class PhoneProfile extends BaseProfile {
 
@@ -15,22 +11,7 @@ public class PhoneProfile extends BaseProfile {
     }
 
     public boolean callMatches(Context context, String number) {
-        Set<String> contacts = getContacts();
-        if (contacts.size() > 0) {
-            String incomingContactId = ContactHelper.getContactIdByNumber(context, number);
-            if (incomingContactId == null) {
-                return false;
-            } else {
-                for (String lookupKey : contacts) {
-                    String contactId = ContactHelper.getContactIdByLookupKey(context, lookupKey);
-                    if (incomingContactId.equals(contactId)) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
+        return super.matches(context, number);
     }
 
     @Override
