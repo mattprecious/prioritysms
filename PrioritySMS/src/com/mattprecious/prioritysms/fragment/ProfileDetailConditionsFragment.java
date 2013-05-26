@@ -43,6 +43,10 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
 
     private static final int REQUEST_CONTACT_PICKER = 1;
 
+    private static final int NUM_CHILDREN_CONTACTS_LIST = 2;
+
+    private static final int NUM_CHILDREN_KEYWORDS_LIST = 2;
+
     private LayoutInflater mInflater;
 
     private BaseProfile mProfile;
@@ -108,6 +112,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
 
             mKeywordMethodButton.setOnClickListener(keywordMethodListener);
             updateKeywordMethod();
+            updateAddKeywordButton();
         }
 
         mAddContactButton.setOnClickListener(addContactListener);
@@ -140,7 +145,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
     @Override
     public void updateProfile(BaseProfile profile) {
         Set<String> contacts = Sets.newHashSet();
-        for (int i = 0; i < mContactsList.getChildCount(); i++) {
+        for (int i = 0; i < mContactsList.getChildCount() - NUM_CHILDREN_CONTACTS_LIST; i++) {
             View v = mContactsList.getChildAt(i);
             contacts.add(((ContactViewHolder) v.getTag()).lookup);
         }
@@ -153,7 +158,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
             smsProfile.setKeywordMethod(mSmsProfile.getKeywordMethod());
 
             Set<String> keywords = Sets.newHashSet();
-            for (int i = 0; i < mKeywordsList.getChildCount(); i++) {
+            for (int i = 0; i < mKeywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST; i++) {
                 View v = mKeywordsList.getChildAt(i);
                 String keyword = ((TextView) v.getTag()).getText().toString();
                 if (!Strings.isNullOrEmpty(keyword)) {
@@ -163,6 +168,29 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
 
             smsProfile.setKeywords(keywords);
         }
+    }
+
+    @Override
+    public boolean validate() {
+        updateProfile(mProfile);
+
+        if (mSmsProfile != null) {
+            String keywordError = null;
+            if (mSmsProfile.getKeywordMethod() == LogicMethod.ONLY
+                    && mKeywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST > 1) {
+                keywordError = getString(R.string.conditions_error_only_many_keywords);
+            }
+
+            for (int i = 1; i < mKeywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST; i++) {
+                ((EditText) mKeywordsList.getChildAt(i).getTag()).setError(keywordError);
+            }
+
+            if (keywordError != null) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private void addContact(String contactLookup) {
@@ -179,7 +207,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         // set the tag to the main view so we can easily delete
         holder.delete.setTag(v);
 
-        mContactsList.addView(v, mContactsList.getChildCount() - 2);
+        mContactsList.addView(v, mContactsList.getChildCount() - NUM_CHILDREN_CONTACTS_LIST);
     }
 
     private void addKeyword(String keyword) {
@@ -198,7 +226,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         // set data holder view as the tag on the main view so we don't
         // have to do any lookups as we loop through to save
         v.setTag(nameText);
-        mKeywordsList.addView(v, mKeywordsList.getChildCount() - 2);
+        mKeywordsList.addView(v, mKeywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST);
     }
 
     private void updateContact(ContactViewHolder holder, String contactLookup) {
@@ -236,6 +264,14 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         }
 
         mKeywordMethodButton.setText(methodResId);
+    }
+
+    private void updateAddKeywordButton() {
+        if (mSmsProfile != null) {
+            boolean enabled = mSmsProfile.getKeywordMethod() != LogicMethod.ONLY
+                    || mKeywordsList.getChildCount() < NUM_CHILDREN_KEYWORDS_LIST + 1;
+            mAddKeywordButton.setEnabled(enabled);
+        }
     }
 
     public static class ContactViewHolder {
@@ -279,6 +315,8 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
                 public void onSelected(LogicMethod method) {
                     mSmsProfile.setKeywordMethod(method);
                     updateKeywordMethod();
+                    updateAddKeywordButton();
+                    validate();
                 }
             };
 
@@ -287,6 +325,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         @Override
         public void onClick(View v) {
             addKeyword(null);
+            updateAddKeywordButton();
         }
     };
 
@@ -305,6 +344,9 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         public void onClick(View v) {
             View viewToRemove = (View) v.getTag();
             ((ViewGroup) viewToRemove.getParent()).removeView(viewToRemove);
+
+            updateAddKeywordButton();
+            validate();
         }
 
     };

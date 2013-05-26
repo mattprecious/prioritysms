@@ -76,7 +76,7 @@
     </style>
 
     <style name="ProfileDetailFooterButton" parent="ClearButton">
-        <item name="android:textColor">#FF888888</item>
+        <item name="android:textColor">@color/detail_footer_button_text</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:paddingLeft">8dip</item>
     </style>

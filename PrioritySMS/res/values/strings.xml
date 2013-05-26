@@ -65,6 +65,7 @@
     <string name="conditions_keyword_add">+ Add keyword</string>
     <string name="conditions_keyword_hint">Keyword</string>
     <string name="conditions_keyword_delete">Remove keyword</string>
+    <string name="conditions_error_only_many_keywords">Only one keyword is allowed for the \'only\' method</string>
 
     <string name="keywords_method_title">Keyword trigger</string>
     <string name="keywords_method_description_any">Any keyword match will trigger this alarm</string>
