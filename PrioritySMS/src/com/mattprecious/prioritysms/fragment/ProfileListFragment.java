@@ -148,12 +148,7 @@ public class ProfileListFragment extends SherlockListFragment {
     }
 
     private void setActivatedPosition(int position) {
-        if (position == ListView.INVALID_POSITION) {
-            getListView().setItemChecked(mActivatedPosition, false);
-        } else {
-            getListView().setItemChecked(position, true);
-        }
-
+        getListView().setItemChecked(position, true);
         mActivatedPosition = position;
     }
 }
