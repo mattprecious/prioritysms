@@ -1,7 +1,7 @@
 
 package com.mattprecious.prioritysms.fragment;
 
-import android.widget.ImageView;
+import android.widget.*;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
@@ -20,9 +20,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import java.util.Set;
 
@@ -182,14 +179,15 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         // set the tag to the main view so we can easily delete
         holder.delete.setTag(v);
 
-        mContactsList.addView(v);
+        mContactsList.addView(v, mContactsList.getChildCount() - 2);
     }
 
     private void addKeyword(String keyword) {
         View v = mInflater.inflate(R.layout.profile_detail_keyword_item, mKeywordsList, false);
 
-        TextView nameText = findById(v, R.id.text);
+        EditText nameText = findById(v, R.id.text);
         nameText.setText(keyword);
+        nameText.requestFocus();
 
         ImageButton deleteButton = findById(v, R.id.delete);
         deleteButton.setOnClickListener(deleteListener);
@@ -200,7 +198,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         // set data holder view as the tag on the main view so we don't
         // have to do any lookups as we loop through to save
         v.setTag(nameText);
-        mKeywordsList.addView(v);
+        mKeywordsList.addView(v, mKeywordsList.getChildCount() - 2);
     }
 
     private void updateContact(ContactViewHolder holder, String contactLookup) {

@@ -22,7 +22,7 @@
             style="@style/ProfileDetailHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/list_selector_holo_light"/>
+            android:background="@drawable/list_selector_holo_light" />
     </LinearLayout>
 
     <View
@@ -34,18 +34,20 @@
         android:id="@+id/keyword_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
 
-    <View
-        style="@style/ProfileDetailFooterDivider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/profile_detail_header_divider_height" />
+        <View
+            style="@style/ProfileDetailFooterDivider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_detail_header_divider_height" />
 
-    <Button
-        android:id="@+id/add_keyword"
-        style="@style/ProfileDetailFooterButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/conditions_keyword_add" />
+        <Button
+            android:id="@+id/add_keyword"
+            style="@style/ProfileDetailFooterButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/conditions_keyword_add" />
+    </LinearLayout>
 
 </LinearLayout>
