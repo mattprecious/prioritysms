@@ -8,7 +8,9 @@
     <dimen name="profile_list_item_padding">12dip</dimen>
 
     <!-- profile detail -->
+    <dimen name="profile_detail_card_margin">16dip</dimen>
     <dimen name="profile_detail_padding">8dip</dimen>
-    <dimen name="profile_detail_header_divider_height">2dip</dimen>
+    <dimen name="profile_detail_header_divider_height">1dip</dimen>
+    <dimen name="profile_detail_avatar_size">48dip</dimen>
 
 </resources>

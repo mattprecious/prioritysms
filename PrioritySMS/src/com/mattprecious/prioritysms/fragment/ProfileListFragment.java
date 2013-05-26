@@ -1,6 +1,8 @@
 
 package com.mattprecious.prioritysms.fragment;
 
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -50,6 +52,13 @@ public class ProfileListFragment extends SherlockListFragment {
 
         mAdapter = new ProfileListAdapter(getActivity());
         setListAdapter(mAdapter);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.profile_list_content, container, false);
+
+        return rootView;
     }
 
     @Override

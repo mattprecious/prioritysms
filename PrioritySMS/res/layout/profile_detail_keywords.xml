@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ProfileDetailCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -20,7 +21,8 @@
             android:id="@+id/keyword_method"
             style="@style/ProfileDetailHeader"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/list_selector_holo_light"/>
     </LinearLayout>
 
     <View
@@ -34,12 +36,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" />
 
+    <View
+        style="@style/ProfileDetailFooterDivider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_detail_header_divider_height" />
+
     <Button
         android:id="@+id/add_keyword"
-        style="@style/ClearButton"
+        style="@style/ProfileDetailFooterButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@android:drawable/ic_input_add"
         android:text="@string/conditions_keyword_add" />
 
 </LinearLayout>

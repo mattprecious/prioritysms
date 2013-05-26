@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:divider="@drawable/list_divider_holo_light"
     android:orientation="horizontal"
-    android:showDividers="middle">
+    android:padding="8dip">
 
     <EditText
         android:id="@+id/text"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_weight="1"
+        android:fontFamily="sans-serif-light"
         android:hint="@string/conditions_keyword_hint"
         android:maxLines="1" />
 
@@ -20,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/conditions_keyword_delete"
+        android:padding="8dip"
         android:src="@drawable/ic_btn_delete" />
 
 </LinearLayout>

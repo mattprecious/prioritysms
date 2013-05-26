@@ -36,7 +36,8 @@
         </activity>
         <activity
             android:name="com.mattprecious.prioritysms.activity.ProfileDetailActivity"
-            android:parentActivityName=".ProfileListActivity" >
+            android:parentActivityName=".ProfileListActivity"
+            android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ProfileListActivity" />

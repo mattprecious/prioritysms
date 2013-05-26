@@ -14,6 +14,10 @@
 
 package com.mattprecious.prioritysms.util;
 
+import android.content.ContentUris;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import com.mattprecious.prioritysms.R;
 
 import android.content.Context;
@@ -22,7 +26,11 @@ import android.net.Uri;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 public class ContactHelper {
+    private static final String TAG = ContactHelper.class.getSimpleName();
 
     public static String getLookupKeyByUri(Context context, Uri contactUri) {
         String[] columns = new String[]{Contacts.LOOKUP_KEY};
@@ -102,5 +110,24 @@ public class ContactHelper {
         c.close();
 
         return contactId;
+    }
+
+    public static Bitmap getContactPhoto(Context context, String lookup) {
+        long contactId = Long.parseLong(getContactIdByLookupKey(context, lookup));
+        Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
+        Uri photoUri = Uri.withAppendedPath(contactUri, Contacts.Photo.CONTENT_DIRECTORY);
+
+        InputStream stream = null;
+        try {
+            stream = context.getContentResolver().openInputStream(photoUri);
+        } catch (FileNotFoundException e) {
+            Log.d(TAG, "could not find contact picture");
+        }
+
+        if (stream == null) {
+            return null;
+        }
+
+        return BitmapFactory.decodeStream(stream);
     }
 }

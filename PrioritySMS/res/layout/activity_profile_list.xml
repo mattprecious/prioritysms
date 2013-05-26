@@ -4,7 +4,5 @@
     android:name="com.mattprecious.prioritysms.fragment.ProfileListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/profile_list_margin"
-    android:layout_marginRight="@dimen/profile_list_margin"
     tools:context=".ProfileListActivity"
     tools:layout="@android:layout/list_content" />
