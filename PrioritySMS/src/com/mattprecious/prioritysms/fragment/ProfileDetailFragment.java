@@ -38,6 +38,7 @@ public class ProfileDetailFragment extends SherlockFragment {
     public static final String EXTRA_PROFILE = "profile";
 
     private static final int ERROR_FLAG_NAME = 1 << 0;
+    private static final int ERROR_FLAG_PAGER = 1 << 1;
 
     public interface Callbacks {
 
@@ -250,6 +251,7 @@ public class ProfileDetailFragment extends SherlockFragment {
 
     private void validate() {
         validateName();
+        validatePager();
     }
 
     private void validateName() {
@@ -260,6 +262,19 @@ public class ProfileDetailFragment extends SherlockFragment {
             mNameText.setError(null);
             removeError(ERROR_FLAG_NAME);
         }
+    }
+
+    private void validatePager() {
+        BaseDetailFragment[] fragments = mPagerAdapter.getItems();
+        for (int i = 0; i < fragments.length; i++) {
+            if (!fragments[i].validate()) {
+                setError(ERROR_FLAG_PAGER);
+                mPager.setCurrentItem(i);
+                return;
+            }
+        }
+
+        removeError(ERROR_FLAG_PAGER);
     }
 
     private class ProfilePagerAdapter extends FragmentStatePagerAdapter {
@@ -319,5 +334,7 @@ public class ProfileDetailFragment extends SherlockFragment {
     public abstract static class BaseDetailFragment extends SherlockFragment {
 
         public abstract void updateProfile(BaseProfile profile);
+
+        public abstract boolean validate();
     }
 }

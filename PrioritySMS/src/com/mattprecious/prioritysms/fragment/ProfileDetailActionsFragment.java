@@ -106,6 +106,11 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
         profile.setVibrate(mVibrateCheckBox.isChecked());
     }
 
+    @Override
+    public boolean validate() {
+        return true;
+    }
+
     private void updateRingtone(Uri ringtoneUri) {
         String ringtoneName = (ringtoneUri == null) ? getString(R.string.actions_ringtone_silent)
                 : RingtoneManager.getRingtone(getActivity(), ringtoneUri).getTitle(getActivity());
