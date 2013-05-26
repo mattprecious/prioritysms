@@ -20,18 +20,20 @@
         android:id="@+id/contact_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
 
-    <View
-        style="@style/ProfileDetailFooterDivider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/profile_detail_header_divider_height" />
+        <View
+            style="@style/ProfileDetailFooterDivider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_detail_header_divider_height" />
 
-    <Button
-        android:id="@+id/add_contact"
-        style="@style/ProfileDetailFooterButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/conditions_contact_add" />
+        <Button
+            android:id="@+id/add_contact"
+            style="@style/ProfileDetailFooterButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/conditions_contact_add" />
+    </LinearLayout>
 
 </LinearLayout>
