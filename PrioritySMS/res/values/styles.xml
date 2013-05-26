@@ -12,6 +12,10 @@
     <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
         <item name="android:layout_height">60dip</item>
         <item name="android:background">@drawable/tab_indicator_ab_red</item>
+        <item name="android:shadowColor">#88000000</item>
+        <item name="android:shadowRadius">0.1</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">-1</item>
     </style>
 
     <style name="SwitchAppTheme" parent="Widget.Holo.Light.CompoundButton.Switch">
@@ -46,15 +50,49 @@
         <item name="android:padding">4dip</item>
     </style>
 
+    <style name="ProfileDetailCard">
+        <item name="android:layout_marginLeft">@dimen/profile_detail_card_margin</item>
+        <item name="android:layout_marginRight">@dimen/profile_detail_card_margin</item>
+        <item name="android:layout_marginTop">@dimen/profile_detail_card_margin</item>
+        <item name="android:background">@color/detail_card_background</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">@dimen/profile_detail_padding</item>
+    </style>
+
     <style name="ProfileDetailHeader">
+        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textAllCaps" tools:ignore="NewApi">true</item>
         <item name="android:textColor">@color/dark_red</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="ProfileDetailHeaderDivider">
+        <item name="android:layout_marginTop">2dip</item>
         <item name="android:background">@color/dark_red</item>
+    </style>
+
+    <style name="ProfileDetailFooterDivider">
+        <item name="android:background">#22000000</item>
+    </style>
+
+    <style name="ProfileDetailFooterButton" parent="ClearButton">
+        <item name="android:textColor">#FF888888</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:paddingLeft">8dip</item>
+    </style>
+
+    <style name="ProfileDetailActionsItem">
+        <!-- copied below to ProfileDetailActionsItem.Button" -->
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:padding">8dip</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="ProfileDetailActionsItem.Button" parent="ClearButton">
+        <!-- copied from ProfileDetailActionsItem -->
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:padding">8dip</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
 </resources>

@@ -37,6 +37,7 @@
     <string name="whats_new">What\'s New?</string>
 
     <!-- profile list -->
+    <string name="list_no_profiles">You don\'t have any profiles</string>
     <string name="crouton_profile_saved">Profile saved</string>
     <string name="crouton_profile_discarded">Changes discarded</string>
     <string name="crouton_profile_deleted">Profile deleted. Tap to undo</string>
@@ -53,14 +54,15 @@
 
     <!-- profile detail conditions -->
     <string name="conditions_contacts_header">Contacts</string>
-    <string name="conditions_contact_add">Add contact</string>
+    <string name="conditions_contact_add">+ Add contact</string>
+    <string name="conditions_contact_avatar">Contact avatar</string>
     <string name="conditions_contact_delete">Remove contact</string>
     <string name="conditions_contact_not_found">Contact not found</string>
     <string name="conditions_keywords_header">Keywords</string>
     <string name="conditions_keywords_method_any">[ANY]</string>
     <string name="conditions_keywords_method_all">[ALL]</string>
     <string name="conditions_keywords_method_only">[ONLY]</string>
-    <string name="conditions_keyword_add">Add keyword</string>
+    <string name="conditions_keyword_add">+ Add keyword</string>
     <string name="conditions_keyword_hint">Keyword</string>
     <string name="conditions_keyword_delete">Remove keyword</string>
 
@@ -70,6 +72,7 @@
     <string name="keywords_method_description_only">The keyword must be the only text in the message to trigger this alarm</string>
 
     <!-- profile detail actions -->
+    <string name="actions_alarm_title">Alarm</string>
     <string name="actions_ringtone_silent">Silent</string>
     <string name="actions_ringtone">Sound: %s</string>
     <string name="actions_override">Override silent mode</string>

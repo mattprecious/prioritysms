@@ -1,6 +1,7 @@
 
 package com.mattprecious.prioritysms.fragment;
 
+import android.widget.ImageView;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
@@ -70,7 +71,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
     @InjectView(R.id.add_keyword)
     Button mAddKeywordButton;
 
-    private View mContactPickerSource;
+    private ContactViewHolder mContactPickerSource;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -127,7 +128,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
                     if (mContactPickerSource == null) {
                         addContact(lookup);
                     } else {
-                        updateContact((TextView) mContactPickerSource, lookup);
+                        updateContact(mContactPickerSource, lookup);
                     }
                 }
 
@@ -144,7 +145,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         Set<String> contacts = Sets.newHashSet();
         for (int i = 0; i < mContactsList.getChildCount(); i++) {
             View v = mContactsList.getChildAt(i);
-            contacts.add((String) ((View) v.getTag()).getTag());
+            contacts.add(((ContactViewHolder) v.getTag()).lookup);
         }
 
         profile.setContacts(contacts);
@@ -170,25 +171,22 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
     private void addContact(String contactLookup) {
         View v = mInflater.inflate(R.layout.profile_detail_contact_item, mContactsList, false);
 
-        TextView nameText = findById(v, R.id.text);
-        nameText.setOnClickListener(contactClickListener);
-        updateContact(nameText, contactLookup);
+        ContactViewHolder holder = new ContactViewHolder(v);
+        v.setTag(holder);
+        v.setOnClickListener(contactClickListener);
 
-        ImageButton deleteButton = findById(v, R.id.delete);
-        deleteButton.setOnClickListener(deleteListener);
+        updateContact(holder, contactLookup);
+
+        holder.delete.setOnClickListener(deleteListener);
 
         // set the tag to the main view so we can easily delete
-        deleteButton.setTag(v);
+        holder.delete.setTag(v);
 
-        // set data holder view as the tag on the main view so we don't have
-        // to do any lookups as we loop through to save
-        v.setTag(nameText);
         mContactsList.addView(v);
     }
 
     private void addKeyword(String keyword) {
-        View v = mInflater.inflate(R.layout.profile_detail_keyword_item, mKeywordsList,
-                false);
+        View v = mInflater.inflate(R.layout.profile_detail_keyword_item, mKeywordsList, false);
 
         TextView nameText = findById(v, R.id.text);
         nameText.setText(keyword);
@@ -205,15 +203,17 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         mKeywordsList.addView(v);
     }
 
-    private void updateContact(TextView v, String contactLookup) {
+    private void updateContact(ContactViewHolder holder, String contactLookup) {
         try {
-            v.setText(ContactHelper.getNameByLookupKey(getActivity(), contactLookup));
+            holder.name.setText(ContactHelper.getNameByLookupKey(getActivity(), contactLookup));
         } catch (IllegalArgumentException e) {
-            v.setText(R.string.conditions_contact_not_found);
+            holder.name.setText(R.string.conditions_contact_not_found);
         }
 
+        holder.avatar.setImageBitmap(ContactHelper.getContactPhoto(getActivity(), contactLookup));
+
         // this view will store the contact lookup
-        v.setTag(contactLookup);
+        holder.lookup = contactLookup;
     }
 
     private void openContactPicker() {
@@ -238,6 +238,21 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         }
 
         mKeywordMethodButton.setText(methodResId);
+    }
+
+    public static class ContactViewHolder {
+        @InjectView(R.id.avatar)
+        ImageView avatar;
+        @InjectView(R.id.name)
+        TextView name;
+        @InjectView(R.id.delete)
+        ImageButton delete;
+
+        String lookup;
+
+        public ContactViewHolder(View view) {
+            Views.inject(this, view);
+        }
     }
 
     private OnClickListener addContactListener = new OnClickListener() {
@@ -281,7 +296,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
 
         @Override
         public void onClick(View v) {
-            mContactPickerSource = v;
+            mContactPickerSource = (ContactViewHolder) v.getTag();
             openContactPicker();
         }
     };

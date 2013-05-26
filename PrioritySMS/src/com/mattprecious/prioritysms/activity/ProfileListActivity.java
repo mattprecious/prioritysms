@@ -1,6 +1,8 @@
 
 package com.mattprecious.prioritysms.activity;
 
+import android.content.Context;
+import android.view.inputmethod.InputMethodManager;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -96,16 +98,21 @@ public class ProfileListActivity extends SherlockFragmentActivity
     @Override
     public void onItemSelected(BaseProfile profile) {
         if (mTwoPane) {
-            if (mDetailFragment == null) {
-                setHasOptionsMenu(false);
-            } else {
-                showDiscardCrouton();
-            }
+            boolean wasEditing = mDetailFragment != null;
+
+            Crouton.cancelAllCroutons();
 
             mDetailFragment = ProfileDetailFragment.create(profile);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.profile_detail_container, mDetailFragment)
                     .commit();
+
+            if (wasEditing) {
+                showDiscardCrouton();
+            } else {
+                setHasOptionsMenu(false);
+            }
+
         } else {
             Intent detailIntent = new Intent(this, ProfileDetailActivity.class);
             detailIntent.putExtra(ProfileDetailFragment.EXTRA_PROFILE, profile);
@@ -188,6 +195,8 @@ public class ProfileListActivity extends SherlockFragmentActivity
         }
 
         mListFragment.clearActivated();
+
+        hideKeyboard();
     }
 
     private void showSaveCrouton() {
@@ -235,5 +244,10 @@ public class ProfileListActivity extends SherlockFragmentActivity
         removeDetailFragment();
         refreshList();
         showSaveCrouton();
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 }
