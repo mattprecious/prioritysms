@@ -82,7 +82,7 @@
     <!-- list menu -->
     <string name="menu_new_profile">Add new profile</string>
     <string name="menu_new_profile_sms">SMS</string>
-    <string name="menu_new_profile_phone">Phone</string>
+    <string name="menu_new_profile_phone">Missed call</string>
     <string name="menu_sort">Sort</string>
 
     <!-- detail menu -->
