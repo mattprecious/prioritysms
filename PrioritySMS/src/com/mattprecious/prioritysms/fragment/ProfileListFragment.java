@@ -7,8 +7,11 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.mattprecious.prioritysms.BuildConfig;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.adapter.ProfileListAdapter;
+import com.mattprecious.prioritysms.devtools.TriggerAlarmPhoneDialogFragment;
+import com.mattprecious.prioritysms.devtools.TriggerAlarmSmsDialogFragment;
 import com.mattprecious.prioritysms.model.BaseProfile;
 import com.mattprecious.prioritysms.model.PhoneProfile;
 import com.mattprecious.prioritysms.model.SmsProfile;
@@ -99,6 +102,10 @@ public class ProfileListFragment extends SherlockListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_profile_list, menu);
+
+        if (BuildConfig.DEBUG) {
+            menu.findItem(R.id.menu_dev_tools).setVisible(true);
+        }
     }
 
     @Override
@@ -111,6 +118,12 @@ public class ProfileListFragment extends SherlockListFragment {
                 mCallbacks.onNewProfile(new PhoneProfile());
                 return true;
             case R.id.menu_sort:
+                return true;
+            case R.id.menu_dev_sms:
+                new TriggerAlarmSmsDialogFragment().show(getFragmentManager(), null);
+                return true;
+            case R.id.menu_dev_phone:
+                new TriggerAlarmPhoneDialogFragment().show(getFragmentManager(), null);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
