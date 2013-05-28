@@ -20,5 +20,20 @@
         android:icon="@drawable/ic_action_sort"
         android:showAsAction="ifRoom"
         android:title="@string/menu_sort" />
+    <item
+        android:id="@+id/menu_dev_tools"
+        android:icon="@drawable/ic_action_dev_tools"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_dev_tools"
+        android:visible="false">
+        <menu>
+            <item
+                android:id="@+id/menu_dev_sms"
+                android:title="Broadcast SMS" />
+            <item
+                android:id="@+id/menu_dev_phone"
+                android:title="Broadcast missed call" />
+        </menu>
+    </item>
 
 </menu>
