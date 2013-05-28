@@ -31,6 +31,8 @@ proguard/
 *.iws
 .idea/
 
+gen-external-apklibs/
+
 ###############
 # Eclipse
 ###############
