@@ -223,7 +223,6 @@ public class ProfileListActivity extends SherlockFragmentActivity
 
     @Override
     public void onNameUpdated(String name) {
-        return;
     }
 
     @Override
