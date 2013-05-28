@@ -181,6 +181,10 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
                 keywordError = getString(R.string.conditions_error_only_many_keywords);
             }
 
+            if (mKeywordsList.getChildCount() > 0) {
+                ((EditText) mKeywordsList.getChildAt(0).getTag()).setError(null);
+            }
+
             for (int i = 1; i < mKeywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST; i++) {
                 ((EditText) mKeywordsList.getChildAt(i).getTag()).setError(keywordError);
             }
