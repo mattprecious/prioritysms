@@ -1,6 +1,9 @@
 
 package com.mattprecious.prioritysms.activity;
 
+import android.widget.ImageView;
+import butterknife.InjectView;
+import butterknife.Views;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.model.BaseProfile;
@@ -39,11 +42,17 @@ public class AlarmActivity extends SherlockFragmentActivity implements
 
     private static final long PING_AUTO_REPEAT_DELAY_MSEC = 1200;
 
-    private TextView mNameView;
+    @InjectView(R.id.contact_name)
+    TextView mNameView;
 
-    private TextView mMessageView;
+    @InjectView(R.id.message)
+    TextView mMessageView;
 
-    private GlowPadView mGlowPadView;
+    @InjectView(R.id.image)
+    ImageView mIconView;
+
+    @InjectView(R.id.glow_pad_view)
+    GlowPadView mGlowPadView;
 
     private BaseProfile mProfile;
 
@@ -115,6 +124,7 @@ public class AlarmActivity extends SherlockFragmentActivity implements
         final View rootView = inflater.inflate(R.layout.alarm, null);
         updateSystemUi(rootView);
         setContentView(rootView);
+        Views.inject(this);
 
         final Window win = getWindow();
         win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
@@ -123,14 +133,12 @@ public class AlarmActivity extends SherlockFragmentActivity implements
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
 
-        mNameView = (TextView) findViewById(R.id.contact_name);
         mNameView.setText(mName);
-
-        mMessageView = (TextView) findViewById(R.id.message);
         mMessageView.setText(mMessage);
-
-        mGlowPadView = (GlowPadView) findViewById(R.id.glow_pad_view);
         mGlowPadView.setOnTriggerListener(this);
+
+        mIconView.setImageResource((mProfile instanceof SmsProfile)
+                ? R.drawable.ic_alarm_message : R.drawable.ic_alarm_phone);
 
         triggerPing();
 

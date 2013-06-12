@@ -17,8 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="8dip"
-            android:layout_marginTop="16dip"
-            android:src="@android:drawable/ic_menu_call" />
+            android:layout_marginTop="16dip" />
 
         <TextView
             android:id="@+id/contact_name"
