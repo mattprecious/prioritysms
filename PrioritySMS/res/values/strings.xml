@@ -36,6 +36,11 @@
 
     <string name="whats_new">What\'s New?</string>
 
+    <!-- notification -->
+    <string name="notif_action_dismiss">Dismiss</string>
+    <string name="notif_action_reply">Reply</string>
+    <string name="notif_action_call">Call</string>
+
     <!-- profile list -->
     <string name="list_no_profiles">You don\'t have any profiles</string>
     <string name="crouton_profile_saved">Profile saved</string>

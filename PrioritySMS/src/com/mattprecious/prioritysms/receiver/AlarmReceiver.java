@@ -1,6 +1,7 @@
 
 package com.mattprecious.prioritysms.receiver;
 
+import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.activity.AlarmActivity;
 import com.mattprecious.prioritysms.model.BaseProfile;
 import com.mattprecious.prioritysms.model.SmsProfile;
@@ -153,13 +154,13 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setDefaults(Notification.DEFAULT_LIGHTS)
                 .addAction(android.R.drawable.ic_menu_close_clear_cancel,
-                        "Dismiss",
+                        context.getString(R.string.notif_action_dismiss),
                         pendingDismiss)
                 .addAction(android.R.drawable.ic_menu_send,
-                        "Reply",
+                        context.getString(R.string.notif_action_reply),
                         pendingReply)
                 .addAction(android.R.drawable.ic_menu_call,
-                        "Call",
+                        context.getString(R.string.notif_action_call),
                         pendingCall)
                 .setFullScreenIntent(pendingActivity, true)
                 .setContentIntent(pendingActivity);
