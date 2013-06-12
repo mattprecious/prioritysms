@@ -16,8 +16,7 @@
             android:layout_height="140dip"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="8dip"
-            android:layout_marginTop="16dip"
-            android:src="@drawable/ic_alarm_phone" />
+            android:layout_marginTop="16dip" />
 
         <TextView
             android:id="@+id/contact_name"
