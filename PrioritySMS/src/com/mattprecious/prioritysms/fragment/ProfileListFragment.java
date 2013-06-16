@@ -10,6 +10,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.mattprecious.prioritysms.BuildConfig;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.adapter.ProfileListAdapter;
+import com.mattprecious.prioritysms.db.DbAdapter.SortOrder;
 import com.mattprecious.prioritysms.devtools.TriggerAlarmPhoneDialogFragment;
 import com.mattprecious.prioritysms.devtools.TriggerAlarmSmsDialogFragment;
 import com.mattprecious.prioritysms.model.BaseProfile;
@@ -118,6 +119,9 @@ public class ProfileListFragment extends SherlockListFragment {
                 mCallbacks.onNewProfile(new PhoneProfile());
                 return true;
             case R.id.menu_sort:
+                mAdapter.setSortOrder((mAdapter.getSortOrder() == SortOrder.NAME_ASC)
+                        ? SortOrder.NAME_DESC
+                        : SortOrder.NAME_ASC);
                 return true;
             case R.id.menu_dev_sms:
                 new TriggerAlarmSmsDialogFragment().show(getFragmentManager(), null);
