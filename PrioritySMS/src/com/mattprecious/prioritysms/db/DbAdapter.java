@@ -22,6 +22,11 @@ import java.util.List;
 public class DbAdapter {
     private static final String TAG = DbAdapter.class.getSimpleName();
 
+    private static final String ASC = "ASC";
+    private static final String DESC = "DESC";
+
+    private static final String ORDER_FORMAT = "%s %s";
+
     private static final String JOIN_QUERY = String.format(
             "%1$s LEFT OUTER JOIN %3$s ON (%1$s.%2$s = %3$s.%4$s)",
             DbHelper.PROFILES_TABLE_NAME,
@@ -35,7 +40,26 @@ public class DbAdapter {
         mDbHelper = new DbHelper(context);
     }
 
+    public static enum SortOrder {
+        NAME_ASC (DbHelper.PROFILES_KEY_NAME, ASC),
+        NAME_DESC (DbHelper.PROFILES_KEY_NAME, DESC);
+
+        private final String mQueryString;
+
+        SortOrder(String key, String order) {
+            mQueryString = String.format(ORDER_FORMAT, key, order);
+        }
+
+        public String getQueryString() {
+            return mQueryString;
+        }
+    }
+
     public List<BaseProfile> getProfiles() {
+        return getProfiles(SortOrder.NAME_ASC);
+    }
+
+    public List<BaseProfile> getProfiles(SortOrder sortOrder) {
         List<BaseProfile> profiles = Lists.newArrayList();
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -43,7 +67,7 @@ public class DbAdapter {
             SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
             builder.setTables(JOIN_QUERY);
 
-            Cursor c = builder.query(db, null, null, null, null, null, DbHelper.PROFILES_KEY_NAME);
+            Cursor c = builder.query(db, null, null, null, null, null, sortOrder.getQueryString());
 
             c.moveToFirst();
             while (!c.isAfterLast()) {

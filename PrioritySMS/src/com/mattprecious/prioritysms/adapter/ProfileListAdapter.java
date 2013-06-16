@@ -3,6 +3,7 @@ package com.mattprecious.prioritysms.adapter;
 
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.db.DbAdapter;
+import com.mattprecious.prioritysms.db.DbAdapter.SortOrder;
 import com.mattprecious.prioritysms.model.BaseProfile;
 
 import org.jraf.android.backport.switchwidget.Switch;
@@ -30,6 +31,8 @@ public class ProfileListAdapter extends BaseAdapter {
 
     private List<BaseProfile> mData;
 
+    private SortOrder mSortOrder = SortOrder.NAME_ASC;
+
     public ProfileListAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
@@ -37,8 +40,17 @@ public class ProfileListAdapter extends BaseAdapter {
         refreshData();
     }
 
+    public SortOrder getSortOrder() {
+        return mSortOrder;
+    }
+
+    public void setSortOrder(SortOrder sortOrder) {
+        mSortOrder = sortOrder;
+        notifyDataSetChanged();
+    }
+
     private void refreshData() {
-        mData = mDbAdapter.getProfiles();
+        mData = mDbAdapter.getProfiles(mSortOrder);
     }
 
     @Override
