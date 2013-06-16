@@ -149,7 +149,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setContentTitle(profile.getName())
                 .setSmallIcon(android.R.drawable.stat_notify_error)
-                .setOngoing(true)
                 .setAutoCancel(false)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setDefaults(Notification.DEFAULT_LIGHTS)
@@ -163,7 +162,8 @@ public class AlarmReceiver extends BroadcastReceiver {
                         context.getString(R.string.notif_action_call),
                         pendingCall)
                 .setFullScreenIntent(pendingActivity, true)
-                .setContentIntent(pendingActivity);
+                .setContentIntent(pendingActivity)
+                .setDeleteIntent(pendingDismiss);
 
         Notification notif = builder.build();
 
