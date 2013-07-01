@@ -116,13 +116,13 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
                 addKeyword(keyword);
             }
 
-            mKeywordMethodButton.setOnClickListener(keywordMethodListener);
+            mKeywordMethodButton.setOnClickListener(mKeywordMethodListener);
             updateKeywordMethod();
             updateAddKeywordButton();
         }
 
-        mAddContactButton.setOnClickListener(addContactListener);
-        mAddKeywordButton.setOnClickListener(addKeywordListener);
+        mAddContactButton.setOnClickListener(mAddContactListener);
+        mAddKeywordButton.setOnClickListener(mAddKeywordListener);
 
         return rootView;
     }
@@ -208,7 +208,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
 
         ContactViewHolder holder = new ContactViewHolder(v);
         v.setTag(holder);
-        v.setOnClickListener(contactClickListener);
+        v.setOnClickListener(mContactClickListener);
 
         updateContact(holder, contactLookup);
 
@@ -301,7 +301,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         }
     }
 
-    private OnClickListener addContactListener = new OnClickListener() {
+    private OnClickListener mAddContactListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -309,7 +309,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         }
     };
 
-    private OnClickListener keywordMethodListener = new OnClickListener() {
+    private OnClickListener mKeywordMethodListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -332,7 +332,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
                 }
             };
 
-    private OnClickListener addKeywordListener = new OnClickListener() {
+    private OnClickListener mAddKeywordListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -341,7 +341,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         }
     };
 
-    private OnClickListener contactClickListener = new OnClickListener() {
+    private OnClickListener mContactClickListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
