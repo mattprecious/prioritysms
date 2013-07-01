@@ -1,4 +1,3 @@
-
 package com.mattprecious.prioritysms.fragment;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -37,7 +36,9 @@ public class ProfileDetailFragment extends SherlockFragment {
 
     public static final String EXTRA_PROFILE = "profile";
 
-    private static final int ERROR_FLAG_NAME = 1 << 0;
+    private static final String STATE_PROFILE = "profile";
+
+    private static final int ERROR_FLAG_NAME = 1;
     private static final int ERROR_FLAG_PAGER = 1 << 1;
 
     public interface Callbacks {
@@ -107,13 +108,19 @@ public class ProfileDetailFragment extends SherlockFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        Bundle args = getArguments();
-        if (args == null || !args.containsKey(EXTRA_PROFILE)) {
-            throw new IllegalArgumentException(String.format("must provide %s as intent extra",
-                    EXTRA_PROFILE));
+        if (savedInstanceState == null) {
+            Bundle args = getArguments();
+            if (args == null || !args.containsKey(EXTRA_PROFILE)) {
+                throw new IllegalArgumentException(String.format("must provide %s as intent extra",
+                        EXTRA_PROFILE));
+            } else {
+                mProfile = args.getParcelable(EXTRA_PROFILE);
+            }
         } else {
-            mProfile = args.getParcelable(EXTRA_PROFILE);
+            mProfile = savedInstanceState.getParcelable(STATE_PROFILE);
         }
+
+        mPagerAdapter = new ProfilePagerAdapter(getFragmentManager());
     }
 
     @Override
@@ -179,11 +186,18 @@ public class ProfileDetailFragment extends SherlockFragment {
             }
         });
 
-        mPagerAdapter = new ProfilePagerAdapter(getFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         mTitleIndicator.setViewPager(mPager);
 
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        updateProfile();
+        outState.putParcelable(STATE_PROFILE, mProfile);
     }
 
     @Override
@@ -203,10 +217,7 @@ public class ProfileDetailFragment extends SherlockFragment {
                 if (mErrorFlags > 0) {
                     Crouton.showText(getActivity(), R.string.detail_error, Style.ALERT);
                 } else {
-                    mProfile.setName(mNameText.getText().toString());
-                    for (BaseDetailFragment fragment : mPagerAdapter.getItems()) {
-                        fragment.updateProfile(mProfile);
-                    }
+                    updateProfile();
 
                     mProfile.save(getActivity());
                     mCallbacks.onSave();
@@ -227,6 +238,13 @@ public class ProfileDetailFragment extends SherlockFragment {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void updateProfile() {
+        mProfile.setName(mNameText.getText().toString());
+        for (BaseDetailFragment fragment : mPagerAdapter.getItems()) {
+            fragment.updateProfile(mProfile);
         }
     }
 
