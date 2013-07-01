@@ -43,9 +43,9 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
 
     private static final int REQUEST_CONTACT_PICKER = 1;
 
-    private static final int NUM_CHILDREN_CONTACTS_LIST = 2;
+    private static final int NUM_CHILDREN_CONTACTS_LIST = 3;
 
-    private static final int NUM_CHILDREN_KEYWORDS_LIST = 2;
+    private static final int NUM_CHILDREN_KEYWORDS_LIST = 3;
 
     private LayoutInflater mInflater;
 
@@ -57,17 +57,23 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
     @InjectView(R.id.contact_list)
     ViewGroup mContactsList;
 
-    @InjectView(R.id.keywords_container)
-    ViewGroup mKeywordsContainer;
-
-    @InjectView(R.id.keyword_list)
-    ViewGroup mKeywordsList;
+    @InjectView(R.id.no_contacts)
+    TextView mNoContactsView;
 
     @InjectView(R.id.add_contact)
     Button mAddContactButton;
 
+    @InjectView(R.id.keywords_container)
+    ViewGroup mKeywordsContainer;
+
     @InjectView(R.id.keyword_method)
     TextView mKeywordMethodButton;
+
+    @InjectView(R.id.keyword_list)
+    ViewGroup mKeywordsList;
+
+    @InjectView(R.id.no_keywords)
+    TextView mNoKeywordsView;
 
     @InjectView(R.id.add_keyword)
     Button mAddKeywordButton;
@@ -206,12 +212,13 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
 
         updateContact(holder, contactLookup);
 
-        holder.delete.setOnClickListener(deleteListener);
+        holder.delete.setOnClickListener(mContactDeleteListener);
 
         // set the tag to the main view so we can easily delete
         holder.delete.setTag(v);
 
         mContactsList.addView(v, mContactsList.getChildCount() - NUM_CHILDREN_CONTACTS_LIST);
+        mNoContactsView.setVisibility(View.GONE);
     }
 
     private void addKeyword(String keyword) {
@@ -222,7 +229,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         nameText.requestFocus();
 
         ImageButton deleteButton = findById(v, R.id.delete);
-        deleteButton.setOnClickListener(deleteListener);
+        deleteButton.setOnClickListener(mKeywordDeleteListener);
 
         // set the tag to the main view so we can easily delete
         deleteButton.setTag(v);
@@ -231,6 +238,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         // have to do any lookups as we loop through to save
         v.setTag(nameText);
         mKeywordsList.addView(v, mKeywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST);
+        mNoKeywordsView.setVisibility(View.GONE);
     }
 
     private void updateContact(ContactViewHolder holder, String contactLookup) {
@@ -342,7 +350,23 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         }
     };
 
-    private OnClickListener deleteListener = new OnClickListener() {
+    private OnClickListener mContactDeleteListener = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            View viewToRemove = (View) v.getTag();
+            ((ViewGroup) viewToRemove.getParent()).removeView(viewToRemove);
+
+            validate();
+
+            if (mContactsList.getChildCount() == NUM_CHILDREN_CONTACTS_LIST) {
+                mNoContactsView.setVisibility(View.VISIBLE);
+            }
+        }
+
+    };
+
+    private OnClickListener mKeywordDeleteListener = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
@@ -351,6 +375,10 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
 
             updateAddKeywordButton();
             validate();
+
+            if (mKeywordsList.getChildCount() == NUM_CHILDREN_KEYWORDS_LIST) {
+                mNoKeywordsView.setVisibility(View.VISIBLE);
+            }
         }
 
     };

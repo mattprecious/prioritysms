@@ -23,6 +23,13 @@
         android:animateLayoutChanges="true"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/no_contacts"
+            style="@style/ProfileDetailConditionEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/conditions_contacts_empty" />
+
         <View
             style="@style/ProfileDetailFooterDivider"
             android:layout_width="match_parent"

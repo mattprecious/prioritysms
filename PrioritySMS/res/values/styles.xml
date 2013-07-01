@@ -96,6 +96,13 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="ProfileDetailConditionEmpty">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:padding">8dip</item>
+        <item name="android:textColor">#FF666666</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <!-- alarm -->
     <style name="AlarmContactName">
         <item name="android:layout_marginBottom">16dip</item>
