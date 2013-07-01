@@ -204,6 +204,8 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
     }
 
     private void addContact(String contactLookup) {
+        mNoContactsView.setVisibility(View.GONE);
+
         View v = mInflater.inflate(R.layout.profile_detail_contact_item, mContactsList, false);
 
         ContactViewHolder holder = new ContactViewHolder(v);
@@ -218,10 +220,11 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         holder.delete.setTag(v);
 
         mContactsList.addView(v, mContactsList.getChildCount() - NUM_CHILDREN_CONTACTS_LIST);
-        mNoContactsView.setVisibility(View.GONE);
     }
 
     private void addKeyword(String keyword) {
+        mNoKeywordsView.setVisibility(View.GONE);
+
         View v = mInflater.inflate(R.layout.profile_detail_keyword_item, mKeywordsList, false);
 
         EditText nameText = findById(v, R.id.text);
@@ -238,7 +241,6 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         // have to do any lookups as we loop through to save
         v.setTag(nameText);
         mKeywordsList.addView(v, mKeywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST);
-        mNoKeywordsView.setVisibility(View.GONE);
     }
 
     private void updateContact(ContactViewHolder holder, String contactLookup) {
