@@ -55,13 +55,16 @@
         <item name="android:layout_marginLeft">@dimen/profile_detail_card_margin</item>
         <item name="android:layout_marginRight">@dimen/profile_detail_card_margin</item>
         <item name="android:layout_marginTop">@dimen/profile_detail_card_margin</item>
-        <item name="android:background">@color/detail_card_background</item>
+        <item name="android:background">@drawable/card_background</item>
         <item name="android:orientation">vertical</item>
         <item name="android:padding">@dimen/profile_detail_padding</item>
     </style>
 
     <style name="ProfileDetailHeader">
         <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:shadowColor">#33000000</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
         <item name="android:textAllCaps" tools:ignore="NewApi">true</item>
         <item name="android:textColor">@color/dark_red</item>
         <item name="android:textSize">20sp</item>
