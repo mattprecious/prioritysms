@@ -59,6 +59,7 @@
 
     <!-- profile detail conditions -->
     <string name="conditions_contacts_header">Contacts</string>
+    <string name="conditions_contacts_empty">This profile currently triggers for any contact. Add a contact to restrict.</string>
     <string name="conditions_contact_add">+ Add contact</string>
     <string name="conditions_contact_avatar">Contact avatar</string>
     <string name="conditions_contact_delete">Remove contact</string>
@@ -67,6 +68,7 @@
     <string name="conditions_keywords_method_any">[ANY]</string>
     <string name="conditions_keywords_method_all">[ALL]</string>
     <string name="conditions_keywords_method_only">[ONLY]</string>
+    <string name="conditions_keywords_empty">This profile currently triggers for any message. Add a keyword to restrict.</string>
     <string name="conditions_keyword_add">+ Add keyword</string>
     <string name="conditions_keyword_hint">Keyword</string>
     <string name="conditions_keyword_delete">Remove keyword</string>
