@@ -1,6 +1,7 @@
 
 package com.mattprecious.prioritysms.activity;
 
+import android.text.Html;
 import android.widget.ImageView;
 import butterknife.InjectView;
 import butterknife.Views;
@@ -55,6 +56,8 @@ public class AlarmActivity extends SherlockFragmentActivity implements
     GlowPadView mGlowPadView;
 
     private BaseProfile mProfile;
+
+    private SmsProfile mSmsProfile;
 
     private String mNumber;
 
@@ -113,6 +116,7 @@ public class AlarmActivity extends SherlockFragmentActivity implements
         mName = ContactHelper.getNameByNumber(this, mNumber);
 
         if (mProfile instanceof SmsProfile) {
+            mSmsProfile = (SmsProfile) mProfile;
             if (intent.hasExtra(Intents.EXTRA_MESSAGE)) {
                 mMessage = intent.getStringExtra(Intents.EXTRA_MESSAGE);
             } else {
@@ -133,8 +137,15 @@ public class AlarmActivity extends SherlockFragmentActivity implements
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
 
+        String styledMessage = mMessage;
+        if (mSmsProfile != null) {
+            for (String keyword : mSmsProfile.getKeywords()) {
+                styledMessage = styledMessage.replace(keyword, String.format("<b>%s</b>", keyword));
+            }
+        }
+
         mNameView.setText(mName);
-        mMessageView.setText(mMessage);
+        mMessageView.setText(Html.fromHtml(styledMessage));
         mGlowPadView.setOnTriggerListener(this);
 
         mIconView.setImageResource((mProfile instanceof SmsProfile)

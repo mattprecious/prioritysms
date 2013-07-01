@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:glowpad="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
@@ -13,23 +12,18 @@
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="140dip"
+            android:layout_height="140dip"
             android:layout_gravity="center"
             android:layout_marginBottom="8dip"
             android:layout_marginTop="16dip" />
 
         <TextView
             android:id="@+id/contact_name"
+            style="@style/AlarmContactName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dip"
-            android:gravity="center"
-            android:maxLines="2"
-            android:paddingLeft="16dip"
-            android:paddingRight="16dip"
-            android:textIsSelectable="false"
-            android:textSize="30sp" />
+            android:layout_marginBottom="16dip" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -37,32 +31,17 @@
 
             <TextView
                 android:id="@+id/message"
+                style="@style/AlarmMessage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="24dip"
-                android:paddingRight="24dip"
-                android:textIsSelectable="false"
-                android:textSize="20sp" />
+                android:layout_height="wrap_content" />
         </ScrollView>
     </LinearLayout>
 
     <net.sebastianopoggi.ui.GlowPadBackport.GlowPadView
         android:id="@+id/glow_pad_view"
+        style="@style/AlarmGlowPad"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:focusable="true"
-        glowpad:directionDescriptions="@array/alarm_direction_descriptions"
-        glowpad:feedbackCount="1"
-        glowpad:glowRadius="75dip"
-        glowpad:handleDrawable="@drawable/ic_alarm_alert_touch_handle"
-        glowpad:innerRadius="15dip"
-        glowpad:outerRadius="135dip"
-        glowpad:outerRingDrawable="@drawable/ic_alarm_alert_outerring"
-        glowpad:pointDrawable="@drawable/ic_lockscreen_glowdot"
-        glowpad:snapMargin="40dip"
-        glowpad:targetDescriptions="@array/alarm_descriptions"
-        glowpad:targetDrawables="@array/alarm_drawables"
-        glowpad:vibrationDuration="20" />
+        android:layout_weight="1" />
 
 </LinearLayout>
