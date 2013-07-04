@@ -65,9 +65,9 @@
     <string name="conditions_contact_delete">Remove contact</string>
     <string name="conditions_contact_not_found">Contact not found</string>
     <string name="conditions_keywords_header">Keywords</string>
-    <string name="conditions_keywords_method_any">[ANY]</string>
-    <string name="conditions_keywords_method_all">[ALL]</string>
-    <string name="conditions_keywords_method_only">[ONLY]</string>
+    <string name="conditions_keywords_method_any">ANY</string>
+    <string name="conditions_keywords_method_all">ALL</string>
+    <string name="conditions_keywords_method_only">ONLY</string>
     <string name="conditions_keywords_empty">This profile currently triggers for any message. Add a keyword to restrict.</string>
     <string name="conditions_keyword_add">+ Add keyword</string>
     <string name="conditions_keyword_hint">Keyword</string>
