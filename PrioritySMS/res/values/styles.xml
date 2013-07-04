@@ -70,6 +70,13 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="ProfileDetailHeader.FauxSpinner">
+        <item name="android:background">@drawable/spinner_background_holo_light</item>
+        <item name="android:paddingBottom">4dip</item>
+        <item name="android:paddingLeft">12dip</item>
+        <item name="android:paddingTop">4dip</item>
+    </style>
+
     <style name="ProfileDetailHeaderDivider">
         <item name="android:layout_marginTop">2dip</item>
         <item name="android:background">@color/dark_red</item>

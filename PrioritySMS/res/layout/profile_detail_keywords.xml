@@ -19,10 +19,9 @@
 
         <TextView
             android:id="@+id/keyword_method"
-            style="@style/ProfileDetailHeader"
+            style="@style/ProfileDetailHeader.FauxSpinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/list_selector_holo_light" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <View
