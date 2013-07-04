@@ -2,11 +2,16 @@
 package com.mattprecious.prioritysms.activity;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.fragment.ChangeLogDialogFragment;
 import com.mattprecious.prioritysms.fragment.ProfileDetailFragment;
 import com.mattprecious.prioritysms.fragment.ProfileListFragment;
 import com.mattprecious.prioritysms.model.BaseProfile;
@@ -28,8 +33,11 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class ProfileListActivity extends SherlockFragmentActivity
         implements ProfileListFragment.Callbacks, ProfileDetailFragment.Callbacks {
+    private static final String TAG = ProfileListActivity.class.getSimpleName();
 
     private static final String STATE_DETAIL_FRAGMENT = "detail_fragment";
+
+    private final String KEY_CHANGE_LOG_VERSION = "change_log_version";
 
     private static final int REQUEST_ID_PROFILE_EDIT = 1;
 
@@ -68,6 +76,8 @@ public class ProfileListActivity extends SherlockFragmentActivity
                 setHasOptionsMenu(false);
             }
         }
+
+        changeLog();
     }
 
     @Override
@@ -248,5 +258,23 @@ public class ProfileListActivity extends SherlockFragmentActivity
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+    }
+
+    private void changeLog() {
+        PackageManager packageManager = getPackageManager();
+
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
+
+            if (getPreferences(MODE_PRIVATE).getInt(KEY_CHANGE_LOG_VERSION, 0) < packageInfo.versionCode) {
+                new ChangeLogDialogFragment().show(getSupportFragmentManager(), null);
+
+                getPreferences(MODE_PRIVATE).edit()
+                        .putInt(KEY_CHANGE_LOG_VERSION, packageInfo.versionCode)
+                        .commit();
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e(TAG, "Failed to show change log", e);
+        }
     }
 }
