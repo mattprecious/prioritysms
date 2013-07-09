@@ -1,8 +1,11 @@
 
 package com.mattprecious.prioritysms.fragment;
 
+import android.content.Context;
+import android.widget.*;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.BaseDetailFragment;
+import com.mattprecious.prioritysms.model.ActionType;
 import com.mattprecious.prioritysms.model.BaseProfile;
 
 import android.app.Activity;
@@ -14,11 +17,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
 
 import butterknife.InjectView;
 import butterknife.Views;
+import com.mattprecious.prioritysms.model.SmsProfile;
 
 public class ProfileDetailActionsFragment extends BaseDetailFragment {
 
@@ -36,9 +38,19 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
     private static final int REQUEST_CODE_RINGTONE_PICKER = 1;
 
     private BaseProfile mProfile;
+    private SmsProfile mSmsProfile;
+
+    @InjectView(R.id.action_header)
+    TextView mActionHeader;
+
+    @InjectView(R.id.action_type)
+    Spinner mActionTypeSpinner;
 
     @InjectView(R.id.action_sound)
     Button mSoundButton;
+
+    @InjectView(R.id.action_override_silent)
+    CheckBox mOverrideSilentCheckBox;
 
     @InjectView(R.id.action_vibrate)
     CheckBox mVibrateCheckBox;
@@ -48,8 +60,13 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
         super.onCreate(savedInstanceState);
 
         Bundle args = getArguments();
-        if (args != null && args.containsKey(EXTRA_PROFILE)) {
-            mProfile = args.getParcelable(EXTRA_PROFILE);
+        if (args == null || !args.containsKey(EXTRA_PROFILE)) {
+            throw new IllegalArgumentException(String.format("must pass %s as an extra", EXTRA_PROFILE));
+        }
+
+        mProfile = args.getParcelable(EXTRA_PROFILE);
+        if (mProfile instanceof SmsProfile) {
+            mSmsProfile = (SmsProfile) mProfile;
         }
     }
 
@@ -59,14 +76,23 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
         View rootView = inflater.inflate(R.layout.profile_detail_actions, container, false);
         Views.inject(this, rootView);
 
+        if (mSmsProfile != null) {
+            mActionHeader.setVisibility(View.GONE);
+
+            mActionTypeSpinner.setVisibility(View.VISIBLE);
+            mActionTypeSpinner.setAdapter(new ActionTypeAdapter(getActivity()));
+            mActionTypeSpinner.setOnItemSelectedListener(mActionTypeSelectedListener);
+            mActionTypeSpinner.setSelection(mProfile.getActionType().ordinal());
+        }
+
         updateRingtone(mProfile.getRingtone());
         mSoundButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE,
-                        RingtoneManager.TYPE_ALARM);
+                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, getSelectedActionType() == ActionType.ALARM
+                        ? RingtoneManager.TYPE_ALARM: RingtoneManager.TYPE_NOTIFICATION);
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI,
                         RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
@@ -77,6 +103,7 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
             }
         });
 
+        mOverrideSilentCheckBox.setChecked(mProfile.isOverrideSilent());
         mVibrateCheckBox.setChecked(mProfile.isVibrate());
 
         return rootView;
@@ -103,12 +130,21 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
     @Override
     public void updateProfile(BaseProfile profile) {
         profile.setRingtone((Uri) mSoundButton.getTag());
+        profile.setOverrideSilent(mOverrideSilentCheckBox.isChecked());
         profile.setVibrate(mVibrateCheckBox.isChecked());
+
+        if (profile instanceof SmsProfile) {
+            profile.setActionType(getSelectedActionType());
+        }
     }
 
     @Override
     public boolean validate() {
         return true;
+    }
+
+    private ActionType getSelectedActionType() {
+        return ActionType.values()[mActionTypeSpinner.getSelectedItemPosition()];
     }
 
     private void updateRingtone(Uri ringtoneUri) {
@@ -117,5 +153,85 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
 
         mSoundButton.setText(getString(R.string.actions_ringtone, ringtoneName));
         mSoundButton.setTag(ringtoneUri);
+    }
+
+    private AdapterView.OnItemSelectedListener mActionTypeSelectedListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            // changing the type changes the ringtone stream, so reset the selected ringtone
+            updateRingtone(null);
+
+            ActionType actionType = ActionType.values()[position];
+            mOverrideSilentCheckBox.setVisibility(actionType == ActionType.ALARM ? View.GONE : View.VISIBLE);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+
+    private class ActionTypeAdapter extends ArrayAdapter<String> {
+        final LayoutInflater inflater;
+        final String[] items;
+
+        private ActionTypeAdapter(Context context) {
+            super(context, android.R.layout.simple_spinner_item);
+
+            inflater = LayoutInflater.from(context);
+            items = context.getResources().getStringArray(R.array.profile_action_names);
+        }
+
+        @Override
+        public int getCount() {
+            return items.length;
+        }
+
+        @Override
+        public String getItem(int position) {
+            return items[position];
+        }
+
+        @Override
+        public int getPosition(String item) {
+            for (int i = 0; i < items.length; i++) {
+                if (item.equals(items[i])) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            if (position < getCount() && position >= 0) {
+                return position;
+            } else {
+                throw new IndexOutOfBoundsException();
+            }
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.profile_detail_header_spinner_item, parent, false);
+            }
+
+            ((TextView) convertView).setText(getItem(position));
+
+            return convertView;
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = inflater.inflate(android.R.layout.simple_spinner_dropdown_item, parent, false);
+            }
+
+            ((TextView) convertView).setText(getItem(position));
+
+            return convertView;
+        }
     }
 }

@@ -21,7 +21,11 @@ public abstract class BaseProfile implements Parcelable {
 
     private boolean mEnabled;
 
+    private ActionType mActionType;
+
     private Uri mRingtone;
+
+    private boolean mOverrideSilent;
 
     private boolean mVibrate;
 
@@ -30,6 +34,7 @@ public abstract class BaseProfile implements Parcelable {
     protected BaseProfile() {
         mId = -1;
         mEnabled = true;
+        mActionType = ActionType.ALARM;
         mContacts = Sets.newHashSet();
     }
 
@@ -99,12 +104,28 @@ public abstract class BaseProfile implements Parcelable {
         mEnabled = enabled;
     }
 
+    public ActionType getActionType() {
+        return mActionType;
+    }
+
+    public void setActionType(ActionType actionType) {
+        mActionType = actionType;
+    }
+
     public Uri getRingtone() {
         return mRingtone;
     }
 
     public void setRingtone(Uri ringtone) {
         mRingtone = ringtone;
+    }
+
+    public boolean isOverrideSilent() {
+        return mOverrideSilent;
+    }
+
+    public void setOverrideSilent(boolean overrideSilent) {
+        mOverrideSilent = overrideSilent;
     }
 
     public boolean isVibrate() {
@@ -142,7 +163,9 @@ public abstract class BaseProfile implements Parcelable {
         dest.writeInt(mId);
         dest.writeString(mName);
         dest.writeByte((byte) (mEnabled ? 1 : 0));
+        dest.writeInt(mActionType.ordinal());
         dest.writeString((mRingtone == null) ? null : mRingtone.toString());
+        dest.writeByte((byte) (mOverrideSilent ? 1 : 0));
         dest.writeByte((byte) (mVibrate ? 1 : 0));
         dest.writeStringArray(mContacts.toArray(new String[mContacts.size()]));
     }
@@ -152,9 +175,12 @@ public abstract class BaseProfile implements Parcelable {
         mName = in.readString();
         mEnabled = in.readByte() == 1;
 
+        mActionType = ActionType.values()[in.readInt()];
+
         String ringtoneStr = in.readString();
         mRingtone = (ringtoneStr == null) ? null : Uri.parse(ringtoneStr);
 
+        mOverrideSilent = in.readByte() == 1;
         mVibrate = in.readByte() == 1;
 
         String[] contactsArr = in.createStringArray();
@@ -167,9 +193,16 @@ public abstract class BaseProfile implements Parcelable {
 
     @Override
     public String toString() {
-        return "BaseProfile [mId=" + mId + ", mName=" + mName + ", mEnabled=" + mEnabled +
-                ", mRingtone=" + mRingtone + ", mVibrate=" + mVibrate + ", mContacts=" + mContacts +
-                "]";
+        return "BaseProfile{" +
+                "mId=" + mId +
+                ", mName='" + mName + '\'' +
+                ", mEnabled=" + mEnabled +
+                ", mActionType=" + mActionType +
+                ", mRingtone=" + mRingtone +
+                ", mOverrideSilent=" + mOverrideSilent +
+                ", mVibrate=" + mVibrate +
+                ", mContacts=" + mContacts +
+                '}';
     }
 
 }

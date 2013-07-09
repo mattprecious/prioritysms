@@ -3,10 +3,7 @@ package com.mattprecious.prioritysms.db;
 
 import com.google.common.collect.Lists;
 
-import com.mattprecious.prioritysms.model.BaseProfile;
-import com.mattprecious.prioritysms.model.LogicMethod;
-import com.mattprecious.prioritysms.model.PhoneProfile;
-import com.mattprecious.prioritysms.model.SmsProfile;
+import com.mattprecious.prioritysms.model.*;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -266,7 +263,15 @@ public class DbAdapter {
         profile.setId(getInt(c, DbHelper.PROFILES_KEY_ID));
         profile.setName(getString(c, DbHelper.PROFILES_KEY_NAME));
         profile.setEnabled(getBoolean(c, DbHelper.PROFILES_KEY_ENABLED));
+
+        if (DbHelper.ACTION_TYPE_ENUM_ALARM.equals(getString(c, DbHelper.PROFILES_KEY_ACTION_TYPE))) {
+            profile.setActionType(ActionType.ALARM);
+        } else {
+            profile.setActionType(ActionType.NOTIFICATION);
+        }
+
         profile.setRingtone(getUri(c, DbHelper.PROFILES_KEY_RINGTONE));
+        profile.setOverrideSilent(getBoolean(c, DbHelper.PROFILES_KEY_OVERRIDE_SILENT));
         profile.setVibrate(getBoolean(c, DbHelper.PROFILES_KEY_VIBRATE));
 
         fillContactLookups(profile);
@@ -344,6 +349,9 @@ public class DbAdapter {
                 (profile instanceof SmsProfile) ? DbHelper.TYPE_ENUM_SMS
                         : DbHelper.TYPE_ENUM_PHONE);
         values.put(DbHelper.PROFILES_KEY_ENABLED, profile.isEnabled());
+        values.put(DbHelper.PROFILES_KEY_ACTION_TYPE,
+                (profile.getActionType() == ActionType.ALARM) ? DbHelper.ACTION_TYPE_ENUM_ALARM
+                        : DbHelper.ACTION_TYPE_ENUM_NOTIFICATION);
 
         Uri ringtone = profile.getRingtone();
         if (ringtone == null) {
@@ -352,6 +360,7 @@ public class DbAdapter {
             values.put(DbHelper.PROFILES_KEY_RINGTONE, ringtone.toString());
         }
 
+        values.put(DbHelper.PROFILES_KEY_OVERRIDE_SILENT, profile.isOverrideSilent());
         values.put(DbHelper.PROFILES_KEY_VIBRATE, profile.isVibrate());
 
         return values;
@@ -447,7 +456,9 @@ public class DbAdapter {
         private static final String PROFILES_KEY_NAME = "name";
         private static final String PROFILES_KEY_TYPE = "type";
         private static final String PROFILES_KEY_ENABLED = "enabled";
+        private static final String PROFILES_KEY_ACTION_TYPE = "action_type";
         private static final String PROFILES_KEY_RINGTONE = "ringtone";
+        private static final String PROFILES_KEY_OVERRIDE_SILENT = "override_silent";
         private static final String PROFILES_KEY_VIBRATE = "vibrate";
 
         private static final String TYPE_TABLE_NAME = "profile_type";
@@ -455,6 +466,12 @@ public class DbAdapter {
         private static final String TYPE_KEY_NUM = "num";
         private static final String TYPE_ENUM_SMS = "sms";
         private static final String TYPE_ENUM_PHONE = "phone";
+
+        private static final String ACTION_TYPE_TABLE_NAME = "action_type";
+        private static final String ACTION_TYPE_KEY_TYPE = "type";
+        private static final String ACTION_TYPE_KEY_NUM = "num";
+        private static final String ACTION_TYPE_ENUM_ALARM = "alarm";
+        private static final String ACTION_TYPE_ENUM_NOTIFICATION = "notification";
 
         private static final String SMS_PROFILES_TABLE_NAME = "sms_profiles";
         private static final String SMS_PROFILES_KEY_PROFILE_ID = "profile_id";
@@ -481,14 +498,18 @@ public class DbAdapter {
                 "%s TEXT NOT NULL, " + // name
                 "%s TEXT NOT NULL REFERENCES %s(%s) ON UPDATE CASCADE, " + // type
                 "%s INTEGER NOT NULL, " + // enabled
+                "%s TEXT NOT NULL REFERENCES %s(%s) ON UPDATE CASCADE, " + // action_type
                 "%s TEXT, " + // ringtone
+                "%s INTEGER NOT NULL, " + // override_silent
                 "%s INTEGER NOT NULL);", // vibrate
                 PROFILES_TABLE_NAME,
                 PROFILES_KEY_ID,
                 PROFILES_KEY_NAME,
                 PROFILES_KEY_TYPE, TYPE_TABLE_NAME, TYPE_KEY_TYPE,
                 PROFILES_KEY_ENABLED,
+                PROFILES_KEY_ACTION_TYPE, ACTION_TYPE_TABLE_NAME, ACTION_TYPE_KEY_TYPE,
                 PROFILES_KEY_RINGTONE,
+                PROFILES_KEY_OVERRIDE_SILENT,
                 PROFILES_KEY_VIBRATE);
 
         private static final String TYPE_TABLE_CREATE = String.format("" +
@@ -498,6 +519,14 @@ public class DbAdapter {
                 TYPE_TABLE_NAME,
                 TYPE_KEY_TYPE,
                 TYPE_KEY_NUM);
+
+        private static final String ACTION_TYPE_TABLE_CREATE = String.format("" +
+                "CREATE TABLE %s (" +
+                "%s TEXT PRIMARY KEY NOT NULL, " + // type
+                "%s INTEGER NOT NULL);", // num
+                ACTION_TYPE_TABLE_NAME,
+                ACTION_TYPE_KEY_TYPE,
+                ACTION_TYPE_KEY_NUM);
 
         private static final String SMS_PROFILES_TABLE_CREATE = String.format("" +
                 "CREATE TABLE %s (" +
@@ -542,6 +571,14 @@ public class DbAdapter {
                 TYPE_ENUM_SMS,
                 TYPE_ENUM_PHONE);
 
+        private static final String ACTION_TYPE_TABLE_POPULATE = String.format("" +
+                "INSERT INTO %s(%s, %s) VALUES " +
+                "('%s', 1)," + // sms
+                "('%s', 2);", // phone
+                ACTION_TYPE_TABLE_NAME, ACTION_TYPE_KEY_TYPE, ACTION_TYPE_KEY_NUM,
+                ACTION_TYPE_ENUM_ALARM,
+                ACTION_TYPE_ENUM_NOTIFICATION);
+
         private static final String METHOD_TABLE_POPULATE = String.format("" +
                 "INSERT INTO %s(%s, %s) VALUES " +
                 "('%s', 1), " + // all
@@ -562,12 +599,14 @@ public class DbAdapter {
 
             db.execSQL(PROFILES_TABLE_CREATE);
             db.execSQL(TYPE_TABLE_CREATE);
+            db.execSQL(ACTION_TYPE_TABLE_CREATE);
             db.execSQL(SMS_PROFILES_TABLE_CREATE);
             db.execSQL(METHOD_TABLE_CREATE);
             db.execSQL(CONTACTS_TABLE_CREATE);
             db.execSQL(KEYWORDS_TABLE_CREATE);
 
             db.execSQL(TYPE_TABLE_POPULATE);
+            db.execSQL(ACTION_TYPE_TABLE_POPULATE);
             db.execSQL(METHOD_TABLE_POPULATE);
         }
 
