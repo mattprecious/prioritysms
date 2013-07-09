@@ -100,6 +100,7 @@
     </style>
 
     <style name="ProfileDetailActionsItem.Button" parent="ClearButton">
+        <item name="android:background">@drawable/spinner_background_holo_light</item>
         <!-- copied from ProfileDetailActionsItem -->
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:padding">8dip</item>
