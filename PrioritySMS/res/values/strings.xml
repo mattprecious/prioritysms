@@ -81,9 +81,10 @@
 
     <!-- profile detail actions -->
     <string name="actions_alarm_title">Alarm</string>
+    <string name="actions_notification_title">Notification</string>
     <string name="actions_ringtone_silent">Silent</string>
     <string name="actions_ringtone">Sound: %s</string>
-    <string name="actions_override">Override silent mode</string>
+    <string name="actions_override_silent">Override silent mode</string>
     <string name="actions_vibrate">Vibrate</string>
 
     <!-- list menu -->
