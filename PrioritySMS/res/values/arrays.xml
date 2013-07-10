@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <array name="profile_action_names">
+        <item>@string/actions_alarm_title</item>
+        <item>@string/actions_notification_title</item>
+    </array>
     <array name="alarm_drawables">
         <item>@android:drawable/ic_menu_call</item>
         <item>@android:drawable/stat_notify_chat</item>
