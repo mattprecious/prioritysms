@@ -39,6 +39,7 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
 
     private BaseProfile mProfile;
     private SmsProfile mSmsProfile;
+    private boolean spinnerReady;
 
     @InjectView(R.id.action_header)
     TextView mActionHeader;
@@ -158,8 +159,12 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
     private AdapterView.OnItemSelectedListener mActionTypeSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            // changing the type changes the ringtone stream, so reset the selected ringtone
-            updateRingtone(null);
+            if (spinnerReady) {
+                // changing the type changes the ringtone stream, so reset the selected ringtone
+                updateRingtone(null);
+            } else {
+                spinnerReady = true;
+            }
 
             ActionType actionType = ActionType.values()[position];
             mOverrideSilentCheckBox.setVisibility(actionType == ActionType.ALARM ? View.GONE : View.VISIBLE);

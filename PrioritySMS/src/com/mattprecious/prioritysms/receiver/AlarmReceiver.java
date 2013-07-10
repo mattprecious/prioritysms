@@ -1,8 +1,13 @@
 
 package com.mattprecious.prioritysms.receiver;
 
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.os.PowerManager;
+import android.os.Vibrator;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.activity.AlarmActivity;
+import com.mattprecious.prioritysms.model.ActionType;
 import com.mattprecious.prioritysms.model.BaseProfile;
 import com.mattprecious.prioritysms.model.SmsProfile;
 import com.mattprecious.prioritysms.util.AlarmAlertWakeLock;
@@ -20,6 +25,8 @@ import android.os.Build;
 import android.os.PowerManager.WakeLock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import java.io.IOException;
 
 /*
  * Copyright (C) 2007 The Android Open Source Project
@@ -43,6 +50,14 @@ import android.util.Log;
 public class AlarmReceiver extends BroadcastReceiver {
 
     private static final String TAG = AlarmReceiver.class.getSimpleName();
+
+    private static final long[] VIBRATE_PATTERN = {
+            150,
+            150,
+            150,
+            150,
+            150
+    };
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
@@ -104,6 +119,14 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Log.v(TAG, "Received alarm set for id=" + profile.getId());
 
+        if (profile.getActionType() == ActionType.ALARM) {
+            doAlarm(context, profile, number, message);
+        } else {
+            doNotify(context, profile);
+        }
+    }
+
+    private void doAlarm(Context context, BaseProfile profile, String number, String message) {
         // Maintain a cpu wake lock until the AlarmActivity and AlarmService can
         // pick it up.
         AlarmAlertWakeLock.acquireCpuWakeLock(context);
@@ -117,10 +140,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         playAlarm.putExtra(Intents.EXTRA_PROFILE, profile);
         context.startService(playAlarm);
 
-        notifyAlarm(context, profile, number, message);
-    }
-
-    private void notifyAlarm(Context context, BaseProfile profile, String number, String message) {
         Intent dismissIntent = new Intent(Intents.ACTION_DISMISS);
         dismissIntent.putExtra(Intents.EXTRA_PROFILE, profile);
         PendingIntent pendingDismiss = PendingIntent.getBroadcast(context,
@@ -171,6 +190,31 @@ public class AlarmReceiver extends BroadcastReceiver {
         // correct notification.
         NotificationManager nm = getNotificationManager(context);
         nm.notify(profile.getId(), notif);
+    }
+
+    private void doNotify(Context context, BaseProfile profile) {
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        MediaPlayer mediaPlayer = new MediaPlayer();
+
+        try {
+            if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL || profile.isOverrideSilent()) {
+                mediaPlayer.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK);
+                mediaPlayer.setAudioStreamType(profile.isOverrideSilent()
+                        ? AudioManager.STREAM_ALARM : AudioManager.STREAM_NOTIFICATION);
+                mediaPlayer.setDataSource(context, profile.getRingtone());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+
+                if (profile.isVibrate()) {
+                    Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+                    vibrator.vibrate(VIBRATE_PATTERN, -1);
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            Log.e(TAG, "failed to play audio", e);
+        } catch (IOException e) {
+            Log.e(TAG, "failed to play audio", e);
+        }
     }
 
     private void missingExtra(String extra) {
