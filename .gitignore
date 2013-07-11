@@ -75,4 +75,7 @@ target/
 .apt_generated/
 .factorypath
 
+# Crashlytics
+com_crashlytics_export_strings.xml
+
 help/prioritysms.html
