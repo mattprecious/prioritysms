@@ -8,6 +8,7 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -78,6 +79,8 @@
             </intent-filter>
         </service>
         <service android:name="com.mattprecious.prioritysms.service.CallLogScanner" />
+
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="@string/crashlytics_key"/>
     </application>
 
 </manifest>

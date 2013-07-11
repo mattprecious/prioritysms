@@ -4,12 +4,13 @@ package com.mattprecious.prioritysms.activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.crashlytics.android.Crashlytics;
+import com.mattprecious.prioritysms.BuildConfig;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.fragment.ChangeLogDialogFragment;
 import com.mattprecious.prioritysms.fragment.ProfileDetailFragment;
@@ -54,6 +55,11 @@ public class ProfileListActivity extends SherlockFragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!BuildConfig.DEBUG) {
+            Crashlytics.start(this);
+        }
+
         setContentView(R.layout.activity_profile_list);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
