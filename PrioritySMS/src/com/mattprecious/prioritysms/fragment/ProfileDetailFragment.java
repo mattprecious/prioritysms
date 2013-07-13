@@ -297,30 +297,30 @@ public class ProfileDetailFragment extends SherlockFragment {
 
     private class ProfilePagerAdapter extends FragmentStatePagerAdapter {
 
-        private final int NUM_FRAGMENTS = 2;
+        private static final int NUM_FRAGMENTS = 2;
 
-        private final BaseDetailFragment[] FRAGMENTS = new BaseDetailFragment[NUM_FRAGMENTS];
+        private final BaseDetailFragment[] mFragments = new BaseDetailFragment[NUM_FRAGMENTS];
 
-        private final String[] TITLES = new String[NUM_FRAGMENTS];
+        private final String[] mTitles = new String[NUM_FRAGMENTS];
 
         public ProfilePagerAdapter(FragmentManager fm) {
             super(fm);
 
-            TITLES[0] = getString(R.string.detail_tab_conditions);
-            FRAGMENTS[0] = ProfileDetailConditionsFragment.create(mProfile);
+            mTitles[0] = getString(R.string.detail_tab_conditions);
+            mFragments[0] = ProfileDetailConditionsFragment.create(mProfile);
 
-            TITLES[1] = getString(R.string.detail_tab_actions);
-            FRAGMENTS[1] = ProfileDetailActionsFragment.create(mProfile);
+            mTitles[1] = getString(R.string.detail_tab_actions);
+            mFragments[1] = ProfileDetailActionsFragment.create(mProfile);
         }
 
         public BaseDetailFragment[] getItems() {
-            return FRAGMENTS;
+            return mFragments;
         }
 
         @Override
         public Fragment getItem(int position) {
             if (position >= 0 && position < NUM_FRAGMENTS) {
-                return FRAGMENTS[position];
+                return mFragments[position];
             }
 
             Log.e(TAG, "invalid getItem position: " + position);
@@ -335,7 +335,7 @@ public class ProfileDetailFragment extends SherlockFragment {
         @Override
         public CharSequence getPageTitle(int position) {
             if (position >= 0 && position < NUM_FRAGMENTS) {
-                return TITLES[position];
+                return mTitles[position];
             }
 
             Log.e(TAG, "invalid getPageTitle position: " + position);
