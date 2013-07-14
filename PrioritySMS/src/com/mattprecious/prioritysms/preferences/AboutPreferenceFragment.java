@@ -33,14 +33,22 @@ public class AboutPreferenceFragment extends PreferenceFragment {
                         return false;
                     }
                 });
-        findPreference(getString(R.string.pref_key_about_attributions)).setOnPreferenceClickListener(
-                new OnPreferenceClickListener() {
+        findPreference(getString(R.string.pref_key_about_attributions))
+                .setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
                     @Override
                     public boolean onPreferenceClick(Preference preference) {
                         DialogFragment licensesDialog = new AttributionsDialogFragment();
                         licensesDialog.show(getFragmentManager(), null);
 
+                        return false;
+                    }
+                });
+        findPreference(getString(R.string.pref_key_about_translate)).setOnPreferenceClickListener(
+                new OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference preference) {
+                        Helpers.openTranslatePage(getActivity());
                         return false;
                     }
                 });
