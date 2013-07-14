@@ -7,6 +7,7 @@
     For more on layout aliases, see:
     http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
     -->
-    <item name="activity_profile_list" type="layout">@layout/activity_profile_twopane</item>
+    <!-- disabled until I can fix the bug where open profile, discard, open profile results in an empty viewpager -->
+    <!-- <item name="activity_profile_list" type="layout">@layout/activity_profile_twopane</item> -->
 
 </resources>
