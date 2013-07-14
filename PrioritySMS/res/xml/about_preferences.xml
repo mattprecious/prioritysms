@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/preference_header_about" >
+
+    <Preference
+        android:summary="@string/about_author_summary"
+        android:title="@string/about_author_title" />
+    <Preference
+        android:key="about_version"
+        android:title="@string/about_version_title" />
+    <Preference
+        android:key="about_change_log"
+        android:title="@string/about_change_log_title" />
+    <Preference
+        android:key="about_attribution"
+        android:title="@string/about_attributions_title" />
+    <Preference
+        android:key="about_feedback"
+        android:summary="@string/about_feedback_summary"
+        android:title="@string/about_feedback_title" >
+    </Preference>
+
+</PreferenceScreen>

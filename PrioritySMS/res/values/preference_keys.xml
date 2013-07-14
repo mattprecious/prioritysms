@@ -3,4 +3,9 @@
     <string name="pref_key_enabled">enabled</string>
     <string name="pref_key_auto_dismiss">auto_disimss</string>
     <string name="pref_key_log_delay">call_log_delay</string>
+
+    <string name="pref_key_about_version">about_version</string>
+    <string name="pref_key_about_change_log">about_change_log</string>
+    <string name="pref_key_about_attributions">about_attributions</string>
+    <string name="pref_key_about_feedback">about_feedback</string>
 </resources>
