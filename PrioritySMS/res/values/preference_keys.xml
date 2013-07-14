@@ -7,5 +7,6 @@
     <string name="pref_key_about_version">about_version</string>
     <string name="pref_key_about_change_log">about_change_log</string>
     <string name="pref_key_about_attributions">about_attributions</string>
+    <string name="pref_key_about_translate">about_translate</string>
     <string name="pref_key_about_feedback">about_feedback</string>
 </resources>

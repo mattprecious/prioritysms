@@ -15,6 +15,10 @@
         android:key="@string/pref_key_about_attributions"
         android:title="@string/about_attributions_title" />
     <Preference
+        android:key="@string/pref_key_about_translate"
+        android:summary="@string/about_translate_summary"
+        android:title="@string/about_translate_title" />
+    <Preference
         android:key="@string/pref_key_about_feedback"
         android:summary="@string/about_feedback_summary"
         android:title="@string/about_feedback_title" >

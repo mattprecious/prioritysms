@@ -46,17 +46,16 @@ public class SettingsActivity extends SherlockPreferenceActivity {
             findPreference(getString(R.string.pref_key_about_version))
                     .setSummary(getAppVersion(this));
             findPreference(getString(R.string.pref_key_about_change_log))
-                    .setOnPreferenceClickListener(
-                        new Preference.OnPreferenceClickListener() {
+                    .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
-                            @Override
-                            public boolean onPreferenceClick(Preference preference) {
-                                buildChangeLogDialog(SettingsActivity.this).show();
-                                return true;
-                            }
-                        });
-            findPreference(getString(R.string.pref_key_about_attributions)).setOnPreferenceClickListener(
-                    new Preference.OnPreferenceClickListener() {
+                        @Override
+                        public boolean onPreferenceClick(Preference preference) {
+                            buildChangeLogDialog(SettingsActivity.this).show();
+                            return true;
+                        }
+                    });
+            findPreference(getString(R.string.pref_key_about_attributions))
+                    .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
                         @Override
                         public boolean onPreferenceClick(Preference preference) {
@@ -64,8 +63,17 @@ public class SettingsActivity extends SherlockPreferenceActivity {
                             return true;
                         }
                     });
-            findPreference(getString(R.string.pref_key_about_feedback)).setOnPreferenceClickListener(
-                    new Preference.OnPreferenceClickListener() {
+            findPreference(getString(R.string.pref_key_about_translate))
+                    .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                        @Override
+                        public boolean onPreferenceClick(Preference preference) {
+                            Helpers.openTranslatePage(SettingsActivity.this);
+                            return false;
+                        }
+                    }
+            );
+            findPreference(getString(R.string.pref_key_about_feedback))
+                    .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
                         @Override
                         public boolean onPreferenceClick(Preference preference) {

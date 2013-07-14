@@ -13,4 +13,10 @@ public final class Helpers {
         Intent intent = new Intent(Intent.ACTION_VIEW, supportUri);
         context.startActivity(intent);
     }
+
+    public static void openTranslatePage(Context context) {
+        Uri supportUri = Uri.parse("https://crowdin.net/project/priority-sms");
+        Intent intent = new Intent(Intent.ACTION_VIEW, supportUri);
+        context.startActivity(intent);
+    }
 }

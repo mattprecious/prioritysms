@@ -115,6 +115,8 @@
     <string name="about_version_title">Version</string>
     <string name="about_change_log_title">Change log</string>
     <string name="about_attributions_title">Attributions</string>
+    <string name="about_translate_title">Contribute translations</string>
+    <string name="about_translate_summary">Help translate Priority SMS into another language</string>
     <string name="about_feedback_title">Feedback/Support</string>
     <string name="about_feedback_summary">Report a bug or suggest improvements</string>
 
