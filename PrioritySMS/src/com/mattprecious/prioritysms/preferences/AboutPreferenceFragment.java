@@ -20,8 +20,9 @@ public class AboutPreferenceFragment extends PreferenceFragment {
 
         addPreferencesFromResource(R.xml.about_preferences);
 
-        findPreference("about_version").setSummary(SettingsActivity.getAppVersion(getActivity()));
-        findPreference("about_change_log").setOnPreferenceClickListener(
+        findPreference(getString(R.string.pref_key_about_version))
+                .setSummary(SettingsActivity.getAppVersion(getActivity()));
+        findPreference(getString(R.string.pref_key_about_change_log)).setOnPreferenceClickListener(
                 new OnPreferenceClickListener() {
 
                     @Override
@@ -32,18 +33,18 @@ public class AboutPreferenceFragment extends PreferenceFragment {
                         return false;
                     }
                 });
-        findPreference("about_attribution").setOnPreferenceClickListener(
+        findPreference(getString(R.string.pref_key_about_attributions)).setOnPreferenceClickListener(
                 new OnPreferenceClickListener() {
 
                     @Override
-                    public boolean onPreferenceClick(Preference arg0) {
+                    public boolean onPreferenceClick(Preference preference) {
                         DialogFragment licensesDialog = new AttributionsDialogFragment();
                         licensesDialog.show(getFragmentManager(), null);
 
                         return false;
                     }
                 });
-        findPreference("about_feedback").setOnPreferenceClickListener(
+        findPreference(getString(R.string.pref_key_about_feedback)).setOnPreferenceClickListener(
                 new OnPreferenceClickListener() {
 
                     @Override
