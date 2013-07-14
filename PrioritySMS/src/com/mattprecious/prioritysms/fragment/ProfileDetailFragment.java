@@ -1,9 +1,12 @@
 package com.mattprecious.prioritysms.fragment;
 
+import android.support.v4.app.FragmentPagerAdapter;
+import android.util.SparseArray;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.common.collect.Lists;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.model.BaseProfile;
 import com.viewpagerindicator.TabPageIndicator;
@@ -12,7 +15,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,6 +31,9 @@ import butterknife.InjectView;
 import butterknife.Views;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+
+import java.lang.ref.WeakReference;
+import java.util.List;
 
 public class ProfileDetailFragment extends SherlockFragment {
 
@@ -243,7 +248,7 @@ public class ProfileDetailFragment extends SherlockFragment {
 
     private void updateProfile() {
         mProfile.setName(mNameText.getText().toString());
-        for (BaseDetailFragment fragment : mPagerAdapter.getItems()) {
+        for (BaseDetailFragment fragment : mPagerAdapter.getRegisteredFragments()) {
             fragment.updateProfile(mProfile);
         }
     }
@@ -283,53 +288,57 @@ public class ProfileDetailFragment extends SherlockFragment {
     }
 
     private void validatePager() {
-        BaseDetailFragment[] fragments = mPagerAdapter.getItems();
-        for (int i = 0; i < fragments.length; i++) {
-            if (!fragments[i].validate()) {
+        int i = 0;
+        for (BaseDetailFragment fragment : mPagerAdapter.getRegisteredFragments()) {
+            if (!fragment.validate()) {
                 setError(ERROR_FLAG_PAGER);
                 mPager.setCurrentItem(i);
                 return;
             }
+
+            i++;
         }
 
         removeError(ERROR_FLAG_PAGER);
     }
 
-    private class ProfilePagerAdapter extends FragmentStatePagerAdapter {
-
+    private class ProfilePagerAdapter extends FragmentPagerAdapter {
         private static final int NUM_FRAGMENTS = 2;
 
-        private final BaseDetailFragment[] mFragments = new BaseDetailFragment[NUM_FRAGMENTS];
-
+        SparseArray<WeakReference<Fragment>> mRegisteredFragments = new SparseArray<WeakReference<Fragment>>();
         private final String[] mTitles = new String[NUM_FRAGMENTS];
 
         public ProfilePagerAdapter(FragmentManager fm) {
             super(fm);
 
             mTitles[0] = getString(R.string.detail_tab_conditions);
-            mFragments[0] = ProfileDetailConditionsFragment.create(mProfile);
-
             mTitles[1] = getString(R.string.detail_tab_actions);
-            mFragments[1] = ProfileDetailActionsFragment.create(mProfile);
-        }
-
-        public BaseDetailFragment[] getItems() {
-            return mFragments;
         }
 
         @Override
         public Fragment getItem(int position) {
-            if (position >= 0 && position < NUM_FRAGMENTS) {
-                return mFragments[position];
+            switch (position) {
+                case 0:
+                    return ProfileDetailConditionsFragment.create(mProfile);
+                case 1:
+                    return ProfileDetailActionsFragment.create(mProfile);
+                default:
+                    Log.e(TAG, "invalid getItem position: " + position);
+                    return null;
             }
-
-            Log.e(TAG, "invalid getItem position: " + position);
-            return null;
         }
 
         @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
+        public Object instantiateItem(ViewGroup container, int position) {
+            Fragment fragment = (Fragment) super.instantiateItem(container, position);
+            mRegisteredFragments.put(position, new WeakReference(fragment));
+            return fragment;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            mRegisteredFragments.remove(position);
+            super.destroyItem(container, position, object);
         }
 
         @Override
@@ -347,6 +356,27 @@ public class ProfileDetailFragment extends SherlockFragment {
             return NUM_FRAGMENTS;
         }
 
+        public List<BaseDetailFragment> getRegisteredFragments() {
+            List<BaseDetailFragment> list = Lists.newArrayListWithCapacity(mRegisteredFragments.size());
+            for (int i = 0; i < mRegisteredFragments.size(); i++) {
+                BaseDetailFragment fragment = getRegisteredFragment(i);
+                if (fragment != null) {
+                    list.add(fragment);
+                }
+            }
+
+            return list;
+        }
+
+        public BaseDetailFragment getRegisteredFragment(int position) {
+            Fragment fragment = mRegisteredFragments.get(position).get();
+            if (fragment == null) {
+                Log.e(TAG, String.format("fragment at position %d was cleared", position));
+                return null;
+            }
+
+            return (BaseDetailFragment) fragment;
+        }
     }
 
     public abstract static class BaseDetailFragment extends SherlockFragment {
