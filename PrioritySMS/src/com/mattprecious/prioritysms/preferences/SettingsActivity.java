@@ -55,7 +55,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
                                 return true;
                             }
                         });
-            findPreference("about_attribution").setOnPreferenceClickListener(
+            findPreference(getString(R.string.pref_key_about_attributions)).setOnPreferenceClickListener(
                     new Preference.OnPreferenceClickListener() {
 
                         @Override
@@ -64,7 +64,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
                             return true;
                         }
                     });
-            findPreference("about_feedback").setOnPreferenceClickListener(
+            findPreference(getString(R.string.pref_key_about_feedback)).setOnPreferenceClickListener(
                     new Preference.OnPreferenceClickListener() {
 
                         @Override

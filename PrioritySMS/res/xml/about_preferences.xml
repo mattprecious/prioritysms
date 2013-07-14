@@ -6,16 +6,16 @@
         android:summary="@string/about_author_summary"
         android:title="@string/about_author_title" />
     <Preference
-        android:key="about_version"
+        android:key="@string/pref_key_about_version"
         android:title="@string/about_version_title" />
     <Preference
-        android:key="about_change_log"
+        android:key="@string/pref_key_about_change_log"
         android:title="@string/about_change_log_title" />
     <Preference
-        android:key="about_attribution"
+        android:key="@string/pref_key_about_attributions"
         android:title="@string/about_attributions_title" />
     <Preference
-        android:key="about_feedback"
+        android:key="@string/pref_key_about_feedback"
         android:summary="@string/about_feedback_summary"
         android:title="@string/about_feedback_title" >
     </Preference>
