@@ -49,6 +49,7 @@
             android:launchMode="singleInstance"
             android:showOnLockScreen="true"
             android:theme="@style/Theme.Sherlock.NoActionBar" />
+        <activity android:name="com.mattprecious.prioritysms.preferences.SettingsActivity" />
 
         <receiver android:name="com.mattprecious.prioritysms.receiver.SmsReceiver" >
             <intent-filter>

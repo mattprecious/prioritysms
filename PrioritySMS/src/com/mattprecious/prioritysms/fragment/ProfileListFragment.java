@@ -103,10 +103,6 @@ public class ProfileListFragment extends SherlockListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_profile_list, menu);
-
-        if (BuildConfig.DEBUG) {
-            menu.findItem(R.id.menu_dev_tools).setVisible(true);
-        }
     }
 
     @Override
@@ -122,12 +118,6 @@ public class ProfileListFragment extends SherlockListFragment {
                 mAdapter.setSortOrder((mAdapter.getSortOrder() == SortOrder.NAME_ASC)
                         ? SortOrder.NAME_DESC
                         : SortOrder.NAME_ASC);
-                return true;
-            case R.id.menu_dev_sms:
-                new TriggerAlarmSmsDialogFragment().show(getFragmentManager(), null);
-                return true;
-            case R.id.menu_dev_phone:
-                new TriggerAlarmPhoneDialogFragment().show(getFragmentManager(), null);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_dev_tools"
+        android:icon="@drawable/ic_action_dev_tools"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_dev_tools"
+        android:visible="false">
+        <menu>
+            <item
+                android:id="@+id/menu_dev_sms"
+                android:title="Broadcast SMS" />
+            <item
+                android:id="@+id/menu_dev_phone"
+                android:title="Broadcast missed call" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/menu_preferences"
+        android:icon="@drawable/ic_action_settings"
+        android:showAsAction="never"
+        android:title="@string/menu_settings" />
+    <item
+        android:id="@+id/menu_feedback"
+        android:icon="@drawable/ic_action_help"
+        android:showAsAction="never"
+        android:title="@string/menu_feedback" />
+    <item
+        android:id="@+id/menu_about"
+        android:icon="@drawable/ic_action_about"
+        android:showAsAction="never"
+        android:title="@string/menu_about"/>
+
+</menu>
