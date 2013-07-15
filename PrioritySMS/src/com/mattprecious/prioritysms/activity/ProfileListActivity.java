@@ -1,6 +1,7 @@
 
 package com.mattprecious.prioritysms.activity;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -8,15 +9,23 @@ import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.crashlytics.android.Crashlytics;
 import com.mattprecious.prioritysms.BuildConfig;
 import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.devtools.TriggerAlarmPhoneDialogFragment;
+import com.mattprecious.prioritysms.devtools.TriggerAlarmSmsDialogFragment;
 import com.mattprecious.prioritysms.fragment.ChangeLogDialogFragment;
 import com.mattprecious.prioritysms.fragment.ProfileDetailFragment;
 import com.mattprecious.prioritysms.fragment.ProfileListFragment;
 import com.mattprecious.prioritysms.model.BaseProfile;
 
+import com.mattprecious.prioritysms.preferences.AboutPreferenceFragment;
+import com.mattprecious.prioritysms.preferences.SettingsActivity;
+import com.mattprecious.prioritysms.util.Helpers;
 import org.jraf.android.backport.switchwidget.Switch;
 
 import android.content.Intent;
@@ -137,10 +146,37 @@ public class ProfileListActivity extends SherlockFragmentActivity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.menu_profile_list_activity, menu);
+
+        if (BuildConfig.DEBUG) {
+            menu.findItem(R.id.menu_dev_tools).setVisible(true);
+        }
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onDiscard();
+                return true;
+            case R.id.menu_dev_sms:
+                new TriggerAlarmSmsDialogFragment().show(getSupportFragmentManager(), null);
+                return true;
+            case R.id.menu_dev_phone:
+                new TriggerAlarmPhoneDialogFragment().show(getSupportFragmentManager(), null);
+                return true;
+            case R.id.menu_preferences:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.menu_feedback:
+                Helpers.openSupportPage(this);
+                return true;
+            case R.id.menu_about:
+                startActivity(buildAboutIntent());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -266,6 +302,43 @@ public class ProfileListActivity extends SherlockFragmentActivity
         imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 
+    private Intent buildAboutIntent() {
+        Intent aboutIntent;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            aboutIntent = buildAboutIntentLegacy();
+        } else {
+            aboutIntent = buildAboutIntentFragments();
+        }
+
+        return aboutIntent;
+    }
+
+    private Intent buildAboutIntentLegacy() {
+        Intent aboutIntent = new Intent(this, SettingsActivity.class);
+        aboutIntent.setAction(SettingsActivity.PREFS_ABOUT);
+
+        return aboutIntent;
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private Intent buildAboutIntentFragments() {
+        Intent aboutIntent = new Intent(this, SettingsActivity.class);
+        aboutIntent.putExtra(SherlockPreferenceActivity.EXTRA_SHOW_FRAGMENT,
+                AboutPreferenceFragment.class.getName());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            setAboutIntentTitleICS(aboutIntent);
+        }
+
+        return aboutIntent;
+    }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    private void setAboutIntentTitleICS(Intent intent) {
+        intent.putExtra(SherlockPreferenceActivity.EXTRA_SHOW_FRAGMENT_TITLE,
+                R.string.preference_header_about);
+    }
+
     private void changeLog() {
         PackageManager packageManager = getPackageManager();
 
@@ -273,7 +346,11 @@ public class ProfileListActivity extends SherlockFragmentActivity
             PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
 
             if (getPreferences(MODE_PRIVATE).getInt(KEY_CHANGE_LOG_VERSION, 0) < packageInfo.versionCode) {
-                new ChangeLogDialogFragment().show(getSupportFragmentManager(), null);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    showChangeLog();
+                } else {
+                    showChangeLogLegacy();
+                }
 
                 getPreferences(MODE_PRIVATE).edit()
                         .putInt(KEY_CHANGE_LOG_VERSION, packageInfo.versionCode)
@@ -282,5 +359,14 @@ public class ProfileListActivity extends SherlockFragmentActivity
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, "Failed to show change log", e);
         }
+    }
+
+    private void showChangeLogLegacy() {
+        SettingsActivity.buildChangeLogDialog(this).show();
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void showChangeLog() {
+        new ChangeLogDialogFragment().show(getFragmentManager(), null);
     }
 }

@@ -33,7 +33,7 @@ public class PhoneStateReceiver extends BroadcastReceiver {
         PendingIntent pendingScanner = PendingIntent.getService(context, 0, scannerIntent, 0);
 
         long delay = Long.valueOf(settings.getString(
-                context.getString(R.string.pref_key_log_delay), "2000"));
+                context.getString(R.string.pref_key_advanced_log_delay), "2000"));
         long wakeupTime = System.currentTimeMillis() + delay;
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
