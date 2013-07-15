@@ -9,6 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -32,6 +33,8 @@ public class SettingsActivity extends SherlockPreferenceActivity {
     private static final String TAG = SettingsActivity.class.getSimpleName();
     private static final String ENCODING = "UTF-8";
 
+    public static final String PREFS_ALARM =
+            "com.mattprecious.prioritysms.preferences.PREFS_ALARM";
     public static final String PREFS_ABOUT =
             "com.mattprecious.prioritysms.preferences.PREFS_ABOUT";
 
@@ -41,7 +44,21 @@ public class SettingsActivity extends SherlockPreferenceActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String action = getIntent().getAction();
-        if (PREFS_ABOUT.equals(action)) {
+        if (PREFS_ALARM.equals(action)) {
+            addPreferencesFromResource(R.xml.alarm_preferences);
+
+            ListPreference timeoutPreference =
+                    (ListPreference) findPreference(getString(R.string.pref_key_alarm_timeout));
+            updateTimeoutSummary(timeoutPreference, timeoutPreference.getValue());
+            timeoutPreference.setOnPreferenceChangeListener(
+                    new Preference.OnPreferenceChangeListener() {
+                        @Override
+                        public boolean onPreferenceChange(Preference preference, Object newValue) {
+                            updateTimeoutSummary(preference, (String) newValue);
+                            return true;
+                        }
+                    });
+        } else if (PREFS_ABOUT.equals(action)) {
             addPreferencesFromResource(R.xml.about_preferences);
             findPreference(getString(R.string.pref_key_about_version))
                     .setSummary(getAppVersion(this));
@@ -51,7 +68,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
                         @Override
                         public boolean onPreferenceClick(Preference preference) {
                             buildChangeLogDialog(SettingsActivity.this).show();
-                            return true;
+                            return false;
                         }
                     });
             findPreference(getString(R.string.pref_key_about_attributions))
@@ -60,7 +77,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
                         @Override
                         public boolean onPreferenceClick(Preference preference) {
                             buildAttributionsDialog(SettingsActivity.this).show();
-                            return true;
+                            return false;
                         }
                     });
             findPreference(getString(R.string.pref_key_about_translate))
@@ -113,6 +130,16 @@ public class SettingsActivity extends SherlockPreferenceActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public static void updateTimeoutSummary(Preference preference, String delay) {
+        int i = Integer.parseInt(delay);
+        if (i == -1) {
+            preference.setSummary(R.string.alarm_timeout_summary_never);
+        } else {
+            preference.setSummary(
+                    preference.getContext().getString(R.string.alarm_timeout_summary_other, i));
+        }
     }
 
     public static String getAppVersion(Context context) {
