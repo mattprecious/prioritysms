@@ -30,7 +30,7 @@ public class AlarmService extends Service {
     private static final String TAG = AlarmService.class.getSimpleName();
 
     // Default of 30 minutes until alarm is silenced.
-    private static final String DEFAULT_ALARM_TIMEOUT = "30";
+    private static final String DEFAULT_ALARM_TIMEOUT = "10";
 
     private static final long[] sVibratePattern = new long[]{
             500, 500
@@ -270,7 +270,7 @@ public class AlarmService extends Service {
     private void enableKiller(BaseProfile profile) {
         final String autoSnooze =
                 PreferenceManager.getDefaultSharedPreferences(this)
-                        .getString(getString(R.string.pref_key_auto_dismiss),
+                        .getString(getString(R.string.pref_key_alarm_timeout),
                                 DEFAULT_ALARM_TIMEOUT);
         int autoSnoozeMinutes = Integer.parseInt(autoSnooze);
         if (autoSnoozeMinutes != -1) {

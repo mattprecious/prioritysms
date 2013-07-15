@@ -107,7 +107,13 @@
     <string name="menu_delete">Delete</string>
 
     <!-- prefence headers -->
+    <string name="preference_header_alarm">Alarm settings</string>
     <string name="preference_header_about">About</string>
+
+    <!-- alarm preferences -->
+    <string name="alarm_timeout_title">Silence after</string>
+    <string name="alarm_timeout_summary_never">Never</string>
+    <string name="alarm_timeout_summary_other">%d minutes</string>
 
     <!-- about -->
     <string name="about_author_title">Author</string>

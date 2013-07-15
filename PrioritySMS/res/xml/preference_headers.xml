@@ -2,6 +2,11 @@
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <header
+        android:id="@+id/alarm_preferences"
+        android:fragment="com.mattprecious.prioritysms.preferences.AlarmPreferenceFragment"
+        android:icon="@drawable/ic_settings_alarm"
+        android:title="@string/preference_header_alarm" />
+    <header
         android:id="@+id/about_preferences"
         android:fragment="com.mattprecious.prioritysms.preferences.AboutPreferenceFragment"
         android:icon="@drawable/ic_settings_about"
