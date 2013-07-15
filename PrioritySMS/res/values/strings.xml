@@ -23,10 +23,6 @@
     <string name="notification_missed_call">Missed Call</string>
 
     <string name="advanced_call_log_delay">Call Log Delay</string>
-    <string name="advanced_call_log_delay_summary">
-        Wait this long (in ms) after a phone call to check the call log. Increase this time if the
-        alarm isn\'t working after a missed call.
-    </string>
 
     <string name="ok">OK</string>
     <string name="na">N/A</string>
@@ -87,12 +83,18 @@
     <string name="actions_override_silent">Override silent mode</string>
     <string name="actions_vibrate">Vibrate</string>
 
+    <!-- list activity menu -->
+    <string name="menu_settings">Settings</string>
+    <string name="menu_dev_tools">Dev tools</string>
+    <string name="menu_feedback">Feedback/Support</string>
+    <string name="menu_help">Help</string>
+    <string name="menu_about">About</string>
+
     <!-- list menu -->
     <string name="menu_new_profile">Add new profile</string>
     <string name="menu_new_profile_sms">SMS</string>
     <string name="menu_new_profile_phone">Missed call</string>
     <string name="menu_sort">Sort</string>
-    <string name="menu_dev_tools">Dev tools</string>
 
     <!-- detail menu -->
     <string name="menu_save">Save</string>
@@ -100,8 +102,45 @@
     <string name="menu_rename">Rename</string>
     <string name="menu_delete">Delete</string>
 
+    <!-- prefence headers -->
+    <string name="preference_header_alarm">Alarm settings</string>
+    <string name="preference_header_advanced">Advanced</string>
+    <string name="preference_header_about">About</string>
+
+    <!-- alarm preferences -->
+    <string name="alarm_timeout_title">Silence after</string>
+    <string name="alarm_timeout_summary_never">Never</string>
+    <string name="alarm_timeout_summary_other">%d minutes</string>
+
+    <!-- advanced preferences -->
+    <string name="advanced_call_log_delay_title">Call Log Delay</string>
+    <string name="advanced_call_log_delay_summary">
+        Wait this long (in ms) after a phone call to check the call log. Increase this time if the
+        alarm isn\'t working after a missed call.
+    </string>
+
+    <!-- about -->
+    <string name="about_author_title">Author</string>
+    <string name="about_author_summary">Matthew Precious</string>
+    <string name="about_version_title">Version</string>
+    <string name="about_change_log_title">Change log</string>
+    <string name="about_attributions_title">Attributions</string>
+    <string name="about_translate_title">Contribute translations</string>
+    <string name="about_translate_summary">Help translate Priority SMS into another language</string>
+    <string name="about_feedback_title">Feedback/Support</string>
+    <string name="about_feedback_summary">Report a bug or suggest improvements</string>
+
     <!-- change log -->
     <string name="change_log_title">What\'s new?</string>
     <string name="change_log_close">Close</string>
+
+    <!-- open source stuff -->
+    <string name="attributions_title">Attributions</string>
+    <string name="attributions_close">Close</string>
+    <string name="attributions">
+<![CDATA[
+
+    ]]>
+    </string>
 
 </resources>

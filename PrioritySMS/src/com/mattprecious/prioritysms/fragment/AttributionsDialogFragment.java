@@ -8,10 +8,10 @@ import android.os.Bundle;
 import com.mattprecious.prioritysms.preferences.SettingsActivity;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class ChangeLogDialogFragment extends DialogFragment {
+public class AttributionsDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return SettingsActivity.buildChangeLogDialog(getActivity());
+        return SettingsActivity.buildAttributionsDialog(getActivity());
     }
 }
