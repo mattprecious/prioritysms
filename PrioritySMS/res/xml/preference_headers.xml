@@ -7,6 +7,11 @@
         android:icon="@drawable/ic_settings_alarm"
         android:title="@string/preference_header_alarm" />
     <header
+        android:id="@+id/advanced_preferences"
+        android:fragment="com.mattprecious.prioritysms.preferences.AdvancedPreferenceFragment"
+        android:icon="@drawable/ic_settings_advanced"
+        android:title="@string/preference_header_advanced" />
+    <header
         android:id="@+id/about_preferences"
         android:fragment="com.mattprecious.prioritysms.preferences.AboutPreferenceFragment"
         android:icon="@drawable/ic_settings_about"

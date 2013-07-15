@@ -9,9 +9,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.text.Html;
+import android.text.InputType;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,6 +37,8 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
     public static final String PREFS_ALARM =
             "com.mattprecious.prioritysms.preferences.PREFS_ALARM";
+    public static final String PREFS_ADVANCED =
+            "com.mattprecious.prioritysms.preferences.PREFS_ADVANCED";
     public static final String PREFS_ABOUT =
             "com.mattprecious.prioritysms.preferences.PREFS_ABOUT";
 
@@ -58,6 +62,12 @@ public class SettingsActivity extends SherlockPreferenceActivity {
                             return true;
                         }
                     });
+        } else if (PREFS_ADVANCED.equals(action)) {
+            addPreferencesFromResource(R.xml.advanced_preferences);
+
+            EditTextPreference callLogDelayPreference = (EditTextPreference)
+                    findPreference(getString(R.string.pref_key_advanced_log_delay));
+            callLogDelayPreference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
         } else if (PREFS_ABOUT.equals(action)) {
             addPreferencesFromResource(R.xml.about_preferences);
             findPreference(getString(R.string.pref_key_about_version))
