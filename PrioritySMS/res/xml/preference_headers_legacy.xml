@@ -9,6 +9,13 @@
             android:targetPackage="com.mattprecious.prioritysms" />
     </Preference>
     <Preference
+        android:title="@string/preference_header_advanced" >
+        <intent
+            android:action="com.mattprecious.prioritysms.preferences.PREFS_ADVANCED"
+            android:targetClass="com.mattprecious.prioritysms.preferences.SettingsActivity"
+            android:targetPackage="com.mattprecious.prioritysms" />
+    </Preference>
+    <Preference
         android:title="@string/preference_header_about" >
         <intent
             android:action="com.mattprecious.prioritysms.preferences.PREFS_ABOUT"

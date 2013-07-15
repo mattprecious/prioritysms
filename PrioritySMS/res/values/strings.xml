@@ -23,10 +23,6 @@
     <string name="notification_missed_call">Missed Call</string>
 
     <string name="advanced_call_log_delay">Call Log Delay</string>
-    <string name="advanced_call_log_delay_summary">
-        Wait this long (in ms) after a phone call to check the call log. Increase this time if the
-        alarm isn\'t working after a missed call.
-    </string>
 
     <string name="ok">OK</string>
     <string name="na">N/A</string>
@@ -108,12 +104,20 @@
 
     <!-- prefence headers -->
     <string name="preference_header_alarm">Alarm settings</string>
+    <string name="preference_header_advanced">Advanced</string>
     <string name="preference_header_about">About</string>
 
     <!-- alarm preferences -->
     <string name="alarm_timeout_title">Silence after</string>
     <string name="alarm_timeout_summary_never">Never</string>
     <string name="alarm_timeout_summary_other">%d minutes</string>
+
+    <!-- advanced preferences -->
+    <string name="advanced_call_log_delay_title">Call Log Delay</string>
+    <string name="advanced_call_log_delay_summary">
+        Wait this long (in ms) after a phone call to check the call log. Increase this time if the
+        alarm isn\'t working after a missed call.
+    </string>
 
     <!-- about -->
     <string name="about_author_title">Author</string>

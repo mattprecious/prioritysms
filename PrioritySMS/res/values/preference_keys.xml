@@ -2,10 +2,12 @@
 <resources>
     <!-- general -->
     <string name="pref_key_enabled">enabled</string>
-    <string name="pref_key_log_delay">call_log_delay</string>
 
     <!-- alarm -->
     <string name="pref_key_alarm_timeout">alarm_timeout</string>
+
+    <!-- advanced -->
+    <string name="pref_key_advanced_log_delay">call_log_delay</string>
 
     <!-- about -->
     <string name="pref_key_about_version">about_version</string>
