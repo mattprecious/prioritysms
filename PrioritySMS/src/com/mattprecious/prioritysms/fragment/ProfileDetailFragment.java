@@ -331,7 +331,7 @@ public class ProfileDetailFragment extends SherlockFragment {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             Fragment fragment = (Fragment) super.instantiateItem(container, position);
-            mRegisteredFragments.put(position, new WeakReference(fragment));
+            mRegisteredFragments.put(position, new WeakReference<Fragment>(fragment));
             return fragment;
         }
 
