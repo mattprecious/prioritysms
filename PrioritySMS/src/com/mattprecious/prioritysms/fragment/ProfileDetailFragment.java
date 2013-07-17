@@ -90,6 +90,7 @@ public class ProfileDetailFragment extends SherlockFragment {
     private BaseProfile mProfile;
 
     private int mErrorFlags = 0;
+    private int customErrorResId;
 
     @InjectView(R.id.profile_name_container)
     View mNameContainer;
@@ -220,7 +221,8 @@ public class ProfileDetailFragment extends SherlockFragment {
             case R.id.menu_save:
                 validate();
                 if (mErrorFlags > 0) {
-                    Crouton.showText(getActivity(), R.string.detail_error, Style.ALERT);
+                    int errorResId = customErrorResId > 0 ? customErrorResId : R.string.detail_error;
+                    Crouton.showText(getActivity(), errorResId, Style.ALERT);
                 } else {
                     updateProfile();
 
@@ -273,6 +275,7 @@ public class ProfileDetailFragment extends SherlockFragment {
     }
 
     private void validate() {
+        customErrorResId = 0;
         validateName();
         validatePager();
     }
@@ -290,9 +293,15 @@ public class ProfileDetailFragment extends SherlockFragment {
     private void validatePager() {
         int i = 0;
         for (BaseDetailFragment fragment : mPagerAdapter.getRegisteredFragments()) {
-            if (!fragment.validate()) {
+            ValidationResponse response = fragment.validate();
+            if (!response.isValid()) {
                 setError(ERROR_FLAG_PAGER);
                 mPager.setCurrentItem(i);
+
+                if (customErrorResId == 0) {
+                    customErrorResId = response.getCustomErrorResId();
+                }
+
                 return;
             }
 
@@ -383,6 +392,28 @@ public class ProfileDetailFragment extends SherlockFragment {
 
         public abstract void updateProfile(BaseProfile profile);
 
-        public abstract boolean validate();
+        public abstract ValidationResponse validate();
+    }
+
+    public static class ValidationResponse {
+        private boolean valid;
+        private int customErrorResId;
+
+        public ValidationResponse(boolean valid) {
+            this(valid, 0);
+        }
+
+        public ValidationResponse(boolean valid, int customErrorResId) {
+            this.valid = valid;
+            this.customErrorResId = customErrorResId;
+        }
+
+        public boolean isValid() {
+            return valid;
+        }
+
+        public int getCustomErrorResId() {
+            return customErrorResId;
+        }
     }
 }

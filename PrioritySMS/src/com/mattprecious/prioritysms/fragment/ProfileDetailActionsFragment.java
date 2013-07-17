@@ -5,6 +5,7 @@ import android.content.Context;
 import android.widget.*;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.BaseDetailFragment;
+import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.ValidationResponse;
 import com.mattprecious.prioritysms.model.ActionType;
 import com.mattprecious.prioritysms.model.BaseProfile;
 
@@ -140,8 +141,8 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
     }
 
     @Override
-    public boolean validate() {
-        return true;
+    public ValidationResponse validate() {
+        return new ValidationResponse(true);
     }
 
     private ActionType getSelectedActionType() {

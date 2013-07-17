@@ -7,6 +7,7 @@ import com.google.common.collect.Sets;
 
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.BaseDetailFragment;
+import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.ValidationResponse;
 import com.mattprecious.prioritysms.model.BaseProfile;
 import com.mattprecious.prioritysms.model.LogicMethod;
 import com.mattprecious.prioritysms.model.SmsProfile;
@@ -177,7 +178,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
     }
 
     @Override
-    public boolean validate() {
+    public ValidationResponse validate() {
         updateProfile(mProfile);
 
         if (mSmsProfile != null) {
@@ -196,11 +197,22 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
             }
 
             if (keywordError != null) {
-                return false;
+                return new ValidationResponse(false);
             }
         }
 
-        return true;
+        boolean isConditionSet = mProfile.getContacts().size() > 0;
+        if (!isConditionSet) {
+            isConditionSet = mSmsProfile != null && mSmsProfile.getKeywords().size() > 0;
+        }
+
+        if (isConditionSet) {
+            return new ValidationResponse(true);
+        } else {
+            return new ValidationResponse(false, mSmsProfile == null
+                    ? R.string.conditions_error_no_contacts
+                    : R.string.conditions_error_no_conditions);
+        }
     }
 
     private void addContact(String contactLookup) {
