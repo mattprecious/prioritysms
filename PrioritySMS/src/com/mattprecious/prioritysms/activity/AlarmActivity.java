@@ -142,10 +142,11 @@ public class AlarmActivity extends SherlockFragmentActivity implements
             for (String keyword : mSmsProfile.getKeywords()) {
                 styledMessage = styledMessage.replace(keyword, String.format("<b>%s</b>", keyword));
             }
+
+            mMessageView.setText(Html.fromHtml(styledMessage));
         }
 
         mNameView.setText(mName);
-        mMessageView.setText(Html.fromHtml(styledMessage));
         mGlowPadView.setOnTriggerListener(this);
 
         mIconView.setImageResource((mProfile instanceof SmsProfile)
