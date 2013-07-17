@@ -64,7 +64,7 @@ public class TriggerAlarmPhoneDialogFragment extends SherlockDialogFragment {
             }
         });
 
-        builder.setTitle("Trigger SMS Alarm");
+        builder.setTitle("Trigger Call Alarm");
         builder.setView(rootView);
         builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
             @Override
