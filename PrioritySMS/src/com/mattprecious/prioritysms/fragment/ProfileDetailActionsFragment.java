@@ -41,6 +41,7 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
     private BaseProfile mProfile;
     private SmsProfile mSmsProfile;
     private boolean spinnerReady;
+    private Uri ringtoneBackup;
 
     @InjectView(R.id.action_header)
     TextView mActionHeader;
@@ -161,8 +162,9 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             if (spinnerReady) {
-                // changing the type changes the ringtone stream, so reset the selected ringtone
-                updateRingtone(null);
+                Uri tempRingtone = (Uri) mSoundButton.getTag();
+                updateRingtone(ringtoneBackup);
+                ringtoneBackup = tempRingtone;
             } else {
                 spinnerReady = true;
             }
