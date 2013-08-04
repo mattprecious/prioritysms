@@ -17,10 +17,15 @@ import com.actionbarsherlock.view.MenuItem;
 import com.crashlytics.android.Crashlytics;
 import com.mattprecious.prioritysms.BuildConfig;
 import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.billing.IabHelper;
+import com.mattprecious.prioritysms.billing.IabResult;
+import com.mattprecious.prioritysms.billing.Inventory;
+import com.mattprecious.prioritysms.billing.Purchase;
 import com.mattprecious.prioritysms.devtools.TriggerAlarmPhoneDialogFragment;
 import com.mattprecious.prioritysms.devtools.TriggerAlarmSmsDialogFragment;
 import com.mattprecious.prioritysms.fragment.ChangeLogDialogFragment;
 import com.mattprecious.prioritysms.fragment.ProfileDetailFragment;
+import com.mattprecious.prioritysms.fragment.ProfileLimitDialogFragment;
 import com.mattprecious.prioritysms.fragment.ProfileListFragment;
 import com.mattprecious.prioritysms.model.BaseProfile;
 
@@ -43,23 +48,27 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class ProfileListActivity extends SherlockFragmentActivity
-        implements ProfileListFragment.Callbacks, ProfileDetailFragment.Callbacks {
+        implements ProfileListFragment.Callbacks, ProfileDetailFragment.Callbacks,
+        IabHelper.QueryInventoryFinishedListener, IabHelper.OnIabPurchaseFinishedListener,
+        ProfileLimitDialogFragment.Callbacks {
     private static final String TAG = ProfileListActivity.class.getSimpleName();
 
     private static final String STATE_DETAIL_FRAGMENT = "detail_fragment";
 
-    private final String KEY_CHANGE_LOG_VERSION = "change_log_version";
+    private static final String KEY_CHANGE_LOG_VERSION = "change_log_version";
+    private static final String KEY_IS_PRO = "is_pro";
 
     private static final int REQUEST_ID_PROFILE_EDIT = 1;
+    private static final int REQUEST_ID_GO_PRO = 2;
 
     private boolean mTwoPane;
+    private boolean mIsPro;
 
     private SharedPreferences mPreferences;
+    private IabHelper mIabHelper;
 
     private Switch mActionBarSwitch;
-
     private ProfileListFragment mListFragment;
-
     private Fragment mDetailFragment;
 
     @Override
@@ -72,6 +81,25 @@ public class ProfileListActivity extends SherlockFragmentActivity
 
         setContentView(R.layout.activity_profile_list);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        mIsPro = mPreferences.getBoolean(KEY_IS_PRO, false);
+
+        mIabHelper = new IabHelper(this, getString(R.string.iap_key));
+        mIabHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            public void onIabSetupFinished(IabResult result) {
+                if (!result.isSuccess()) {
+                    // Oh noes, there was a problem.
+                    Log.d(TAG, "Problem setting up In-app Billing: " + result);
+                }
+
+                // Have we been disposed of in the meantime? If so, quit.
+                if (mIabHelper == null) {
+                    return;
+                }
+
+                mIabHelper.queryInventoryAsync(ProfileListActivity.this);
+            }
+        });
 
         configureActionBar();
 
@@ -100,6 +128,11 @@ public class ProfileListActivity extends SherlockFragmentActivity
     protected void onDestroy() {
         super.onDestroy();
         Crouton.clearCroutonsForActivity(this);
+
+        if (mIabHelper != null) {
+            mIabHelper.dispose();
+            mIabHelper = null;
+        }
     }
 
     @Override
@@ -159,6 +192,12 @@ public class ProfileListActivity extends SherlockFragmentActivity
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.menu_pro).setVisible(!mIsPro);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -173,6 +212,9 @@ public class ProfileListActivity extends SherlockFragmentActivity
             case R.id.menu_preferences:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
+            case R.id.menu_pro:
+                onGoProClick();
+                return true;
             case R.id.menu_feedback:
                 Helpers.openSupportPage(this);
                 return true;
@@ -186,6 +228,10 @@ public class ProfileListActivity extends SherlockFragmentActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(mIabHelper != null && mIabHelper.handleActivityResult(requestCode, resultCode, data)) {
+            return;
+        }
+
         switch (requestCode) {
             case REQUEST_ID_PROFILE_EDIT:
                 switch (resultCode) {
@@ -206,6 +252,44 @@ public class ProfileListActivity extends SherlockFragmentActivity
                 super.onActivityResult(requestCode, resultCode, data);
                 break;
         }
+    }
+
+    @Override
+    public void onQueryInventoryFinished(IabResult result, Inventory inv) {
+        if (mIabHelper == null) {
+            return;
+        }
+
+        if (result.isSuccess()) {
+            setPro(inv.hasPurchase(getString(R.string.iap_sku_pro)));
+        }
+    }
+
+    @Override
+    public void onIabPurchaseFinished(IabResult result, Purchase info) {
+        if (mIabHelper == null) {
+            return;
+        }
+
+        if (result.isFailure()) {
+            if (result.getResponse() != IabHelper.IABHELPER_USER_CANCELLED) {
+                Crashlytics.log(Log.ERROR, TAG, "Error purchasing: " + result);
+                showCrouton(R.string.pro_purchase_failed, Style.ALERT);
+            }
+
+            return;
+        }
+
+        setPro(true);
+        showCrouton(R.string.pro_purchase_success, Style.CONFIRM);
+    }
+
+    private void setPro(boolean isPro) {
+        mIsPro = isPro;
+        invalidateOptionsMenu();
+
+        // not sure if I need to do this... play seems to cache this
+        mPreferences.edit().putBoolean(KEY_IS_PRO, isPro).commit();
     }
 
     private void configureActionBar() {
@@ -272,6 +356,17 @@ public class ProfileListActivity extends SherlockFragmentActivity
     @Override
     public void onNewProfile(BaseProfile profile) {
         onItemSelected(profile);
+    }
+
+    @Override
+    public boolean isPro() {
+        return mIsPro;
+    }
+
+    @Override
+    public void onGoProClick() {
+        mIabHelper.launchPurchaseFlow(this, getString(R.string.iap_sku_pro), REQUEST_ID_GO_PRO,
+                this);
     }
 
     @Override

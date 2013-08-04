@@ -1,30 +1,28 @@
 
 package com.mattprecious.prioritysms.fragment;
 
+import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.mattprecious.prioritysms.BuildConfig;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.adapter.ProfileListAdapter;
 import com.mattprecious.prioritysms.db.DbAdapter.SortOrder;
-import com.mattprecious.prioritysms.devtools.TriggerAlarmPhoneDialogFragment;
-import com.mattprecious.prioritysms.devtools.TriggerAlarmSmsDialogFragment;
 import com.mattprecious.prioritysms.model.BaseProfile;
 import com.mattprecious.prioritysms.model.PhoneProfile;
 import com.mattprecious.prioritysms.model.SmsProfile;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ListView;
-
 public class ProfileListFragment extends SherlockListFragment {
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
+
+    private static final int FREE_PROFILE_LIMIT = 3;
 
     private Callbacks mCallbacks = sDummyCallbacks;
 
@@ -37,6 +35,8 @@ public class ProfileListFragment extends SherlockListFragment {
         public void onItemSelected(BaseProfile profile);
 
         public void onNewProfile(BaseProfile profile);
+
+        public boolean isPro();
     }
 
     private static Callbacks sDummyCallbacks = new Callbacks() {
@@ -46,6 +46,11 @@ public class ProfileListFragment extends SherlockListFragment {
 
         @Override
         public void onNewProfile(BaseProfile profile) {
+        }
+
+        @Override
+        public boolean isPro() {
+            return false;
         }
     };
 
@@ -109,10 +114,16 @@ public class ProfileListFragment extends SherlockListFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add_sms:
-                mCallbacks.onNewProfile(new SmsProfile());
+                if (checkProAndShowDialog()) {
+                    mCallbacks.onNewProfile(new SmsProfile());
+                }
+
                 return true;
             case R.id.menu_add_phone:
-                mCallbacks.onNewProfile(new PhoneProfile());
+                if (checkProAndShowDialog()) {
+                    mCallbacks.onNewProfile(new PhoneProfile());
+                }
+
                 return true;
             case R.id.menu_sort:
                 mAdapter.setSortOrder((mAdapter.getSortOrder() == SortOrder.NAME_ASC)
@@ -138,6 +149,16 @@ public class ProfileListFragment extends SherlockListFragment {
         if (mActivatedPosition != ListView.INVALID_POSITION) {
             outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
         }
+    }
+
+    private boolean checkProAndShowDialog() {
+        if (mCallbacks.isPro() || mAdapter.getCount() < FREE_PROFILE_LIMIT) {
+            return true;
+        }
+
+        new ProfileLimitDialogFragment().show(getFragmentManager(), null);
+
+        return false;
     }
 
     public void refreshList() {
