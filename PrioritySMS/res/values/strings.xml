@@ -87,6 +87,7 @@
 
     <!-- list activity menu -->
     <string name="menu_settings">Settings</string>
+    <string name="menu_pro">Go pro!</string>
     <string name="menu_dev_tools">Dev tools</string>
     <string name="menu_feedback">Feedback/Support</string>
     <string name="menu_help">Help</string>
@@ -103,6 +104,14 @@
     <string name="menu_discard">Discard</string>
     <string name="menu_rename">Rename</string>
     <string name="menu_delete">Delete</string>
+
+    <!-- pro -->
+    <string name="limit_reached_title">Profile limit reached</string>
+    <string name="limit_reached_message">You\'ve reached the free profile limit. Upgrade to Pro to receive unlimited profiles and to support future development of the app.</string>
+    <string name="limit_reached_negative">No thanks</string>
+    <string name="limit_reached_positive">Go pro!</string>
+    <string name="pro_purchase_success">Thanks for upgrading!</string>
+    <string name="pro_purchase_failed">Something went wrong, please try again.</string>
 
     <!-- prefence headers -->
     <string name="preference_header_alarm">Alarm settings</string>
