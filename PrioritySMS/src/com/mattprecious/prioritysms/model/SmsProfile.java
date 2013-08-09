@@ -31,23 +31,25 @@ public class SmsProfile extends BaseProfile {
             return false;
         }
 
+        message = message.toLowerCase();
+
         Set<String> keywords = getKeywords();
         if (keywords.size() > 0) {
             if (getKeywordMethod() == LogicMethod.ALL) {
                 matches = true;
                 for (String keyword : keywords) {
-                    if (!message.contains(keyword)) {
+                    if (!message.contains(keyword.toLowerCase())) {
                         matches = false;
                         break;
                     }
                 }
             } else if (getKeywordMethod() == LogicMethod.ONLY) {
-                String keyword = keywords.toArray(new String[keywords.size()])[0];
+                String keyword = keywords.toArray(new String[keywords.size()])[0].toLowerCase();
                 matches = keyword.equals(message.trim());
             } else { // if (getKeywordMethod() == LogicMethod.ANY)
                 matches = false;
                 for (String keyword : keywords) {
-                    if (message.contains(keyword)) {
+                    if (message.contains(keyword.toLowerCase())) {
                         matches = true;
                         break;
                     }
