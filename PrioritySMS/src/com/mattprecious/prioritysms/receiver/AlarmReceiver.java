@@ -167,7 +167,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setContentTitle(profile.getName())
-                .setSmallIcon(android.R.drawable.stat_notify_error)
+                .setSmallIcon(R.drawable.ic_stat_alarm)
                 .setAutoCancel(false)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setDefaults(Notification.DEFAULT_LIGHTS)
