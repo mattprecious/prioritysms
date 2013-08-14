@@ -17,8 +17,8 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_enabled="true" android:state_active="false" android:state_focused="false" android:drawable="@drawable/ic_lockscreen_handle_normal" />
+    <item android:state_enabled="true" android:state_active="false" android:state_focused="false" android:drawable="@drawable/ic_glowpad_handle_normal" />
 
     <!-- "Pressed" state uses the same simple "ring" image as on the lockscreen -->
-    <item android:state_enabled="true" android:state_active="true" android:state_focused="false" android:drawable="@drawable/ic_lockscreen_handle_pressed" />
+    <item android:state_enabled="true" android:state_active="true" android:state_focused="false" android:drawable="@drawable/ic_glowpad_handle_pressed" />
 </selector>

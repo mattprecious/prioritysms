@@ -9,9 +9,9 @@
 
     <!-- alarm activity -->
     <array name="alarm_drawables">
-        <item>@android:drawable/ic_menu_call</item>
-        <item>@android:drawable/stat_notify_chat</item>
-        <item>@android:drawable/ic_menu_close_clear_cancel</item>
+        <item>@drawable/ic_glowpad_call</item>
+        <item>@drawable/ic_glowpad_message</item>
+        <item>@drawable/ic_glowpad_close</item>
         <item>@null</item>
     </array>
     <array name="alarm_descriptions">

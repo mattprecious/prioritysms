@@ -257,13 +257,13 @@ public class AlarmActivity extends SherlockFragmentActivity implements
     public void onTrigger(View v, int target) {
         final int resId = mGlowPadView.getResourceIdForTarget(target);
         switch (resId) {
-            case android.R.drawable.ic_menu_call:
+            case R.drawable.ic_glowpad_call:
                 call();
                 break;
-            case android.R.drawable.stat_notify_chat:
+            case R.drawable.ic_glowpad_message:
                 reply();
                 break;
-            case android.R.drawable.ic_menu_close_clear_cancel:
+            case R.drawable.ic_glowpad_close:
                 dismiss(false, false);
                 break;
             default:
