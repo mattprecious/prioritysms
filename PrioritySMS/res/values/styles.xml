@@ -1,5 +1,4 @@
-<resources xmlns:glowpad="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppBaseTheme" parent="RedTheme"></style>
 
