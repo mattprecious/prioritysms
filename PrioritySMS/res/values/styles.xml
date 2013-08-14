@@ -1,4 +1,4 @@
-<resources xmlns:glowpad="http://schemas.android.com/apk/res/net.sebastianopoggi.ui.GlowPadBackport"
+<resources xmlns:glowpad="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppBaseTheme" parent="RedTheme"></style>
@@ -139,18 +139,18 @@
     <style name="AlarmGlowPad">
         <item name="android:focusable">true</item>
         <item name="android:gravity">center</item>
-        <item name="glowpad:directionDescriptions">@array/alarm_direction_descriptions</item>
-        <item name="glowpad:feedbackCount">1</item>
-        <item name="glowpad:glowRadius">75dip</item>
-        <item name="glowpad:handleDrawable">@drawable/ic_glowpad_touch_handle</item>
-        <item name="glowpad:innerRadius">15dip</item>
-        <item name="glowpad:outerRadius">135dip</item>
-        <item name="glowpad:outerRingDrawable">@drawable/ic_glowpad_outerring</item>
-        <item name="glowpad:pointDrawable">@drawable/ic_glowpad_glowdot</item>
-        <item name="glowpad:snapMargin">40dip</item>
-        <item name="glowpad:targetDescriptions">@array/alarm_descriptions</item>
-        <item name="glowpad:targetDrawables">@array/alarm_drawables</item>
-        <item name="glowpad:vibrationDuration">20</item>
+        <item name="directionDescriptions">@array/alarm_direction_descriptions</item>
+        <item name="feedbackCount">1</item>
+        <item name="glowRadius">75dip</item>
+        <item name="handleDrawable">@drawable/ic_glowpad_touch_handle</item>
+        <item name="innerRadius">15dip</item>
+        <item name="outerRadius">135dip</item>
+        <item name="outerRingDrawable">@drawable/ic_glowpad_outerring</item>
+        <item name="pointDrawable">@drawable/ic_glowpad_glowdot</item>
+        <item name="snapMargin">40dip</item>
+        <item name="targetDescriptions">@array/alarm_descriptions</item>
+        <item name="targetDrawables">@array/alarm_drawables</item>
+        <item name="vibrationDuration">20</item>
     </style>
 
 </resources>
