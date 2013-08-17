@@ -118,7 +118,37 @@
     <string name="attributions_close">Close</string>
     <string name="attributions">
 <![CDATA[
+       Thanks to all of these open source tools:<br /><br />
 
+       <b><a href="http://actionbarsherlock.com">ActionBarSherlock</a></b><br />
+       by Jake Wharton<br /><br />
+
+       <b><a href="https://github.com/JakeWharton/Android-ViewPagerIndicator">Android ViewPagerIndicator</a></b><br />
+       by Jake Wharton<br /><br />
+
+       <b><a href="https://github.com/JakeWharton/butterknife">Butter Knife</a></b><br />
+       by Jake Wharton<br /><br />
+
+       <b><a href="http://nineoldandroids.com/">NineOldAndroids</a></b><br />
+       by Jake Wharton<br /><br />
+
+       <b><a href="https://github.com/rock3r/GlowPadBackport">GlowPadBackport</a></b><br />
+       by Sebastiano Poggi<br /><br />
+
+       <b><a href="https://github.com/BoD/android-switch-backport">Android Switch Widget Backport</a></b><br />
+       by Benoit Lubek<br /><br />
+
+       <b><a href="https://github.com/keyboardsurfer/Crouton">Crouton</a></b><br />
+       by Benjamin Weiss<br /><br />
+
+       <b><a href="http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html">Android Asset Studio</a></b><br />
+       by Roman Nurik<br /><br />
+
+       <b><a href="http://jgilfelt.github.com/android-actionbarstylegenerator/">Android Action Bar Style Generator</a></b><br />
+       by Jeff Gilfelt<br /><br />
+
+       <b><a href="http://android-holo-colors.com/">Android Holo Colors Generator</a></b><br />
+       by Jérôme Van Der Linden<br /><br />
     ]]>
     </string>
 
