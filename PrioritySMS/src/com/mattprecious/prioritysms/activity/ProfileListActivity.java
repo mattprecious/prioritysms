@@ -80,10 +80,6 @@ public class ProfileListActivity extends SherlockFragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!BuildConfig.DEBUG) {
-            Crashlytics.start(this);
-        }
-
         setContentView(R.layout.activity_profile_list);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
