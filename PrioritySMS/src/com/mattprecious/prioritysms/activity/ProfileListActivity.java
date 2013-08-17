@@ -87,6 +87,12 @@ public class ProfileListActivity extends SherlockFragmentActivity
         setContentView(R.layout.activity_profile_list);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        if (!getPreferences(MODE_PRIVATE).contains(KEY_CHANGE_LOG_VERSION)) {
+            mPreferences.edit()
+                    .putBoolean(getString(R.string.pref_key_enabled), true)
+                    .commit();
+        }
+
         mIsPro = mPreferences.getBoolean(KEY_IS_PRO, false);
 
         mIabHelper = new IabHelper(this, getString(R.string.iap_key));
