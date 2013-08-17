@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- general -->
+    <string name="contact_name_not_found">N/A</string>
+
     <!-- notification -->
     <string name="notif_action_dismiss">Dismiss</string>
     <string name="notif_action_reply">Reply</string>

@@ -47,7 +47,7 @@ public class ContactHelper {
     }
 
     public static String getNameByLookupKey(Context context, String lookupKey) {
-        String name = context.getString(R.string.na);
+        String name = context.getString(R.string.contact_name_not_found);
         if (!lookupKey.equals("")) {
             Uri lookupUri = Uri.withAppendedPath(Contacts.CONTENT_LOOKUP_URI, lookupKey);
 
