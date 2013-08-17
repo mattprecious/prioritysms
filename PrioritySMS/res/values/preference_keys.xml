@@ -2,6 +2,7 @@
 <resources>
     <!-- general -->
     <string name="pref_key_enabled">enabled</string>
+    <string name="pref_key_general_analytics">general_analytics</string>
 
     <!-- alarm -->
     <string name="pref_key_alarm_timeout">alarm_timeout</string>

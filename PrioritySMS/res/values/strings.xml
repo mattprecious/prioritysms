@@ -85,9 +85,14 @@
     <string name="pro_purchase_failed">Something went wrong, please try again.</string>
 
     <!-- prefence headers -->
+    <string name="preference_header_general">General settings</string>
     <string name="preference_header_alarm">Alarm settings</string>
     <string name="preference_header_advanced">Advanced</string>
     <string name="preference_header_about">About</string>
+
+    <!-- general preferences -->
+    <string name="general_analytics_title">Improve Priority SMS</string>
+    <string name="general_analytics_summary">Help improve Priority SMS by sending anonymous usage data</string>
 
     <!-- alarm preferences -->
     <string name="alarm_timeout_title">Silence after</string>

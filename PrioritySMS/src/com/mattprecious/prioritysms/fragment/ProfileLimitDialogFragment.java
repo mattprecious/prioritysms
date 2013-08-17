@@ -5,10 +5,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import com.mattprecious.prioritysms.R;
 
-public class ProfileLimitDialogFragment extends DialogFragment {
+public class ProfileLimitDialogFragment extends BaseSupportDialogFragment {
 
     public interface Callbacks {
         public void onGoProClick();

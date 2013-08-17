@@ -32,7 +32,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-public class AlarmActivity extends SherlockFragmentActivity implements
+public class AlarmActivity extends BaseActivity implements
         GlowPadView.OnTriggerListener {
 
     private static final String TAG = AlarmActivity.class.getSimpleName();

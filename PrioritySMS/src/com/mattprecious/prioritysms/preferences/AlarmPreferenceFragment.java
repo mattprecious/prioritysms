@@ -5,11 +5,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import com.mattprecious.prioritysms.R;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class AlarmPreferenceFragment extends PreferenceFragment {
+public class AlarmPreferenceFragment extends BasePreferenceFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

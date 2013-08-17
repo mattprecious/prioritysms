@@ -1,6 +1,8 @@
 
 package com.mattprecious.prioritysms.fragment;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -61,6 +63,13 @@ public class ProfileListFragment extends SherlockListFragment {
 
         mAdapter = new ProfileListAdapter(getActivity());
         setListAdapter(mAdapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().setContext(getActivity());
+        EasyTracker.getTracker().sendView(getClass().getSimpleName());
     }
 
     @Override

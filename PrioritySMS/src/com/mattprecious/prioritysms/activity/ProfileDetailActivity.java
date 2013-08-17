@@ -14,7 +14,7 @@ import android.os.Bundle;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
-public class ProfileDetailActivity extends SherlockFragmentActivity implements
+public class ProfileDetailActivity extends BaseActivity implements
         ProfileDetailFragment.Callbacks {
 
     public static final int RESULT_DELETED = 10;

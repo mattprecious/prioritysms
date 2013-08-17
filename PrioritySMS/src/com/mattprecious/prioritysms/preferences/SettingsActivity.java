@@ -1,10 +1,14 @@
 package com.mattprecious.prioritysms.preferences;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.GoogleAnalytics;
+
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -12,6 +16,7 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.InputType;
 import android.text.method.LinkMovementMethod;
@@ -31,10 +36,13 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Scanner;
 
-public class SettingsActivity extends SherlockPreferenceActivity {
+public class SettingsActivity extends SherlockPreferenceActivity implements
+        SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = SettingsActivity.class.getSimpleName();
     private static final String ENCODING = "UTF-8";
 
+    public static final String PREFS_GENERAL =
+            "com.mattprecious.prioritysms.preferences.PREFS_GENERAL";
     public static final String PREFS_ALARM =
             "com.mattprecious.prioritysms.preferences.PREFS_ALARM";
     public static final String PREFS_ADVANCED =
@@ -47,8 +55,13 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener(this);
+
         String action = getIntent().getAction();
-        if (PREFS_ALARM.equals(action)) {
+        if (PREFS_GENERAL.equals(action)) {
+            addPreferencesFromResource(R.xml.general_preferences);
+        } else if (PREFS_ALARM.equals(action)) {
             addPreferencesFromResource(R.xml.alarm_preferences);
 
             ListPreference timeoutPreference =
@@ -114,6 +127,26 @@ public class SettingsActivity extends SherlockPreferenceActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.preference_headers, target);
@@ -140,6 +173,14 @@ public class SettingsActivity extends SherlockPreferenceActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (getString(R.string.pref_key_general_analytics).equals(key)) {
+            boolean value = sharedPreferences.getBoolean(key, true);
+            GoogleAnalytics.getInstance(this).setAppOptOut(!value);
+        }
     }
 
     public static void updateTimeoutSummary(Preference preference, String delay) {

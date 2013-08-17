@@ -6,14 +6,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceFragment;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.fragment.AttributionsDialogFragment;
 import com.mattprecious.prioritysms.fragment.ChangeLogDialogFragment;
 import com.mattprecious.prioritysms.util.Helpers;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class AboutPreferenceFragment extends PreferenceFragment {
+public class AboutPreferenceFragment extends BasePreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

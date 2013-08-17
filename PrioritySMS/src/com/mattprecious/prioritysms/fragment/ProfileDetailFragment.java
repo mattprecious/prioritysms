@@ -2,7 +2,6 @@ package com.mattprecious.prioritysms.fragment;
 
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.SparseArray;
-import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -35,7 +34,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-public class ProfileDetailFragment extends SherlockFragment {
+public class ProfileDetailFragment extends BaseFragment {
 
     private static final String TAG = ProfileDetailFragment.class.getSimpleName();
 
@@ -391,7 +390,7 @@ public class ProfileDetailFragment extends SherlockFragment {
         }
     }
 
-    public abstract static class BaseDetailFragment extends SherlockFragment {
+    public abstract static class BaseDetailFragment extends BaseFragment {
 
         public abstract void updateProfile(BaseProfile profile);
 
