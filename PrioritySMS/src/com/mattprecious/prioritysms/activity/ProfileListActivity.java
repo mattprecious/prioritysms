@@ -44,6 +44,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
+import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
@@ -60,6 +61,10 @@ public class ProfileListActivity extends SherlockFragmentActivity
 
     private static final int REQUEST_ID_PROFILE_EDIT = 1;
     private static final int REQUEST_ID_GO_PRO = 2;
+
+    private static final Style CROUTON_STYLE_DELETE = new Style.Builder(Style.INFO)
+            .setPaddingDimensionResId(R.dimen.crouton_delete_padding)
+            .build();
 
     private boolean mTwoPane;
     private boolean mIsPro;
@@ -242,7 +247,8 @@ public class ProfileListActivity extends SherlockFragmentActivity
                         showDiscardCrouton();
                         break;
                     case ProfileDetailActivity.RESULT_DELETED:
-                        showDeleteCrouton();
+                        showDeleteCrouton((BaseProfile) data.getParcelableExtra(
+                                ProfileDetailFragment.EXTRA_PROFILE));
                         break;
                     default:
                         break;
@@ -344,15 +350,31 @@ public class ProfileListActivity extends SherlockFragmentActivity
         showCrouton(R.string.crouton_profile_discarded, Style.INFO);
     }
 
-    private void showDeleteCrouton() {
-        showCrouton(R.string.crouton_profile_deleted, Style.INFO);
+    private void showDeleteCrouton(final BaseProfile profile) {
+        Crouton crouton = makeCrouton(R.string.crouton_profile_deleted, CROUTON_STYLE_DELETE);
+        crouton.setConfiguration(new Configuration.Builder()
+                .setDuration(Configuration.DURATION_LONG)
+                .build());
+        crouton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Crouton.clearCroutonsForActivity(ProfileListActivity.this);
+                profile.undoDelete(getApplicationContext());
+                refreshList();
+            }
+        });
+
+        crouton.show();
     }
 
     private void showCrouton(int messageResId, Style style) {
-        Crouton.showText(this, messageResId, style, mTwoPane ? R.id.profile_detail_container
-                : android.R.id.content);
+        makeCrouton(messageResId, style).show();
     }
 
+    private Crouton makeCrouton(int messageResId, Style style) {
+        return Crouton.makeText(this, messageResId, style, mTwoPane ? R.id.profile_detail_container
+                : android.R.id.content);
+    }
     @Override
     public void onNewProfile(BaseProfile profile) {
         onItemSelected(profile);
@@ -380,10 +402,10 @@ public class ProfileListActivity extends SherlockFragmentActivity
     }
 
     @Override
-    public void onDelete() {
+    public void onDelete(BaseProfile profile) {
         removeDetailFragment();
         refreshList();
-        showDeleteCrouton();
+        showDeleteCrouton(profile);
     }
 
     @Override

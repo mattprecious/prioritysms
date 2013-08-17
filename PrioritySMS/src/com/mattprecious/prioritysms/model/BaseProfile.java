@@ -61,6 +61,15 @@ public abstract class BaseProfile implements Parcelable {
         db.deleteProfile(this);
     }
 
+    public void undoDelete(Context context) {
+        if (getId() == -1) {
+            return;
+        }
+
+        DbAdapter db = new DbAdapter(context);
+        db.insertProfile(this);
+    }
+
     protected boolean matches(Context context, String number) {
         Set<String> contacts = getContacts();
         if (contacts.size() > 0) {

@@ -3,6 +3,9 @@
 
     <dimen name="action_bar_switch_padding">16dip</dimen>
 
+    <!-- crouton -->
+    <dimen name="crouton_delete_padding">16dip</dimen>
+
     <!-- profile list -->
     <dimen name="profile_list_margin">16dip</dimen>
     <dimen name="profile_list_item_padding">12dip</dimen>

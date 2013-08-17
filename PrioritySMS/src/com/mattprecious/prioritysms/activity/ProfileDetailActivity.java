@@ -9,6 +9,7 @@ import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.fragment.ProfileDetailFragment;
 import com.mattprecious.prioritysms.model.BaseProfile;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -78,8 +79,10 @@ public class ProfileDetailActivity extends SherlockFragmentActivity implements
     }
 
     @Override
-    public void onDelete() {
-        setResult(RESULT_DELETED);
+    public void onDelete(BaseProfile profile) {
+        Intent data = new Intent();
+        data.putExtra(ProfileDetailFragment.EXTRA_PROFILE, profile);
+        setResult(RESULT_DELETED, data);
         finish();
     }
 
