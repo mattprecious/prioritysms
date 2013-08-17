@@ -302,7 +302,7 @@ public class ProfileListActivity extends BaseActivity
     }
 
     private void configureActionBar() {
-        mActionBarSwitch = new Switch(this, null, R.attr.switchStyleAb);
+        mActionBarSwitch = new Switch(this);
         mActionBarSwitch.setChecked(mPreferences.getBoolean(getString(R.string.pref_key_enabled),
                 false));
         mActionBarSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
