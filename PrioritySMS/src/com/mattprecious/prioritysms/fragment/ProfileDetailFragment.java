@@ -52,7 +52,7 @@ public class ProfileDetailFragment extends SherlockFragment {
 
         public void onDiscard();
 
-        public void onDelete();
+        public void onDelete(BaseProfile profile);
 
         public void onSave();
     }
@@ -67,7 +67,7 @@ public class ProfileDetailFragment extends SherlockFragment {
         }
 
         @Override
-        public void onDelete() {
+        public void onDelete(BaseProfile profile) {
         }
 
         @Override
@@ -233,7 +233,10 @@ public class ProfileDetailFragment extends SherlockFragment {
                 return true;
             case R.id.menu_delete:
                 mProfile.delete(getActivity());
-                mCallbacks.onDelete();
+
+                // the profile could have been updated with local changes, grab
+                // the original one
+                mCallbacks.onDelete((BaseProfile) getArguments().getParcelable(EXTRA_PROFILE));
                 return true;
             case R.id.menu_rename:
                 if (mNameContainer.getVisibility() == View.VISIBLE) {
