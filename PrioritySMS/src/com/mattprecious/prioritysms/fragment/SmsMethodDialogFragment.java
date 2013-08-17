@@ -1,6 +1,5 @@
 package com.mattprecious.prioritysms.fragment;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.model.LogicMethod;
 
@@ -8,10 +7,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 
-
-public class SmsMethodDialogFragment extends SherlockDialogFragment {
+public class SmsMethodDialogFragment extends BaseSupportDialogFragment {
 
     public static final String EXTRA_CURRENT_VALUE = "current_value";
 

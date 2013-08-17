@@ -2,6 +2,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <Preference
+        android:title="@string/preference_header_general" >
+        <intent
+            android:action="com.mattprecious.prioritysms.preferences.PREFS_GENERAL"
+            android:targetClass="com.mattprecious.prioritysms.preferences.SettingsActivity"
+            android:targetPackage="com.mattprecious.prioritysms" />
+    </Preference>
+    <Preference
         android:title="@string/preference_header_alarm" >
         <intent
             android:action="com.mattprecious.prioritysms.preferences.PREFS_ALARM"

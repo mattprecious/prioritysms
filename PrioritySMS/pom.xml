@@ -85,7 +85,7 @@
 		<dependency>
 			<groupId>com.google.android.analytics</groupId>
 			<artifactId>analytics</artifactId>
-			<version>2</version>
+			<version>3</version>
 		</dependency>
 		<dependency>
 			<groupId>de.keyboardsurfer.android.widget</groupId>

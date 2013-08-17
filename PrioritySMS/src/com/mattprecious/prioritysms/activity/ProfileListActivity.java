@@ -48,7 +48,7 @@ import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class ProfileListActivity extends SherlockFragmentActivity
+public class ProfileListActivity extends BaseActivity
         implements ProfileListFragment.Callbacks, ProfileDetailFragment.Callbacks,
         IabHelper.QueryInventoryFinishedListener, IabHelper.OnIabPurchaseFinishedListener,
         ProfileLimitDialogFragment.Callbacks {
@@ -86,6 +86,7 @@ public class ProfileListActivity extends SherlockFragmentActivity
         if (!getPreferences(MODE_PRIVATE).contains(KEY_CHANGE_LOG_VERSION)) {
             mPreferences.edit()
                     .putBoolean(getString(R.string.pref_key_enabled), true)
+                    .putBoolean(getString(R.string.pref_key_general_analytics), true)
                     .commit();
         }
 
