@@ -70,7 +70,7 @@
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.mattprecious.prioritysms.ALERT" />
-                <action android:name="alarm_killed" />
+                <action android:name="com.mattprecious.prioritysms.ALARM_KILLED" />
             </intent-filter>
         </receiver>
 

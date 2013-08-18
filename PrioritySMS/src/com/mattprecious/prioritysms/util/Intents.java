@@ -27,7 +27,7 @@ public class Intents {
 
     // This is a private action used by the AlarmService to update the UI to
     // show the alarm has been killed.
-    public static final String ALARM_KILLED = "alarm_killed";
+    public static final String ALARM_KILLED = "com.mattprecious.prioritysms.ALARM_KILLED";
 
     // Extra in the ALARM_KILLED intent to indicate to the user how long the
     // alarm played before being killed.
