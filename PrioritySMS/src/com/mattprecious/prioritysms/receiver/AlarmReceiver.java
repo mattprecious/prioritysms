@@ -97,9 +97,17 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         BaseProfile profile = intent.getParcelableExtra(Intents.EXTRA_PROFILE);
         if (Intents.ALARM_KILLED.equals(intent.getAction())) {
-            // TODO: throw a notification saying it was auto-killed
-            NotificationManager nm = getNotificationManager(context);
-            nm.cancel(profile.getId());
+            boolean replaced = intent.getBooleanExtra(Intents.ALARM_REPLACED, false);
+            if (!replaced) {
+                // TODO: throw a notification saying it was auto-killed
+                NotificationManager nm = getNotificationManager(context);
+                nm.cancel(profile.getId());
+
+                // should be caught in the activity, but you can never have too
+                // many stopServices!
+                context.stopService(new Intent(Intents.ACTION_ALERT));
+            }
+
             return;
         } else if (!Intents.ACTION_ALERT.equals(intent.getAction())) {
             // Unknown intent, bail.
