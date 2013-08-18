@@ -12,18 +12,10 @@
         android:animateLayoutChanges="true"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/action_header"
-            style="@style/ProfileDetailHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/actions_alarm_title"/>
-
         <Spinner
             android:id="@+id/action_type"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:layout_height="wrap_content"/>
 
         <View
             style="@style/ProfileDetailHeaderDivider"
