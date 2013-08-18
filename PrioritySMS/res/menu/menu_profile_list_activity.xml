@@ -27,6 +27,7 @@
         android:title="@string/menu_settings" />
     <item
         android:id="@+id/menu_pro"
+        android:icon="@drawable/ic_action_pro"
         android:showAsAction="never"
         android:title="@string/menu_pro"/>
     <item
