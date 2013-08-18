@@ -2,6 +2,7 @@
 package com.mattprecious.prioritysms.activity;
 
 import android.text.Html;
+import android.view.KeyEvent;
 import android.widget.ImageView;
 import butterknife.InjectView;
 import butterknife.Views;
@@ -176,6 +177,21 @@ public class AlarmActivity extends BaseActivity implements
     public void onBackPressed() {
         // don't allow the activity to be closed
         return;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+            case KeyEvent.KEYCODE_VOLUME_MUTE:
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                stopService(new Intent(Intents.ACTION_ALERT));
+                break;
+            default:
+                break;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
     private void missingExtra(String extra) {
