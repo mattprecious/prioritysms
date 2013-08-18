@@ -39,12 +39,8 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
     private static final int REQUEST_CODE_RINGTONE_PICKER = 1;
 
     private BaseProfile mProfile;
-    private SmsProfile mSmsProfile;
     private boolean spinnerReady;
     private Uri ringtoneBackup;
-
-    @InjectView(R.id.action_header)
-    TextView mActionHeader;
 
     @InjectView(R.id.action_type)
     Spinner mActionTypeSpinner;
@@ -68,9 +64,6 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
         }
 
         mProfile = args.getParcelable(EXTRA_PROFILE);
-        if (mProfile instanceof SmsProfile) {
-            mSmsProfile = (SmsProfile) mProfile;
-        }
     }
 
     @Override
@@ -79,14 +72,9 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
         View rootView = inflater.inflate(R.layout.profile_detail_actions, container, false);
         Views.inject(this, rootView);
 
-        if (mSmsProfile != null) {
-            mActionHeader.setVisibility(View.GONE);
-
-            mActionTypeSpinner.setVisibility(View.VISIBLE);
-            mActionTypeSpinner.setAdapter(new ActionTypeAdapter(getActivity()));
-            mActionTypeSpinner.setOnItemSelectedListener(mActionTypeSelectedListener);
-            mActionTypeSpinner.setSelection(mProfile.getActionType().ordinal());
-        }
+        mActionTypeSpinner.setAdapter(new ActionTypeAdapter(getActivity()));
+        mActionTypeSpinner.setOnItemSelectedListener(mActionTypeSelectedListener);
+        mActionTypeSpinner.setSelection(mProfile.getActionType().ordinal());
 
         updateRingtone(mProfile.getRingtone());
         mSoundButton.setOnClickListener(new OnClickListener() {
