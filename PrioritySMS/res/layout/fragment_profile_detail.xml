@@ -20,7 +20,7 @@
             android:hint="@string/detail_name_hint"
             android:inputType="textCapWords"
             android:lines="1"
-            android:textColor="?android:attr/textColorPrimaryInverse" />
+            android:textColor="@color/profile_name_text" />
 
         <ImageButton
             android:id="@+id/close_rename"
