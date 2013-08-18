@@ -563,29 +563,32 @@ public class DbAdapter {
                 KEYWORDS_KEY_PROFILE_ID, PROFILES_TABLE_NAME, PROFILES_KEY_ID,
                 KEYWORDS_KEY_KEYWORD);
 
+        // legacy bulk-insert syntax for SQLite pre-3.7.11 (Froyo, GB)
+        // http://stackoverflow.com/questions/1609637/
+        // re-write this later...
         private static final String TYPE_TABLE_POPULATE = String.format("" +
-                "INSERT INTO %s(%s, %s) VALUES " +
-                "('%s', 1)," + // sms
-                "('%s', 2);", // phone
-                TYPE_TABLE_NAME, TYPE_KEY_TYPE, TYPE_KEY_NUM,
-                TYPE_ENUM_SMS,
+                "INSERT INTO %s " +
+                "SELECT '%s' AS '%s', '1' AS '%s' " + // sms
+                "UNION SELECT '%s', '2';", // phone
+                TYPE_TABLE_NAME,
+                TYPE_ENUM_SMS, TYPE_KEY_TYPE, TYPE_KEY_NUM,
                 TYPE_ENUM_PHONE);
 
         private static final String ACTION_TYPE_TABLE_POPULATE = String.format("" +
-                "INSERT INTO %s(%s, %s) VALUES " +
-                "('%s', 1)," + // sms
-                "('%s', 2);", // phone
-                ACTION_TYPE_TABLE_NAME, ACTION_TYPE_KEY_TYPE, ACTION_TYPE_KEY_NUM,
-                ACTION_TYPE_ENUM_ALARM,
+                "INSERT INTO %s " +
+                "SELECT '%s' AS '%s', '1' AS '%s' " + // alarm
+                "UNION SELECT '%s', '2';", // notification
+                ACTION_TYPE_TABLE_NAME,
+                ACTION_TYPE_ENUM_ALARM, ACTION_TYPE_KEY_TYPE, ACTION_TYPE_KEY_NUM,
                 ACTION_TYPE_ENUM_NOTIFICATION);
 
         private static final String METHOD_TABLE_POPULATE = String.format("" +
-                "INSERT INTO %s(%s, %s) VALUES " +
-                "('%s', 1), " + // all
-                "('%s', 2), " + // any
-                "('%s', 3);", // only
-                METHOD_TABLE_NAME, METHOD_KEY_METHOD, METHOD_KEY_NUM,
-                METHOD_ENUM_ALL,
+                "INSERT INTO %s " +
+                "SELECT '%s' AS '%s', '1' AS '%s' " + // all
+                "UNION SELECT '%s', '2' " + // any
+                "UNION SELECT '%s', '3';", // only
+                METHOD_TABLE_NAME,
+                METHOD_ENUM_ALL, METHOD_KEY_METHOD, METHOD_KEY_NUM,
                 METHOD_ENUM_ANY,
                 METHOD_ENUM_ONLY);
 
