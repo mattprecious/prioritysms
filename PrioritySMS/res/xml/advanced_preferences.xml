@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/preference_header_advanced" >
+    android:title="@string/preference_header_advanced">
 
-    <EditTextPreference
+    <ListPreference
+        android:defaultValue="2000"
+        android:entries="@array/call_log_delay_names"
+        android:entryValues="@array/call_log_delay_values"
         android:key="@string/pref_key_advanced_log_delay"
-        android:title="@string/advanced_call_log_delay_title"
         android:summary="@string/advanced_call_log_delay_summary"
-        android:defaultValue="2000" />
+        android:title="@string/advanced_call_log_delay_title" />
 
 </PreferenceScreen>

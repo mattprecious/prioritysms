@@ -15,9 +15,5 @@ public class AdvancedPreferenceFragment extends BasePreferenceFragment {
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.advanced_preferences);
-
-        EditTextPreference callLogDelayPreference = (EditTextPreference)
-                findPreference(getString(R.string.pref_key_advanced_log_delay));
-        callLogDelayPreference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
     }
 }

@@ -46,4 +46,22 @@
         <item>30</item>
         <item>-1</item>
     </string-array>
+
+    <!-- advanced preferences -->
+    <string-array name="call_log_delay_names">
+        <item>1 second</item>
+        <item>2 seconds</item>
+        <item>3 seconds</item>
+        <item>4 seconds</item>
+        <item>5 seconds</item>
+        <item>6 seconds</item>
+    </string-array>
+    <string-array name="call_log_delay_values">
+        <item>1000</item>
+        <item>2000</item>
+        <item>3000</item>
+        <item>4000</item>
+        <item>5000</item>
+        <item>6000</item>
+    </string-array>
 </resources>
