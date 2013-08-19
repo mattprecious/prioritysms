@@ -77,10 +77,6 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
                     });
         } else if (PREFS_ADVANCED.equals(action)) {
             addPreferencesFromResource(R.xml.advanced_preferences);
-
-            EditTextPreference callLogDelayPreference = (EditTextPreference)
-                    findPreference(getString(R.string.pref_key_advanced_log_delay));
-            callLogDelayPreference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
         } else if (PREFS_ABOUT.equals(action)) {
             addPreferencesFromResource(R.xml.about_preferences);
             findPreference(getString(R.string.pref_key_about_version))

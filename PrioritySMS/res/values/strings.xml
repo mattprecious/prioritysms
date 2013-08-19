@@ -102,7 +102,7 @@
     <!-- advanced preferences -->
     <string name="advanced_call_log_delay_title">Call Log Delay</string>
     <string name="advanced_call_log_delay_summary">
-        Wait this long (in ms) after a phone call to check the call log. Increase this time if the
+        How long to wait after a phone call to check the call log. Increase this time if the
         alarm isn\'t working after a missed call.
     </string>
 
