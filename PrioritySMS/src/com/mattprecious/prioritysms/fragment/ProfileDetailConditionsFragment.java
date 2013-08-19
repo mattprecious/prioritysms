@@ -241,7 +241,6 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
 
         EditText nameText = findById(v, R.id.text);
         nameText.setText(keyword);
-        nameText.requestFocus();
 
         ImageButton deleteButton = findById(v, R.id.delete);
         deleteButton.setOnClickListener(mKeywordDeleteListener);
@@ -253,6 +252,9 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         // have to do any lookups as we loop through to save
         v.setTag(nameText);
         mKeywordsList.addView(v, mKeywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST);
+
+        // GB bug: need to request focus AFTER it's been added to a parent
+        nameText.requestFocus();
     }
 
     private void updateContact(ContactViewHolder holder, String contactLookup) {
