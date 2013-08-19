@@ -168,8 +168,6 @@ public class ProfileListActivity extends BaseActivity
         if (mTwoPane) {
             boolean wasEditing = mDetailFragment != null;
 
-            Crouton.cancelAllCroutons();
-
             mDetailFragment = ProfileDetailFragment.create(profile);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.profile_detail_container, mDetailFragment)
@@ -186,6 +184,8 @@ public class ProfileListActivity extends BaseActivity
             detailIntent.putExtra(ProfileDetailFragment.EXTRA_PROFILE, profile);
             startActivityForResult(detailIntent, REQUEST_ID_PROFILE_EDIT);
         }
+
+        Crouton.cancelAllCroutons();
     }
 
     @Override
