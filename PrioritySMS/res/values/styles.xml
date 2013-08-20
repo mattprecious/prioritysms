@@ -97,7 +97,8 @@
     <style name="ProfileDetailActionsItem">
         <!-- copied below to ProfileDetailActionsItem.Button" -->
         <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:padding">8dip</item>
+        <item name="android:paddingBottom">8dip</item>
+        <item name="android:paddingTop">8dip</item>
         <item name="android:textSize">20sp</item>
     </style>
 
