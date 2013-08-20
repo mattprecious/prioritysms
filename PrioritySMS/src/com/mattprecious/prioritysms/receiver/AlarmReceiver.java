@@ -198,6 +198,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         // correct notification.
         NotificationManager nm = getNotificationManager(context);
         nm.notify(profile.getId(), notif);
+
+        // full screen intent doesn't do anything pre-honeycomb
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            context.startActivity(activityIntent);
+        }
     }
 
     private void doNotify(Context context, BaseProfile profile) {
