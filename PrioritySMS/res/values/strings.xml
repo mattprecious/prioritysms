@@ -83,6 +83,7 @@
     <string name="limit_reached_positive">Go pro!</string>
     <string name="pro_purchase_success">Thanks for upgrading!</string>
     <string name="pro_purchase_failed">Something went wrong, please try again.</string>
+    <string name="iab_not_ready">Could not setup In-app Billing</string>
 
     <!-- prefence headers -->
     <string name="preference_header_general">General settings</string>

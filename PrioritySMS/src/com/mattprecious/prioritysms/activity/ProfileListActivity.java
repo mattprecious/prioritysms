@@ -71,6 +71,7 @@ public class ProfileListActivity extends BaseActivity
 
     private SharedPreferences mPreferences;
     private IabHelper mIabHelper;
+    private boolean mIabSetupDone;
 
     private Switch mActionBarSwitch;
     private ProfileListFragment mListFragment;
@@ -106,6 +107,7 @@ public class ProfileListActivity extends BaseActivity
                     return;
                 }
 
+                mIabSetupDone = true;
                 mIabHelper.queryInventoryAsync(ProfileListActivity.this);
             }
         });
@@ -391,8 +393,12 @@ public class ProfileListActivity extends BaseActivity
 
     @Override
     public void onGoProClick() {
-        mIabHelper.launchPurchaseFlow(this, getString(R.string.iap_sku_pro), REQUEST_ID_GO_PRO,
-                this);
+        if (mIabSetupDone) {
+            mIabHelper.launchPurchaseFlow(this, getString(R.string.iap_sku_pro), REQUEST_ID_GO_PRO,
+                    this);
+        } else {
+            Crouton.showText(this, R.string.iab_not_ready, Style.ALERT);
+        }
     }
 
     @Override
