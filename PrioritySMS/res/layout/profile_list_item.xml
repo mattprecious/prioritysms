@@ -1,34 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/profile_list_item"
+    android:orientation="horizontal"
+    android:padding="@dimen/profile_list_item_padding">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/profile_name"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:layout_margin="8dip"
-        android:background="@drawable/profile_list_item"
-        android:orientation="horizontal"
-        android:padding="@dimen/profile_list_item_padding">
+        android:layout_marginRight="10dip"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:fontFamily="sans-serif-light"
+        android:textColor="@color/profile_item_title"
+        android:textIsSelectable="false"
+        android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/profile_name"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dip"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-light"
-            android:textColor="@color/profile_item_title"
-            android:textIsSelectable="false"
-            android:textSize="20sp" />
-
-        <org.jraf.android.backport.switchwidget.Switch
-            android:id="@+id/profile_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="false"
-            android:focusableInTouchMode="false" />
-    </LinearLayout>
-
-</FrameLayout>
+    <org.jraf.android.backport.switchwidget.Switch
+        android:id="@+id/profile_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+</LinearLayout>

@@ -11,9 +11,12 @@
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
         android:divider="@null"
-        android:dividerHeight="0dip"
+        android:dividerHeight="12dip"
         android:listSelector="@android:color/transparent"
+        android:padding="8dip"
+        android:scrollbarStyle="outsideOverlay"
         tools:listitem="@layout/profile_list_item" />
 
     <TextView
