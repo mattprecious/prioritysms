@@ -242,6 +242,11 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         EditText nameText = findById(v, R.id.text);
         nameText.setText(keyword);
 
+        // GB bug: Android caches the value by id when saving the state, and
+        // since each keyword EditText has the same id they will all be
+        // restored to the same value after a rotation
+        nameText.setSaveEnabled(false);
+
         ImageButton deleteButton = findById(v, R.id.delete);
         deleteButton.setOnClickListener(mKeywordDeleteListener);
 
