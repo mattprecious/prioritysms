@@ -72,16 +72,20 @@ public abstract class BaseProfile implements Parcelable {
 
     protected boolean matches(Context context, String number) {
         Set<String> contacts = getContacts();
-        if (contacts.size() > 0) {
-            String incomingContactId = ContactHelper.getContactIdByNumber(context, number);
-            if (incomingContactId == null) {
-                return false;
-            } else {
-                for (String lookupKey : contacts) {
-                    String contactId = ContactHelper.getContactIdByLookupKey(context, lookupKey);
-                    if (incomingContactId.equals(contactId)) {
-                        return true;
-                    }
+
+        // no contacts set, so allow all
+        if (contacts.size() == 0) {
+            return true;
+        }
+
+        String incomingContactId = ContactHelper.getContactIdByNumber(context, number);
+        if (incomingContactId == null) {
+            return false;
+        } else {
+            for (String lookupKey : contacts) {
+                String contactId = ContactHelper.getContactIdByLookupKey(context, lookupKey);
+                if (incomingContactId.equals(contactId)) {
+                    return true;
                 }
             }
         }
