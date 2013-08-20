@@ -43,13 +43,23 @@
         <item name="android:padding">4dip</item>
     </style>
 
+    <style name="ProfileDetailPage">
+        <item name="android:background">@color/detail_background</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:fadingEdge">none</item>
+        <item name="android:padding">@dimen/profile_detail_card_margin</item>
+        <item name="android:scrollbarStyle">outsideOverlay</item>
+    </style>
+
     <style name="ProfileDetailCard">
-        <item name="android:layout_marginLeft">@dimen/profile_detail_card_margin</item>
-        <item name="android:layout_marginRight">@dimen/profile_detail_card_margin</item>
-        <item name="android:layout_marginTop">@dimen/profile_detail_card_margin</item>
+        <item name="android:layout_marginBottom">@dimen/profile_detail_card_margin</item>
         <item name="android:background">@drawable/card_background</item>
         <item name="android:orientation">vertical</item>
         <item name="android:padding">@dimen/profile_detail_padding</item>
+    </style>
+
+    <style name="ProfileDetailCard.Last">
+        <item name="android:layout_marginBottom">0dip</item>
     </style>
 
     <style name="ProfileDetailHeader">
