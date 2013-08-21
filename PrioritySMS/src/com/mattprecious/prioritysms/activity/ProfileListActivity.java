@@ -91,12 +91,7 @@ public class ProfileListActivity extends BaseActivity
         setContentView(R.layout.activity_profile_list);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (!getPreferences(MODE_PRIVATE).contains(KEY_CHANGE_LOG_VERSION)) {
-            mPreferences.edit()
-                    .putBoolean(getString(R.string.pref_key_enabled), true)
-                    .putBoolean(getString(R.string.pref_key_general_analytics), true)
-                    .commit();
-        }
+        checkUpdated();
 
         mIsPro = mPreferences.getBoolean(KEY_IS_PRO, false);
 
@@ -138,8 +133,6 @@ public class ProfileListActivity extends BaseActivity
                 setHasOptionsMenu(false);
             }
         }
-
-        checkUpdated();
     }
 
     @Override
@@ -484,6 +477,14 @@ public class ProfileListActivity extends BaseActivity
             int lastVersion = getPreferences(MODE_PRIVATE).getInt(KEY_CHANGE_LOG_VERSION,
                     mPreferences.getInt("version_code", 0));
 
+            // set some defaults
+            if (lastVersion == 0) {
+                mPreferences.edit()
+                    .putBoolean(getString(R.string.pref_key_enabled), true)
+                    .putBoolean(getString(R.string.pref_key_general_analytics), true)
+                    .commit();
+            }
+
             int currentVersion = packageInfo.versionCode;
             if (lastVersion < currentVersion) {
                 doUpdate(lastVersion, currentVersion);
@@ -521,7 +522,7 @@ public class ProfileListActivity extends BaseActivity
             case 4:
                 // enabled defaulted to false previously
                 mPreferences.edit().putBoolean(getString(R.string.pref_key_enabled),
-                        mPreferences.getBoolean("enabled", false));
+                        mPreferences.getBoolean("enabled", false)).commit();
 
                 SmsProfile smsProfile = new SmsProfile();
                 smsProfile.setName("SMS Profile");
