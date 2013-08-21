@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="glowpad_outer_ring_diameter">200dip</dimen>
+    <dimen name="glowpad_outer_ring_radius">100dip</dimen>
+
+</resources>
