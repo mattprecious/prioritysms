@@ -1,6 +1,7 @@
 package com.mattprecious.prioritysms;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.mattprecious.prioritysms.util.Intents;
 
 import android.app.Application;
@@ -25,7 +26,9 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        if (!BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
+            GoogleAnalytics.getInstance(this).setDebug(true);
+        } else {
             Crashlytics.start(this);
         }
 
