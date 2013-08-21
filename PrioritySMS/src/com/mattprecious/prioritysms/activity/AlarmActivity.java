@@ -1,6 +1,8 @@
 
 package com.mattprecious.prioritysms.activity;
 
+import com.google.common.base.Strings;
+
 import android.text.Html;
 import android.view.*;
 import android.widget.ImageView;
@@ -145,7 +147,8 @@ public class AlarmActivity extends BaseActivity implements
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
 
-        mAnimateMessageSize = getResources().getBoolean(R.bool.animate_message_size);
+        mAnimateMessageSize = !Strings.isNullOrEmpty(mMessage)
+                && getResources().getBoolean(R.bool.animate_message_size);
 
         String styledMessage = mMessage;
         if (mSmsProfile != null) {
