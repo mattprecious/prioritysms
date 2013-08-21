@@ -16,4 +16,7 @@
     <dimen name="profile_detail_header_divider_height">1dip</dimen>
     <dimen name="profile_detail_avatar_size">48dip</dimen>
 
+    <!-- alarm -->
+    <dimen name="glowpad_outer_ring_diameter">270dip</dimen>
+    <dimen name="glowpad_outer_ring_radius">135dip</dimen>
 </resources>

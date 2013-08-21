@@ -2,17 +2,17 @@
 package com.mattprecious.prioritysms.activity;
 
 import android.text.Html;
-import android.view.KeyEvent;
+import android.view.*;
 import android.widget.ImageView;
 import butterknife.InjectView;
 import butterknife.Views;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.model.BaseProfile;
 import com.mattprecious.prioritysms.model.SmsProfile;
 import com.mattprecious.prioritysms.util.ContactHelper;
 import com.mattprecious.prioritysms.util.Intents;
 
+import com.mattprecious.prioritysms.view.MarginAnimation;
 import net.sebastianopoggi.ui.GlowPadBackport.GlowPadView;
 
 import android.annotation.TargetApi;
@@ -27,10 +27,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 public class AlarmActivity extends BaseActivity implements
@@ -44,8 +40,17 @@ public class AlarmActivity extends BaseActivity implements
 
     private static final long PING_AUTO_REPEAT_DELAY_MSEC = 1200;
 
+    // mirroring show/hide values from GlowPadView
+    private static final int COLLAPSE_ANIMATION_DURATION = 200;
+    private static final int COLLAPSE_ANIMATINO_DELAY = 50;
+    private static final int EXPAND_ANIMATION_DURATION = 200;
+    private static final int EXPAND_ANIMATION_DELAY = 200;
+
     @InjectView(R.id.contact_name)
     TextView mNameView;
+
+    @InjectView(R.id.message_container)
+    View mMessageContainerView;
 
     @InjectView(R.id.message)
     TextView mMessageView;
@@ -67,6 +72,8 @@ public class AlarmActivity extends BaseActivity implements
     private String mMessage;
 
     private boolean mPingEnabled = true;
+    private boolean mAnimateMessageSize;
+    private int mMessageMarginBottom;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -137,6 +144,8 @@ public class AlarmActivity extends BaseActivity implements
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+
+        mAnimateMessageSize = getResources().getBoolean(R.bool.animate_message_size);
 
         String styledMessage = mMessage;
         if (mSmsProfile != null) {
@@ -257,6 +266,18 @@ public class AlarmActivity extends BaseActivity implements
     @Override
     public void onGrabbed(View v, int handle) {
         mPingEnabled = false;
+
+        if (mAnimateMessageSize) {
+            mMessageMarginBottom = getMarginBottom(mMessageContainerView);
+
+            MarginAnimation animation = new MarginAnimation(mMessageContainerView);
+            animation.setDuration(COLLAPSE_ANIMATION_DURATION);
+            animation.setStartOffset(COLLAPSE_ANIMATINO_DELAY);
+            animation.setMarginBottom(0);
+
+            mMessageContainerView.clearAnimation();
+            mMessageContainerView.startAnimation(animation);
+        }
     }
 
     @Override
@@ -267,6 +288,16 @@ public class AlarmActivity extends BaseActivity implements
     public void onReleased(View v, int handle) {
         mPingEnabled = true;
         triggerPing();
+
+        if (mAnimateMessageSize) {
+            MarginAnimation animation = new MarginAnimation(mMessageContainerView);
+            animation.setDuration(EXPAND_ANIMATION_DURATION);
+            animation.setStartOffset(EXPAND_ANIMATION_DELAY);
+            animation.setMarginBottom(mMessageMarginBottom);
+
+            mMessageContainerView.clearAnimation();
+            mMessageContainerView.startAnimation(animation);
+        }
     }
 
     @Override
@@ -285,5 +316,10 @@ public class AlarmActivity extends BaseActivity implements
             default:
                 break;
         }
+    }
+
+    private static int getMarginBottom(View view) {
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+        return params == null ? 0 : params.bottomMargin;
     }
 }

@@ -147,7 +147,7 @@
         <item name="glowRadius">75dip</item>
         <item name="handleDrawable">@drawable/ic_glowpad_touch_handle</item>
         <item name="innerRadius">15dip</item>
-        <item name="outerRadius">135dip</item>
+        <item name="outerRadius">@dimen/glowpad_outer_ring_radius</item>
         <item name="outerRingDrawable">@drawable/ic_glowpad_outerring</item>
         <item name="pointDrawable">@drawable/ic_glowpad_glowdot</item>
         <item name="snapMargin">40dip</item>
