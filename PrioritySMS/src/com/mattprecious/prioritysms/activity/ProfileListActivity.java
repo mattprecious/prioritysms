@@ -1,15 +1,19 @@
 
 package com.mattprecious.prioritysms.activity;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -21,6 +25,7 @@ import com.mattprecious.prioritysms.billing.IabHelper;
 import com.mattprecious.prioritysms.billing.IabResult;
 import com.mattprecious.prioritysms.billing.Inventory;
 import com.mattprecious.prioritysms.billing.Purchase;
+import com.mattprecious.prioritysms.db.DbAdapter;
 import com.mattprecious.prioritysms.devtools.TriggerAlarmPhoneDialogFragment;
 import com.mattprecious.prioritysms.devtools.TriggerAlarmSmsDialogFragment;
 import com.mattprecious.prioritysms.fragment.ChangeLogDialogFragment;
@@ -29,6 +34,8 @@ import com.mattprecious.prioritysms.fragment.ProfileLimitDialogFragment;
 import com.mattprecious.prioritysms.fragment.ProfileListFragment;
 import com.mattprecious.prioritysms.model.BaseProfile;
 
+import com.mattprecious.prioritysms.model.PhoneProfile;
+import com.mattprecious.prioritysms.model.SmsProfile;
 import com.mattprecious.prioritysms.preferences.AboutPreferenceFragment;
 import com.mattprecious.prioritysms.preferences.SettingsActivity;
 import com.mattprecious.prioritysms.util.Helpers;
@@ -132,7 +139,7 @@ public class ProfileListActivity extends BaseActivity
             }
         }
 
-        changeLog();
+        checkUpdated();
     }
 
     @Override
@@ -467,13 +474,20 @@ public class ProfileListActivity extends BaseActivity
                 R.string.preference_header_about);
     }
 
-    private void changeLog() {
+    private void checkUpdated() {
         PackageManager packageManager = getPackageManager();
 
         try {
             PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
 
-            if (getPreferences(MODE_PRIVATE).getInt(KEY_CHANGE_LOG_VERSION, 0) < packageInfo.versionCode) {
+            // the old code stored this in the global settings, so fall back to that
+            int lastVersion = getPreferences(MODE_PRIVATE).getInt(KEY_CHANGE_LOG_VERSION,
+                    mPreferences.getInt("version_code", 0));
+
+            int currentVersion = packageInfo.versionCode;
+            if (lastVersion < currentVersion) {
+                doUpdate(lastVersion, currentVersion);
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                     showChangeLog();
                 } else {
@@ -486,6 +500,95 @@ public class ProfileListActivity extends BaseActivity
             }
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, "Failed to show change log", e);
+        }
+    }
+
+    // TODO: move this to another file
+    // TODO: pop loading dialog
+    private void doUpdate(int from, int to) {
+        switch (from) {
+            case 1:
+            case 2:
+                // too old, don't worry
+                break;
+            case 3:
+                // move 'contact' preference to 'sms_contact'
+                mPreferences.edit()
+                        .putString("sms_contact", mPreferences.getString("contact", null))
+                        .remove("contact")
+                        .commit();
+
+            case 4:
+                // enabled defaulted to false previously
+                mPreferences.edit().putBoolean(getString(R.string.pref_key_enabled),
+                        mPreferences.getBoolean("enabled", false));
+
+                SmsProfile smsProfile = new SmsProfile();
+                smsProfile.setName("SMS Profile");
+
+                PhoneProfile phoneProfile = new PhoneProfile();
+                phoneProfile.setName("Phone Profile");
+
+                String ringtone = mPreferences.getString("alarm", null);
+                Uri ringtoneUri = ringtone == null
+                        ? RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+                        : Uri.parse(ringtone);
+                smsProfile.setRingtone(ringtoneUri);
+                phoneProfile.setRingtone(ringtoneUri);
+
+                boolean vibrate = mPreferences.getBoolean("vibrate", false);
+                smsProfile.setVibrate(vibrate);
+                phoneProfile.setVibrate(vibrate);
+
+                // import the SMS settings
+                boolean smsWorthSaving = false;
+
+                String smsLookup = mPreferences.getString("sms_contact", null);
+                if (mPreferences.getBoolean("filter_contact", false)
+                        && !Strings.isNullOrEmpty(smsLookup)) {
+                    smsProfile.addContact(smsLookup);
+                    smsWorthSaving = true;
+                }
+
+                String keywords = mPreferences.getString("keyword", null);
+                if (mPreferences.getBoolean("filter_keyword", false)
+                        && !Strings.isNullOrEmpty(keywords)) {
+                    String[] keywordArr = keywords.split(",");
+                    smsProfile.setKeywords(Sets.newHashSet(keywordArr));
+                    smsWorthSaving = true;
+                }
+
+                if (smsWorthSaving) {
+                    smsProfile.save(this);
+                }
+
+                // import the missed call settings
+                phoneProfile.setEnabled(mPreferences.getBoolean("on_call", false));
+
+                boolean phoneWorthSaving = false;
+
+                String phoneLookup = mPreferences.getString("call_contact", null);
+                if (!Strings.isNullOrEmpty(phoneLookup)) {
+                    phoneProfile.addContact(phoneLookup);
+                    phoneWorthSaving = true;
+                }
+
+                if (phoneWorthSaving) {
+                    phoneProfile.save(this);
+                }
+
+                // delete all those old preferences
+                mPreferences.edit()
+                        .remove("filter_keyword")
+                        .remove("keyword")
+                        .remove("filter_contact")
+                        .remove("sms_contact")
+                        .remove("on_call")
+                        .remove("call_contact")
+                        .remove("alarm")
+                        .remove("override")
+                        .remove("vibrate")
+                        .commit();
         }
     }
 
