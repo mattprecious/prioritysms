@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2013 Matthew Precious
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <!-- general -->
+    <string name="pref_key_enabled">enabled</string>
+    <string name="pref_key_general_analytics">general_analytics</string>
+
+    <!-- alarm -->
+    <string name="pref_key_alarm_timeout">alarm_timeout</string>
+
+    <!-- advanced -->
+    <string name="pref_key_advanced_log_delay">call_log_delay</string>
+
+    <!-- about -->
+    <string name="pref_key_about_version">about_version</string>
+    <string name="pref_key_about_change_log">about_change_log</string>
+    <string name="pref_key_about_attributions">about_attributions</string>
+    <string name="pref_key_about_translate">about_translate</string>
+    <string name="pref_key_about_feedback">about_feedback</string>
+</resources>
