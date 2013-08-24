@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mattprecious</groupId>
 	<artifactId>prioritysms</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>apk</packaging>
 	<name>PrioritySMS</name>
 
