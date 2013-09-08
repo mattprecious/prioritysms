@@ -19,7 +19,11 @@ package com.mattprecious.prioritysms.db;
 
 import com.google.common.collect.Lists;
 
-import com.mattprecious.prioritysms.model.*;
+import com.mattprecious.prioritysms.model.ActionType;
+import com.mattprecious.prioritysms.model.BaseProfile;
+import com.mattprecious.prioritysms.model.LogicMethod;
+import com.mattprecious.prioritysms.model.PhoneProfile;
+import com.mattprecious.prioritysms.model.SmsProfile;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -102,7 +106,8 @@ public class DbAdapter {
             SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
             builder.setTables(JOIN_QUERY);
 
-            String selection = String.format("%s = ?", DbHelper.PROFILES_KEY_TYPE);
+            String selection = String.format("%s = ? AND %s = 1", DbHelper.PROFILES_KEY_TYPE,
+                    DbHelper.PROFILES_KEY_ENABLED);
             String[] selectionArgs = {DbHelper.TYPE_ENUM_SMS};
 
             Cursor c = builder.query(db, null, selection, selectionArgs, null, null,
@@ -128,7 +133,8 @@ public class DbAdapter {
             SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
             builder.setTables(JOIN_QUERY);
 
-            String selection = String.format("%s=?", DbHelper.PROFILES_KEY_TYPE);
+            String selection = String.format("%s = ? AND %s = 1", DbHelper.PROFILES_KEY_TYPE,
+                    DbHelper.PROFILES_KEY_ENABLED);
             String[] selectionArgs = {DbHelper.TYPE_ENUM_PHONE};
 
             Cursor c = builder.query(db, null, selection, selectionArgs, null, null,
