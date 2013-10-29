@@ -79,7 +79,7 @@
     </style>
 
     <style name="ProfileDetailHeader">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
         <item name="android:shadowColor">#33000000</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
@@ -106,13 +106,13 @@
 
     <style name="ProfileDetailFooterButton" parent="ClearButton">
         <item name="android:textColor">@color/detail_footer_button_text</item>
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
         <item name="android:paddingLeft">8dip</item>
     </style>
 
     <style name="ProfileDetailActionsItem">
         <!-- copied below to ProfileDetailActionsItem.Button" -->
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
         <item name="android:paddingBottom">8dip</item>
         <item name="android:paddingTop">8dip</item>
         <item name="android:textSize">20sp</item>
@@ -121,13 +121,13 @@
     <style name="ProfileDetailActionsItem.Button" parent="ClearButton">
         <item name="android:background">@drawable/spinner_background_holo_light</item>
         <!-- copied from ProfileDetailActionsItem -->
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
         <item name="android:padding">8dip</item>
         <item name="android:textSize">20sp</item>
     </style>
 
     <style name="ProfileDetailConditionEmpty">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
         <item name="android:padding">8dip</item>
         <item name="android:textColor">#FF666666</item>
         <item name="android:textSize">18sp</item>
@@ -143,15 +143,15 @@
         <item name="android:shadowColor">#FF000000</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
-        <item name="android:textIsSelectable">false</item>
+        <item name="android:textIsSelectable" tools:ignore="NewApi">false</item>
         <item name="android:textSize">30sp</item>
     </style>
 
     <style name="AlarmMessage">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
         <item name="android:paddingLeft">24dip</item>
         <item name="android:paddingRight">24dip</item>
-        <item name="android:textIsSelectable">false</item>
+        <item name="android:textIsSelectable" tools:ignore="NewApi">false</item>
         <item name="android:textSize">20sp</item>
     </style>
 
