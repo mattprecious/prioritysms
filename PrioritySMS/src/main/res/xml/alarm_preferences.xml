@@ -16,6 +16,7 @@
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:volume="http://schemas.android.com/apk/res-auto"
     android:title="@string/preference_header_alarm" >
 
     <ListPreference
@@ -24,5 +25,9 @@
         android:entryValues="@array/alarm_timeout_values"
         android:key="@string/pref_key_alarm_timeout"
         android:title="@string/alarm_timeout_title" />
+    <com.mattprecious.prioritysms.preference.VolumePreference
+        android:key="volume"
+        android:title="Volume"
+        volume:streamType="alarm" />
 
 </PreferenceScreen>
