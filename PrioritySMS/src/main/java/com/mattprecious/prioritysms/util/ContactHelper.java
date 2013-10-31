@@ -127,7 +127,8 @@ public class ContactHelper {
         }
 
         if (stream == null) {
-            return null;
+            return BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.ic_contact_picture);
         }
 
         return BitmapFactory.decodeStream(stream);
