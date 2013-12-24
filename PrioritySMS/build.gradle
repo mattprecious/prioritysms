@@ -5,7 +5,7 @@ buildscript {
     maven { url 'http://download.crashlytics.com/maven' }
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:0.6.+'
+    classpath 'com.android.tools.build:gradle:0.7.+'
     classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
   }
 }
@@ -22,7 +22,7 @@ repositories {
 dependencies {
   compile fileTree(dir: 'libs', include: '*.jar')
 
-  compile 'com.android.support:support-v4:18.0.+'
+  compile 'com.android.support:support-v4:19.0.+'
   compile 'com.google.guava:guava:13.0.+'
 
   compile 'com.crashlytics.android:crashlytics:1.+'
@@ -41,8 +41,13 @@ dependencies {
 }
 
 android {
-  compileSdkVersion 18
-  buildToolsVersion '18.1'
+  compileSdkVersion 19
+  buildToolsVersion '19'
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_7
+  }
 
   defaultConfig {
     minSdkVersion 8
