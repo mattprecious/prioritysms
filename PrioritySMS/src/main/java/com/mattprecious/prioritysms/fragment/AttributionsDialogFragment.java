@@ -16,13 +16,15 @@
 
 package com.mattprecious.prioritysms.fragment;
 
+import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import com.mattprecious.prioritysms.preferences.SettingsActivity;
 
 public class AttributionsDialogFragment extends BaseDialogFragment {
 
-    @Override
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB) @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return SettingsActivity.buildAttributionsDialog(getActivity());
     }

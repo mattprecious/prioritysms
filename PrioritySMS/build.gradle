@@ -53,4 +53,8 @@ android {
     minSdkVersion 8
     targetSdkVersion 18
   }
+
+  lintOptions {
+    disable 'InvalidPackage'
+  }
 }
