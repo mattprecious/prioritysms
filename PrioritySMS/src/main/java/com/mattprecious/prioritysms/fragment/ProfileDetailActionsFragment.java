@@ -18,6 +18,7 @@
 package com.mattprecious.prioritysms.fragment;
 
 import android.content.Context;
+import android.media.Ringtone;
 import android.widget.*;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.BaseDetailFragment;
@@ -155,9 +156,9 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
     }
 
     private void updateRingtone(Uri ringtoneUri) {
-        String ringtoneName = (ringtoneUri == null) ? getString(R.string.actions_ringtone_silent)
-                : RingtoneManager.getRingtone(getActivity(), ringtoneUri).getTitle(getActivity());
-
+        Ringtone ringtone = RingtoneManager.getRingtone(getActivity(), ringtoneUri);
+        String ringtoneName = (ringtoneUri == null || ringtone == null)
+            ? getString(R.string.actions_ringtone_silent) : ringtone.getTitle(getActivity());
         mSoundButton.setText(getString(R.string.actions_ringtone, ringtoneName));
         mSoundButton.setTag(ringtoneUri);
     }
