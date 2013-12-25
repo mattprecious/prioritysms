@@ -115,7 +115,12 @@ public class ContactHelper {
     }
 
     public static Bitmap getContactPhoto(Context context, String lookup) {
-        long contactId = Long.parseLong(getContactIdByLookupKey(context, lookup));
+        String contactIdString = getContactIdByLookupKey(context, lookup);
+        if (contactIdString == null) {
+            return getDefaultContactPhoto(context);
+        }
+
+        long contactId = Long.parseLong(contactIdString);
         Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
         Uri photoUri = Uri.withAppendedPath(contactUri, Contacts.Photo.CONTENT_DIRECTORY);
 
@@ -127,10 +132,14 @@ public class ContactHelper {
         }
 
         if (stream == null) {
-            return BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.ic_contact_picture);
+            return getDefaultContactPhoto(context);
         }
 
         return BitmapFactory.decodeStream(stream);
+    }
+
+    private static Bitmap getDefaultContactPhoto(Context context) {
+        return BitmapFactory.decodeResource(context.getResources(),
+            R.drawable.ic_contact_picture);
     }
 }
