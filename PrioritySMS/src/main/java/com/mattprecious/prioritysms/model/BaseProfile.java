@@ -94,19 +94,10 @@ public abstract class BaseProfile implements Parcelable {
             return true;
         }
 
-        String incomingContactId = ContactHelper.getContactIdByNumber(context, number);
-        if (incomingContactId == null) {
-            return false;
-        } else {
-            for (String lookupKey : contacts) {
-                String contactId = ContactHelper.getContactIdByLookupKey(context, lookupKey);
-                if (incomingContactId.equals(contactId)) {
-                    return true;
-                }
-            }
-        }
+        Set<String> incomingContactLookups = ContactHelper.getLookupKeysByNumber(context, number);
+        incomingContactLookups.retainAll(contacts);
 
-        return false;
+        return !incomingContactLookups.isEmpty();
     }
 
     public int getId() {

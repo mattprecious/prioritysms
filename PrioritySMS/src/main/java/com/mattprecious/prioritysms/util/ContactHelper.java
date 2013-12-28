@@ -17,19 +17,19 @@
 package com.mattprecious.prioritysms.util;
 
 import android.content.ContentUris;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
-import com.mattprecious.prioritysms.R;
-
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
-
+import android.util.Log;
+import com.google.common.collect.Sets;
+import com.mattprecious.prioritysms.R;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Set;
 
 public class ContactHelper {
     private static final String TAG = ContactHelper.class.getSimpleName();
@@ -98,20 +98,23 @@ public class ContactHelper {
         return contactId;
     }
 
-    public static String getContactIdByNumber(Context context, String number) {
+    public static Set<String> getLookupKeysByNumber(Context context, String number) {
+        Set<String> ids = Sets.newHashSet();
+
         Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
 
-        String[] columns = new String[]{PhoneLookup._ID};
+        String[] columns = new String[]{PhoneLookup.LOOKUP_KEY};
         Cursor c = context.getContentResolver().query(uri, columns, null, null, null);
 
-        String contactId = null;
-        if (c.moveToFirst()) {
-            contactId = c.getString(c.getColumnIndex(PhoneLookup._ID));
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            ids.add(c.getString(c.getColumnIndex(PhoneLookup.LOOKUP_KEY)));
+            c.moveToNext();
         }
 
         c.close();
 
-        return contactId;
+        return ids;
     }
 
     public static Bitmap getContactPhoto(Context context, String lookup) {
