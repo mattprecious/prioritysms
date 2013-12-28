@@ -94,7 +94,9 @@ public abstract class BaseProfile implements Parcelable {
             return true;
         }
 
-        String incomingContactId = ContactHelper.getContactIdByNumber(context, number);
+        String incomingContactId = number.matches("^[0-9]+")
+            ? ContactHelper.getContactIdByNumber(context, number)
+            : ContactHelper.getContactIdByEmail(context, number);
         if (incomingContactId == null) {
             return false;
         } else {

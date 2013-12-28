@@ -19,6 +19,7 @@ package com.mattprecious.prioritysms.util;
 import android.content.ContentUris;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.provider.ContactsContract;
 import android.util.Log;
 import com.mattprecious.prioritysms.R;
 
@@ -107,6 +108,24 @@ public class ContactHelper {
         String contactId = null;
         if (c.moveToFirst()) {
             contactId = c.getString(c.getColumnIndex(PhoneLookup._ID));
+        }
+
+        c.close();
+
+        return contactId;
+    }
+
+    public static String getContactIdByEmail(Context context, String email) {
+        Uri uri = Uri.withAppendedPath(ContactsContract.CommonDataKinds.Email.CONTENT_LOOKUP_URI,
+            Uri.encode(email));
+
+        String[] columns = new String[]{ContactsContract.CommonDataKinds.Email.CONTACT_ID};
+        Cursor c = context.getContentResolver().query(uri, columns, null, null, null);
+
+        String contactId = null;
+        if (c.moveToFirst()) {
+            contactId =
+                c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Email.CONTACT_ID));
         }
 
         c.close();
