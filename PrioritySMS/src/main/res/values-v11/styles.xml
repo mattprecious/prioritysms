@@ -20,6 +20,6 @@
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
     -->
-    <style name="AppBaseTheme" parent="RedTheme"></style>
+    <style name="AppBaseTheme" parent="Red"></style>
 
 </resources>
