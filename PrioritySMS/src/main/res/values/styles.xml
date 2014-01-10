@@ -22,6 +22,7 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
         <item name="switchStyle">@style/SwitchAppTheme</item>
+        <item name="switchStyleAb">@style/SwitchAppTheme.Dark</item>
     </style>
 
     <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
@@ -37,6 +38,11 @@
         <item name="track">@drawable/red_switch_track_holo_light</item>
         <item name="thumb">@drawable/red_switch_inner_holo_light</item>
         <item name="switchTextAppearance">@style/SwitchTextAppearance</item>
+    </style>
+
+    <style name="SwitchAppTheme.Dark">
+      <item name="track">@drawable/red_switch_track_holo_dark</item>
+      <item name="thumb">@drawable/red_switch_inner_holo_dark</item>
     </style>
 
     <style name="SwitchTextAppearance" parent="android:TextAppearance.Small.Inverse">

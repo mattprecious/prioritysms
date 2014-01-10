@@ -17,31 +17,38 @@
 
 package com.mattprecious.prioritysms.activity;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
-
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.crashlytics.android.Crashlytics;
+import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import com.mattprecious.prioritysms.BuildConfig;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.billing.IabHelper;
 import com.mattprecious.prioritysms.billing.IabResult;
 import com.mattprecious.prioritysms.billing.Inventory;
 import com.mattprecious.prioritysms.billing.Purchase;
-import com.mattprecious.prioritysms.db.DbAdapter;
 import com.mattprecious.prioritysms.devtools.TriggerAlarmPhoneDialogFragment;
 import com.mattprecious.prioritysms.devtools.TriggerAlarmSmsDialogFragment;
 import com.mattprecious.prioritysms.fragment.ChangeLogDialogFragment;
@@ -49,27 +56,15 @@ import com.mattprecious.prioritysms.fragment.ProfileDetailFragment;
 import com.mattprecious.prioritysms.fragment.ProfileLimitDialogFragment;
 import com.mattprecious.prioritysms.fragment.ProfileListFragment;
 import com.mattprecious.prioritysms.model.BaseProfile;
-
 import com.mattprecious.prioritysms.model.PhoneProfile;
 import com.mattprecious.prioritysms.model.SmsProfile;
 import com.mattprecious.prioritysms.preferences.AboutPreferenceFragment;
 import com.mattprecious.prioritysms.preferences.SettingsActivity;
 import com.mattprecious.prioritysms.util.Helpers;
-import org.jraf.android.backport.switchwidget.Switch;
-
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-
 import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import org.jraf.android.backport.switchwidget.Switch;
 
 public class ProfileListActivity extends BaseActivity
         implements ProfileListFragment.Callbacks, ProfileDetailFragment.Callbacks,
@@ -321,7 +316,7 @@ public class ProfileListActivity extends BaseActivity
     }
 
     private void configureActionBar() {
-        mActionBarSwitch = new Switch(this);
+        mActionBarSwitch = new Switch(this, null, R.attr.switchStyleAb);
         mActionBarSwitch.setChecked(mPreferences.getBoolean(getString(R.string.pref_key_enabled),
                 false));
         mActionBarSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
