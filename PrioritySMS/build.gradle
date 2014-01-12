@@ -60,4 +60,13 @@ android {
   lintOptions {
     disable 'InvalidPackage'
   }
+
+  buildTypes {
+    debug {
+      packageNameSuffix '.dev'
+    }
+    dogfood {
+      packageNameSuffix '.woof'
+    }
+  }
 }
