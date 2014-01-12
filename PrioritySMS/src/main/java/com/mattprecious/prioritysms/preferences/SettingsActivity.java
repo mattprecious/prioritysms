@@ -16,9 +16,6 @@
 
 package com.mattprecious.prioritysms.preferences;
 
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.GoogleAnalytics;
-
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -29,12 +26,10 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.text.Html;
-import android.text.InputType;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,9 +38,10 @@ import android.webkit.WebView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.util.Helpers;
-
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -158,7 +154,12 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
 
-    @Override
+  @Override protected boolean isValidFragment(String fragmentName) {
+    // Nothing to worry about here... I'm not hiding PrefereceFragments.
+    return true;
+  }
+
+  @Override
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.preference_headers, target);
