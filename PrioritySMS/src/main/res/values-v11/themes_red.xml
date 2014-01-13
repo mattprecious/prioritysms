@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="Red" parent="@style/_Red"/>
+
+  <style name="_Red" parent="Theme.Red">
+
+    <item name="android:editTextBackground">@drawable/red_edit_text_holo_light</item>
+
+    <item name="android:textColorHighlight">#99cc0000</item>
+    <item name="android:textSelectHandleLeft">@drawable/red_text_select_handle_left</item>
+    <item name="android:textSelectHandleRight">@drawable/red_text_select_handle_right</item>
+    <item name="android:textSelectHandle">@drawable/red_text_select_handle_middle</item>
+
+    <item name="android:listChoiceIndicatorMultiple">@drawable/red_btn_check_holo_light</item>
+
+    <item name="android:listChoiceIndicatorSingle">@drawable/red_btn_radio_holo_light</item>
+
+    <item name="android:buttonStyle">@style/ButtonRed</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonRed</item>
+
+    <item name="android:dropDownSpinnerStyle">@style/SpinnerRed</item>
+
+    <item name="android:listChoiceBackgroundIndicator">@drawable/red_list_selector_holo_light</item>
+
+    <item name="android:activatedBackgroundIndicator">@drawable/red_activated_background_holo_light</item>
+
+    <item name="android:fastScrollThumbDrawable">@drawable/red_fastscroll_thumb_holo</item>
+
+  </style>
+
+</resources>

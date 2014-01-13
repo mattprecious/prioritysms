@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2013 Matthew Precious
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <!-- general -->
+    <string name="contact_name_not_found">N/A</string>
+
+    <!-- notification -->
+    <string name="notif_action_dismiss">Dismiss</string>
+    <string name="notif_action_reply">Reply</string>
+    <string name="notif_action_call">Call</string>
+
+    <!-- profile list -->
+    <string name="list_no_profiles">You don\'t have any profiles</string>
+    <string name="crouton_profile_saved">Profile saved</string>
+    <string name="crouton_profile_discarded">Changes discarded</string>
+    <string name="crouton_profile_deleted">Profile deleted. Tap to undo</string>
+
+    <!-- profile detail -->
+    <string name="detail_tab_conditions">Conditions</string>
+    <string name="detail_tab_actions">Actions</string>
+    <string name="detail_empty_title_new">New profile</string>
+    <string name="detail_empty_title_edit">Edit profile</string>
+    <string name="detail_name_hint">Profile name</string>
+    <string name="detail_name_done_description">Done renaming</string>
+    <string name="detail_error">Please fix the errors and try again</string>
+    <string name="detail_error_empty_name">Name must not be empty</string>
+
+    <!-- profile detail conditions -->
+    <string name="conditions_contacts_header">Contacts</string>
+    <string name="conditions_contacts_empty">This profile currently triggers for any contact. Add a contact to only trigger for certain people.</string>
+    <string name="conditions_contact_add">+ Add contact</string>
+    <string name="conditions_contact_avatar">Contact avatar</string>
+    <string name="conditions_contact_delete">Remove contact</string>
+    <string name="conditions_contact_not_found">Contact not found</string>
+    <string name="conditions_keywords_header">Keywords</string>
+    <string name="conditions_keywords_method_any">ANY</string>
+    <string name="conditions_keywords_method_all">ALL</string>
+    <string name="conditions_keywords_method_only">ONLY</string>
+    <string name="conditions_keywords_empty">This profile currently triggers for any message. Add a keyword to only trigger for matching messages.</string>
+    <string name="conditions_keyword_add">+ Add keyword</string>
+    <string name="conditions_keyword_hint">Keyword</string>
+    <string name="conditions_keyword_delete">Remove keyword</string>
+    <string name="conditions_error_only_many_keywords">Only one keyword is allowed for the \'only\' method</string>
+    <string name="conditions_error_no_contacts">Please add a contact</string>
+    <string name="conditions_error_no_conditions">Please add a contact or a keyword</string>
+
+    <string name="keywords_method_title">Keyword trigger</string>
+    <string name="keywords_method_description_any">Any keyword match will trigger this alarm</string>
+    <string name="keywords_method_description_all">All keywords are required to trigger this alarm</string>
+    <string name="keywords_method_description_only">The keyword must be the only text in the message to trigger this alarm</string>
+
+    <!-- profile detail actions -->
+    <string name="actions_alarm_title">Alarm</string>
+    <string name="actions_notification_title">Notification</string>
+    <string name="actions_ringtone_silent">Silent</string>
+    <string name="actions_ringtone">Sound: %s</string>
+    <string name="actions_override_silent">Override silent mode</string>
+    <string name="actions_vibrate">Vibrate</string>
+
+    <!-- list activity menu -->
+    <string name="menu_settings">Settings</string>
+    <string name="menu_pro">Go pro!</string>
+    <string name="menu_dev_tools">Dev tools</string>
+    <string name="menu_feedback">Feedback/Support</string>
+    <string name="menu_help">Help</string>
+    <string name="menu_about">About</string>
+
+    <!-- list menu -->
+    <string name="menu_new_profile">Add new profile</string>
+    <string name="menu_new_profile_sms">SMS</string>
+    <string name="menu_new_profile_phone">Missed call</string>
+    <string name="menu_sort">Sort</string>
+
+    <!-- detail menu -->
+    <string name="menu_save">Save</string>
+    <string name="menu_discard">Discard</string>
+    <string name="menu_rename">Rename</string>
+    <string name="menu_delete">Delete</string>
+
+    <!-- pro -->
+    <string name="limit_reached_title">Profile limit reached</string>
+    <string name="limit_reached_message">You\'ve reached the free profile limit. Upgrade to Pro to receive unlimited profiles and to support future development of the app.</string>
+    <string name="limit_reached_negative">No thanks</string>
+    <string name="limit_reached_positive">Go pro!</string>
+    <string name="pro_purchase_success">Thanks for upgrading!</string>
+    <string name="pro_purchase_failed">Something went wrong, please try again.</string>
+    <string name="iab_not_ready">Could not setup In-app Billing</string>
+
+    <!-- prefence headers -->
+    <string name="preference_header_general">General settings</string>
+    <string name="preference_header_alarm">Alarm settings</string>
+    <string name="preference_header_advanced">Advanced</string>
+    <string name="preference_header_about">About</string>
+
+    <!-- general preferences -->
+    <string name="general_analytics_title">Improve Priority SMS</string>
+    <string name="general_analytics_summary">Help improve Priority SMS by sending anonymous usage data</string>
+
+    <!-- alarm preferences -->
+    <string name="alarm_timeout_title">Silence after</string>
+    <string name="alarm_timeout_summary_never">Never</string>
+    <string name="alarm_timeout_summary_other">%d minutes</string>
+
+    <!-- advanced preferences -->
+    <string name="advanced_call_log_delay_title">Call Log Delay</string>
+    <string name="advanced_call_log_delay_summary">
+        How long to wait after a phone call to check the call log. Increase this time if the
+        alarm isn\'t working after a missed call.
+    </string>
+
+    <!-- about -->
+    <string name="about_author_title">Author</string>
+    <string name="about_author_summary">Matthew Precious</string>
+    <string name="about_version_title">Version</string>
+    <string name="about_change_log_title">Change log</string>
+    <string name="about_attributions_title">Attributions</string>
+    <string name="about_translate_title">Contribute translations</string>
+    <string name="about_translate_summary">Help translate Priority SMS into another language</string>
+    <string name="about_feedback_title">Feedback/Support</string>
+    <string name="about_feedback_summary">Report a bug or suggest improvements</string>
+
+    <!-- change log -->
+    <string name="change_log_title">What\'s new?</string>
+    <string name="change_log_close">Close</string>
+
+    <!-- open source stuff -->
+    <string name="attributions_title">Attributions</string>
+    <string name="attributions_close">Close</string>
+    <string name="attributions">
+<![CDATA[
+       Thanks to all of these open source tools:<br /><br />
+
+       <b><a href="http://actionbarsherlock.com">ActionBarSherlock</a></b><br />
+       by Jake Wharton<br /><br />
+
+       <b><a href="https://github.com/JakeWharton/Android-ViewPagerIndicator">Android ViewPagerIndicator</a></b><br />
+       by Jake Wharton<br /><br />
+
+       <b><a href="https://github.com/JakeWharton/butterknife">Butter Knife</a></b><br />
+       by Jake Wharton<br /><br />
+
+       <b><a href="http://nineoldandroids.com/">NineOldAndroids</a></b><br />
+       by Jake Wharton<br /><br />
+
+       <b><a href="https://github.com/rock3r/GlowPadBackport">GlowPadBackport</a></b><br />
+       by Sebastiano Poggi<br /><br />
+
+       <b><a href="https://github.com/BoD/android-switch-backport">Android Switch Widget Backport</a></b><br />
+       by Benoit Lubek<br /><br />
+
+       <b><a href="https://github.com/keyboardsurfer/Crouton">Crouton</a></b><br />
+       by Benjamin Weiss<br /><br />
+
+       <b><a href="http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html">Android Asset Studio</a></b><br />
+       by Roman Nurik<br /><br />
+
+       <b><a href="http://jgilfelt.github.com/android-actionbarstylegenerator/">Android Action Bar Style Generator</a></b><br />
+       by Jeff Gilfelt<br /><br />
+
+       <b><a href="http://android-holo-colors.com/">Android Holo Colors Generator</a></b><br />
+       by Jérôme Van Der Linden<br /><br />
+    ]]>
+    </string>
+
+</resources>
