@@ -77,7 +77,7 @@
         </service>
         <service android:name="com.mattprecious.prioritysms.service.CallLogScanner" />
 
-        <meta-data android:name="com.crashlytics.ApiKey" android:value="@string/crashlytics_key"/>
+        <meta-data android:name="com.crashlytics.ApiKey" android:value=""/>
     </application>
 
 </manifest>
