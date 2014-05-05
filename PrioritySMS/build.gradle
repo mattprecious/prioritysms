@@ -32,19 +32,17 @@ repositories {
 dependencies {
   compile fileTree(dir: 'libs', include: '*.jar')
 
-  compile 'com.android.support:support-v4:19.0.+'
-  compile 'com.google.guava:guava:13.0.+'
+  compile 'com.android.support:support-v4:19.1.+'
+  compile 'com.google.guava:guava:17.0'
 
   compile 'com.crashlytics.android:crashlytics:1.+'
 
-  compile 'com.jakewharton:butterknife:3.0.+'
+  compile 'com.jakewharton:butterknife:5.0.+'
   compile 'com.nineoldandroids:library:2.4.+'
   compile 'com.actionbarsherlock:actionbarsherlock:4.4.+@aar'
   compile 'com.viewpagerindicator:library:2.4.+@aar'
 
-  compile ('de.keyboardsurfer.android.widget:crouton:1.8') {
-    exclude (module: 'support-v4')
-  }
+  compile 'de.keyboardsurfer.android.widget:crouton:1.8.+'
 
   compile 'net.sebastianopoggi:glowpadbackport:1.0.0-SNAPSHOT@aar'
   compile 'org.jraf:android-switch-backport:1.0.1-SNAPSHOT@aar'

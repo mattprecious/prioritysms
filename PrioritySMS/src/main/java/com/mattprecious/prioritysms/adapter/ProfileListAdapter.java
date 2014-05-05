@@ -35,7 +35,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import static butterknife.Views.findById;
+import static butterknife.ButterKnife.findById;
 
 public class ProfileListAdapter extends BaseAdapter {
 

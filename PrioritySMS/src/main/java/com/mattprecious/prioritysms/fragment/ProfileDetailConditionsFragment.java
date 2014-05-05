@@ -18,6 +18,7 @@
 package com.mattprecious.prioritysms.fragment;
 
 import android.widget.*;
+import butterknife.ButterKnife;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
@@ -41,9 +42,8 @@ import android.view.ViewGroup;
 import java.util.Set;
 
 import butterknife.InjectView;
-import butterknife.Views;
 
-import static butterknife.Views.findById;
+import static butterknife.ButterKnife.findById;
 
 public class ProfileDetailConditionsFragment extends BaseDetailFragment {
 
@@ -121,7 +121,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.profile_detail_conditions, container, false);
-        Views.inject(this, rootView);
+        ButterKnife.inject(this, rootView);
 
         for (String contact : mProfile.getContacts()) {
             addContact(contact);
@@ -334,7 +334,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
         String lookup;
 
         public ContactViewHolder(View view) {
-            Views.inject(this, view);
+            ButterKnife.inject(this, view);
         }
     }
 

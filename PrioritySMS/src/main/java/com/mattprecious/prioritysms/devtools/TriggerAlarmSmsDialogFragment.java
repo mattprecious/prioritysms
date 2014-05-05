@@ -27,8 +27,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.Views;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.google.common.collect.Lists;
 import com.mattprecious.prioritysms.R;
@@ -36,7 +36,6 @@ import com.mattprecious.prioritysms.db.DbAdapter;
 import com.mattprecious.prioritysms.model.BaseProfile;
 import com.mattprecious.prioritysms.model.SmsProfile;
 import com.mattprecious.prioritysms.util.Intents;
-
 import java.util.List;
 
 public class TriggerAlarmSmsDialogFragment extends SherlockDialogFragment {
@@ -58,7 +57,7 @@ public class TriggerAlarmSmsDialogFragment extends SherlockDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         View rootView = inflater.inflate(R.layout.dev_tools_trigger_alarm_sms, null);
-        Views.inject(this, rootView);
+        ButterKnife.inject(this, rootView);
 
         mSmsProfileList = new DbAdapter(getActivity()).getEnabledSmsProfiles();
 

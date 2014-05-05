@@ -16,24 +16,16 @@
 
 package com.mattprecious.prioritysms.fragment;
 
-import android.support.v4.app.FragmentPagerAdapter;
-import android.util.SparseArray;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.google.common.collect.Lists;
-import com.mattprecious.prioritysms.R;
-import com.mattprecious.prioritysms.model.BaseProfile;
-import com.viewpagerindicator.TabPageIndicator;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,12 +33,17 @@ import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
+import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.Views;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.google.common.collect.Lists;
+import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.model.BaseProfile;
+import com.viewpagerindicator.TabPageIndicator;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-
 import java.lang.ref.WeakReference;
 import java.util.List;
 
@@ -166,7 +163,7 @@ public class ProfileDetailFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_profile_detail, container, false);
-        Views.inject(this, rootView);
+        ButterKnife.inject(this, rootView);
 
         mCallbacks.onNameUpdated(mProfile.getName());
 

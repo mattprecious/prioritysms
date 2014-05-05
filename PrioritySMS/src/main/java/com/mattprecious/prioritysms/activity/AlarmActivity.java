@@ -17,22 +17,6 @@
 
 package com.mattprecious.prioritysms.activity;
 
-import com.google.common.base.Strings;
-
-import android.text.Html;
-import android.view.*;
-import android.widget.ImageView;
-import butterknife.InjectView;
-import butterknife.Views;
-import com.mattprecious.prioritysms.R;
-import com.mattprecious.prioritysms.model.BaseProfile;
-import com.mattprecious.prioritysms.model.SmsProfile;
-import com.mattprecious.prioritysms.util.ContactHelper;
-import com.mattprecious.prioritysms.util.Intents;
-
-import com.mattprecious.prioritysms.view.MarginAnimation;
-import net.sebastianopoggi.ui.GlowPadBackport.GlowPadView;
-
 import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -44,8 +28,26 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Html;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import com.google.common.base.Strings;
+import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.model.BaseProfile;
+import com.mattprecious.prioritysms.model.SmsProfile;
+import com.mattprecious.prioritysms.util.ContactHelper;
+import com.mattprecious.prioritysms.util.Intents;
+import com.mattprecious.prioritysms.view.MarginAnimation;
+import net.sebastianopoggi.ui.GlowPadBackport.GlowPadView;
 
 public class AlarmActivity extends BaseActivity implements
         GlowPadView.OnTriggerListener {
@@ -154,7 +156,7 @@ public class AlarmActivity extends BaseActivity implements
         final View rootView = inflater.inflate(R.layout.alarm, null);
         updateSystemUi(rootView);
         setContentView(rootView);
-        Views.inject(this);
+        ButterKnife.inject(this);
 
         final Window win = getWindow();
         win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED

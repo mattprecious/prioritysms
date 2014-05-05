@@ -17,17 +17,10 @@
 
 package com.mattprecious.prioritysms.fragment;
 
-import android.content.Context;
-import android.media.Ringtone;
-import android.widget.*;
-import com.mattprecious.prioritysms.R;
-import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.BaseDetailFragment;
-import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.ValidationResponse;
-import com.mattprecious.prioritysms.model.ActionType;
-import com.mattprecious.prioritysms.model.BaseProfile;
-
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,9 +28,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Spinner;
+import android.widget.TextView;
+import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.Views;
+import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.BaseDetailFragment;
+import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.ValidationResponse;
+import com.mattprecious.prioritysms.model.ActionType;
+import com.mattprecious.prioritysms.model.BaseProfile;
 import com.mattprecious.prioritysms.model.SmsProfile;
 
 public class ProfileDetailActionsFragment extends BaseDetailFragment {
@@ -87,7 +90,7 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.profile_detail_actions, container, false);
-        Views.inject(this, rootView);
+        ButterKnife.inject(this, rootView);
 
         mActionTypeSpinner.setAdapter(new ActionTypeAdapter(getActivity()));
         mActionTypeSpinner.setOnItemSelectedListener(mActionTypeSelectedListener);
