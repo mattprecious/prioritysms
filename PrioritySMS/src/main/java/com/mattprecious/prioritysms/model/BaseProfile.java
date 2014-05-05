@@ -17,16 +17,14 @@
 
 package com.mattprecious.prioritysms.model;
 
-import com.google.common.collect.Sets;
-
-import com.mattprecious.prioritysms.db.DbAdapter;
-import com.mattprecious.prioritysms.util.ContactHelper;
-
 import android.content.Context;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-
+import com.mattprecious.prioritysms.db.DbAdapter;
+import com.mattprecious.prioritysms.util.ContactHelper;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public abstract class BaseProfile implements Parcelable {
@@ -51,7 +49,7 @@ public abstract class BaseProfile implements Parcelable {
         mId = -1;
         mEnabled = true;
         mActionType = ActionType.ALARM;
-        mContacts = Sets.newHashSet();
+        mContacts = new LinkedHashSet<>();
     }
 
     public boolean isNew() {
@@ -157,13 +155,13 @@ public abstract class BaseProfile implements Parcelable {
     }
 
     public Set<String> getContacts() {
-        Set<String> ret = Sets.newHashSet();
+        Set<String> ret = new LinkedHashSet<>();
         ret.addAll(mContacts);
         return ret;
     }
 
     public void setContacts(Set<String> contacts) {
-        mContacts = Sets.newHashSet();
+        mContacts = new LinkedHashSet<>();
         mContacts.addAll(contacts);
     }
 
@@ -205,9 +203,9 @@ public abstract class BaseProfile implements Parcelable {
 
         String[] contactsArr = in.createStringArray();
         if (contactsArr == null) {
-            mContacts = Sets.newHashSet();
+            mContacts = new LinkedHashSet<>();
         } else {
-            mContacts = Sets.newHashSet(contactsArr);
+            mContacts = new LinkedHashSet<>(Arrays.asList(contactsArr));
         }
     }
 

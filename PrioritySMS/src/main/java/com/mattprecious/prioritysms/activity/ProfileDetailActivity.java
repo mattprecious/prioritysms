@@ -17,17 +17,13 @@
 
 package com.mattprecious.prioritysms.activity;
 
-import com.google.common.base.Strings;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import android.content.Intent;
+import android.os.Bundle;
 import com.actionbarsherlock.view.MenuItem;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.fragment.ProfileDetailFragment;
 import com.mattprecious.prioritysms.model.BaseProfile;
-
-import android.content.Intent;
-import android.os.Bundle;
-
+import com.mattprecious.prioritysms.util.Strings;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class ProfileDetailActivity extends BaseActivity implements
@@ -85,7 +81,7 @@ public class ProfileDetailActivity extends BaseActivity implements
     }
 
     private void setTitle(String title) {
-        getSupportActionBar().setTitle(Strings.isNullOrEmpty(title) ? mEmptyTitle : title);
+        getSupportActionBar().setTitle(Strings.isBlank(title) ? mEmptyTitle : title);
     }
 
     @Override

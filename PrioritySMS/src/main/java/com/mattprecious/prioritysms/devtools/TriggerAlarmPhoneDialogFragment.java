@@ -30,12 +30,12 @@ import android.widget.Spinner;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.actionbarsherlock.app.SherlockDialogFragment;
-import com.google.common.collect.Lists;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.db.DbAdapter;
 import com.mattprecious.prioritysms.model.BaseProfile;
 import com.mattprecious.prioritysms.model.PhoneProfile;
 import com.mattprecious.prioritysms.util.Intents;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TriggerAlarmPhoneDialogFragment extends SherlockDialogFragment {
@@ -59,7 +59,7 @@ public class TriggerAlarmPhoneDialogFragment extends SherlockDialogFragment {
 
         mPhoneProfileList = new DbAdapter(getActivity()).getEnabledPhoneProfiles();
 
-        List<String> profileNames = Lists.newArrayListWithCapacity(mPhoneProfileList.size());
+        List<String> profileNames = new ArrayList<>(mPhoneProfileList.size());
         for (BaseProfile profile : mPhoneProfileList) {
             profileNames.add(profile.getName());
         }

@@ -17,14 +17,6 @@
 
 package com.mattprecious.prioritysms.db;
 
-import com.google.common.collect.Lists;
-
-import com.mattprecious.prioritysms.model.ActionType;
-import com.mattprecious.prioritysms.model.BaseProfile;
-import com.mattprecious.prioritysms.model.LogicMethod;
-import com.mattprecious.prioritysms.model.PhoneProfile;
-import com.mattprecious.prioritysms.model.SmsProfile;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -33,7 +25,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
-
+import com.mattprecious.prioritysms.model.ActionType;
+import com.mattprecious.prioritysms.model.BaseProfile;
+import com.mattprecious.prioritysms.model.LogicMethod;
+import com.mattprecious.prioritysms.model.PhoneProfile;
+import com.mattprecious.prioritysms.model.SmsProfile;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DbAdapter {
@@ -77,7 +74,7 @@ public class DbAdapter {
     }
 
     public List<BaseProfile> getProfiles(SortOrder sortOrder) {
-        List<BaseProfile> profiles = Lists.newArrayList();
+        List<BaseProfile> profiles = new ArrayList<>();
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         try {
@@ -99,7 +96,7 @@ public class DbAdapter {
     }
 
     public List<SmsProfile> getEnabledSmsProfiles() {
-        List<SmsProfile> profiles = Lists.newArrayList();
+        List<SmsProfile> profiles = new ArrayList<>();
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         try {
@@ -126,7 +123,7 @@ public class DbAdapter {
     }
 
     public List<PhoneProfile> getEnabledPhoneProfiles() {
-        List<PhoneProfile> profiles = Lists.newArrayList();
+        List<PhoneProfile> profiles = new ArrayList<>();
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         try {
@@ -419,7 +416,7 @@ public class DbAdapter {
     }
 
     private static List<ContentValues> profileToContactValues(BaseProfile profile) {
-        List<ContentValues> list = Lists.newArrayList();
+        List<ContentValues> list = new ArrayList<>();
 
         for (String lookup : profile.getContacts()) {
             ContentValues values = new ContentValues();
@@ -433,7 +430,7 @@ public class DbAdapter {
     }
 
     private static List<ContentValues> profileToKeywordValues(BaseProfile profile) {
-        List<ContentValues> list = Lists.newArrayList();
+        List<ContentValues> list = new ArrayList<>();
 
         if (profile instanceof SmsProfile) {
             SmsProfile smsProfile = (SmsProfile) profile;

@@ -33,7 +33,6 @@ dependencies {
   compile fileTree(dir: 'libs', include: '*.jar')
 
   compile 'com.android.support:support-v4:19.1.+'
-  compile 'com.google.guava:guava:17.0'
 
   compile 'com.crashlytics.android:crashlytics:1.+'
 

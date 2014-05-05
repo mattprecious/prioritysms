@@ -17,19 +17,6 @@
 
 package com.mattprecious.prioritysms.fragment;
 
-import android.widget.*;
-import butterknife.ButterKnife;
-import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
-
-import com.mattprecious.prioritysms.R;
-import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.BaseDetailFragment;
-import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.ValidationResponse;
-import com.mattprecious.prioritysms.model.BaseProfile;
-import com.mattprecious.prioritysms.model.LogicMethod;
-import com.mattprecious.prioritysms.model.SmsProfile;
-import com.mattprecious.prioritysms.util.ContactHelper;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,10 +25,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-
-import java.util.Set;
-
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.BaseDetailFragment;
+import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.ValidationResponse;
+import com.mattprecious.prioritysms.model.BaseProfile;
+import com.mattprecious.prioritysms.model.LogicMethod;
+import com.mattprecious.prioritysms.model.SmsProfile;
+import com.mattprecious.prioritysms.util.ContactHelper;
+import com.mattprecious.prioritysms.util.Strings;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import static butterknife.ButterKnife.findById;
 
@@ -167,7 +167,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
 
     @Override
     public void updateProfile(BaseProfile profile) {
-        Set<String> contacts = Sets.newHashSet();
+        Set<String> contacts = new LinkedHashSet<>();
         for (int i = 0; i < mContactsList.getChildCount() - NUM_CHILDREN_CONTACTS_LIST; i++) {
             View v = mContactsList.getChildAt(i);
             contacts.add(((ContactViewHolder) v.getTag()).lookup);
@@ -180,11 +180,11 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
 
             smsProfile.setKeywordMethod(mSmsProfile.getKeywordMethod());
 
-            Set<String> keywords = Sets.newHashSet();
+            Set<String> keywords = new LinkedHashSet<>();
             for (int i = 0; i < mKeywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST; i++) {
                 View v = mKeywordsList.getChildAt(i);
                 String keyword = ((TextView) v.getTag()).getText().toString();
-                if (!Strings.isNullOrEmpty(keyword)) {
+                if (!Strings.isBlank(keyword)) {
                     keywords.add(keyword.trim());
                 }
             }

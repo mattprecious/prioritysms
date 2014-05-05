@@ -17,13 +17,12 @@
 
 package com.mattprecious.prioritysms.model;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
-
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-
+import com.mattprecious.prioritysms.util.Strings;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class SmsProfile extends BaseProfile {
@@ -33,7 +32,7 @@ public class SmsProfile extends BaseProfile {
 
     public SmsProfile() {
         mKeywordMethod = LogicMethod.ANY;
-        mKeywords = Sets.newHashSet();
+        mKeywords = new LinkedHashSet<>();
     }
 
     public boolean messageMatches(Context context, String number, String message) {
@@ -43,7 +42,7 @@ public class SmsProfile extends BaseProfile {
             return false;
         }
 
-        if (Strings.isNullOrEmpty(message)) {
+        if (Strings.isBlank(message)) {
             return false;
         }
 
@@ -85,13 +84,13 @@ public class SmsProfile extends BaseProfile {
     }
 
     public Set<String> getKeywords() {
-        Set<String> ret = Sets.newHashSet();
+        Set<String> ret = new LinkedHashSet<>();
         ret.addAll(mKeywords);
         return ret;
     }
 
     public void setKeywords(Set<String> keywords) {
-        mKeywords = Sets.newHashSet();
+        mKeywords = new LinkedHashSet<>();
         mKeywords.addAll(keywords);
     }
 
@@ -116,9 +115,9 @@ public class SmsProfile extends BaseProfile {
 
         String[] keywordsArr = in.createStringArray();
         if (keywordsArr == null) {
-            mKeywords = Sets.newHashSet();
+            mKeywords = new LinkedHashSet<>();
         } else {
-            mKeywords = Sets.newHashSet(keywordsArr);
+            mKeywords = new LinkedHashSet<>(Arrays.asList(keywordsArr));
         }
     }
 

@@ -25,10 +25,10 @@ import android.net.Uri;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 import android.util.Log;
-import com.google.common.collect.Sets;
 import com.mattprecious.prioritysms.R;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class ContactHelper {
@@ -99,7 +99,7 @@ public class ContactHelper {
     }
 
     public static Set<String> getLookupKeysByNumber(Context context, String number) {
-        Set<String> ids = Sets.newHashSet();
+        Set<String> ids = new LinkedHashSet<>();
 
         Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
 

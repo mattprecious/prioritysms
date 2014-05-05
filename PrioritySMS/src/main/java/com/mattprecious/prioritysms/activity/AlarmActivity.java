@@ -40,12 +40,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import com.google.common.base.Strings;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.model.BaseProfile;
 import com.mattprecious.prioritysms.model.SmsProfile;
 import com.mattprecious.prioritysms.util.ContactHelper;
 import com.mattprecious.prioritysms.util.Intents;
+import com.mattprecious.prioritysms.util.Strings;
 import com.mattprecious.prioritysms.view.MarginAnimation;
 import net.sebastianopoggi.ui.GlowPadBackport.GlowPadView;
 
@@ -165,7 +165,7 @@ public class AlarmActivity extends BaseActivity implements
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
 
-        mAnimateMessageSize = !Strings.isNullOrEmpty(mMessage)
+        mAnimateMessageSize = !Strings.isBlank(mMessage)
                 && getResources().getBoolean(R.bool.animate_message_size);
 
         String styledMessage = mMessage;

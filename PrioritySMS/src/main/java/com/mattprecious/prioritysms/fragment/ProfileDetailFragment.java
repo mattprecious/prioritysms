@@ -38,13 +38,13 @@ import butterknife.InjectView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.common.collect.Lists;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.model.BaseProfile;
 import com.viewpagerindicator.TabPageIndicator;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileDetailFragment extends BaseFragment {
@@ -381,7 +381,7 @@ public class ProfileDetailFragment extends BaseFragment {
         }
 
         public List<BaseDetailFragment> getRegisteredFragments() {
-            List<BaseDetailFragment> list = Lists.newArrayListWithCapacity(mRegisteredFragments.size());
+            List<BaseDetailFragment> list = new ArrayList<>(mRegisteredFragments.size());
             for (int i = 0; i < mRegisteredFragments.size(); i++) {
                 BaseDetailFragment fragment = getRegisteredFragment(i);
                 if (fragment != null) {

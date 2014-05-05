@@ -41,8 +41,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.crashlytics.android.Crashlytics;
-import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
 import com.mattprecious.prioritysms.BuildConfig;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.billing.IabHelper;
@@ -61,9 +59,12 @@ import com.mattprecious.prioritysms.model.SmsProfile;
 import com.mattprecious.prioritysms.preferences.AboutPreferenceFragment;
 import com.mattprecious.prioritysms.preferences.SettingsActivity;
 import com.mattprecious.prioritysms.util.Helpers;
+import com.mattprecious.prioritysms.util.Strings;
 import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import org.jraf.android.backport.switchwidget.Switch;
 
 public class ProfileListActivity extends BaseActivity
@@ -557,16 +558,16 @@ public class ProfileListActivity extends BaseActivity
 
                 String smsLookup = mPreferences.getString("sms_contact", null);
                 if (mPreferences.getBoolean("filter_contact", false)
-                        && !Strings.isNullOrEmpty(smsLookup)) {
+                        && !Strings.isBlank(smsLookup)) {
                     smsProfile.addContact(smsLookup);
                     smsWorthSaving = true;
                 }
 
                 String keywords = mPreferences.getString("keyword", null);
                 if (mPreferences.getBoolean("filter_keyword", false)
-                        && !Strings.isNullOrEmpty(keywords)) {
+                        && !Strings.isBlank(keywords)) {
                     String[] keywordArr = keywords.split(",");
-                    smsProfile.setKeywords(Sets.newHashSet(keywordArr));
+                    smsProfile.setKeywords(new LinkedHashSet<String>(Arrays.asList(keywordArr)));
                     smsWorthSaving = true;
                 }
 
@@ -580,7 +581,7 @@ public class ProfileListActivity extends BaseActivity
                 boolean phoneWorthSaving = false;
 
                 String phoneLookup = mPreferences.getString("call_contact", null);
-                if (!Strings.isNullOrEmpty(phoneLookup)) {
+                if (!Strings.isBlank(phoneLookup)) {
                     phoneProfile.addContact(phoneLookup);
                     phoneWorthSaving = true;
                 }
