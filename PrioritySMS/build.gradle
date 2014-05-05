@@ -10,8 +10,18 @@ buildscript {
   }
 }
 
+// Manifest version information!
+def versionMajor = 1
+def versionMinor = 1
+def versionPatch = 0
+def versionBuild = 0 // bump for dogfood builds, public betas, etc.
+
 apply plugin: 'android'
-apply plugin: 'crashlytics'
+
+def isRelease = Boolean.valueOf(System.getProperty("release", "false"))
+if (isRelease) {
+  apply plugin: 'crashlytics'
+}
 
 repositories {
   mavenCentral()
@@ -40,33 +50,63 @@ dependencies {
   compile 'org.jraf:android-switch-backport:1.0.1-SNAPSHOT@aar'
 }
 
+def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
+
 android {
   compileSdkVersion 19
   buildToolsVersion '19.0.3'
-
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_7
-    targetCompatibility JavaVersion.VERSION_1_7
-  }
 
   defaultConfig {
     minSdkVersion 8
     targetSdkVersion 19
 
-    versionCode 9
-    versionName "1.1"
+    versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+    versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+
+    buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
+    buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
   }
 
-  lintOptions {
-    disable 'InvalidPackage'
+  signingConfigs {
+    // This won't compile without a value for these properties even if we're compiling debug.
+    // Fill it with a bogus string.
+    def defaultProperty = "."
+
+    property {
+      storeFile file(System.getProperty("keystore", defaultProperty))
+      storePassword System.getProperty("keystore-password", defaultProperty)
+      keyAlias System.getProperty("key-alias", defaultProperty)
+      keyPassword System.getProperty("key-password", defaultProperty)
+    }
   }
 
   buildTypes {
     debug {
       packageNameSuffix '.dev'
+      versionNameSuffix '-dev'
     }
     dogfood {
       packageNameSuffix '.woof'
+      versionNameSuffix '-woof'
+
+      if (isRelease) {
+        signingConfig signingConfigs.property
+      }
     }
+    release {
+      if (isRelease) {
+        signingConfig signingConfigs.property
+      }
+    }
+  }
+
+  lintOptions {
+    abortOnError false
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_7
   }
 }
