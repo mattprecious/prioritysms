@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2013 Matthew Precious
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,21 +15,19 @@
   -->
 
 <resources>
-
-    <declare-styleable name="AppTheme">
-        <attr name="switchStyleAb" format="reference" />
-    </declare-styleable>
+  <declare-styleable name="AppTheme">
+    <attr name="switchStyleAb" format="reference"/>
+  </declare-styleable>
 
   <!-- Base attributes available to VolumePreference. -->
   <declare-styleable name="VolumePreference">
     <!-- Different audio stream types. -->
     <attr name="streamType">
-      <enum name="voice" value="0" />
-      <enum name="system" value="1" />
-      <enum name="ring" value="2" />
-      <enum name="music" value="3" />
-      <enum name="alarm" value="4" />
+      <enum name="voice" value="0"/>
+      <enum name="system" value="1"/>
+      <enum name="ring" value="2"/>
+      <enum name="music" value="3"/>
+      <enum name="alarm" value="4"/>
     </attr>
   </declare-styleable>
-
 </resources>

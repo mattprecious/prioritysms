@@ -14,58 +14,56 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:id="@+id/profile_name_container"
-        style="@style/ProfileDetailNameBar"
-        android:layout_width="match_parent"
+    android:orientation="vertical"
+    >
+  <LinearLayout
+      android:id="@+id/profile_name_container"
+      style="@style/ProfileDetailNameBar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      >
+    <EditText
+        android:id="@+id/profile_name"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/profile_name"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:hint="@string/detail_name_hint"
-            android:inputType="textCapWords"
-            android:lines="1"
-            android:textColor="@color/profile_name_text" />
-
-        <ImageButton
-            android:id="@+id/close_rename"
-            style="@style/ClearImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/detail_name_done_description"
-            android:padding="8dip"
-            android:src="@drawable/ic_btn_up" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:hint="@string/detail_name_hint"
+        android:inputType="textCapWords"
+        android:lines="1"
+        android:textColor="@color/profile_name_text"
+        />
+    <ImageButton
+        android:id="@+id/close_rename"
+        style="@style/ClearImageButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ab_stacked_solid_red">
-
-        <!-- lint issue, ignoring until fix -->
-
-        <com.viewpagerindicator.TabPageIndicator
-            android:id="@+id/indicator"
-            android:layout_width="match_parent"
-            android:layout_height="48dip"
-            tools:ignore="MissingRegistered" />
-    </LinearLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
+        android:contentDescription="@string/detail_name_done_description"
+        android:padding="8dip"
+        android:src="@drawable/ic_btn_up"
+        />
+  </LinearLayout>
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@drawable/ab_stacked_solid_red"
+      >
+    <com.viewpagerindicator.TabPageIndicator
+        android:id="@+id/indicator"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
+        android:layout_height="48dip"
+        />
+  </LinearLayout>
+  <android.support.v4.view.ViewPager
+      android:id="@+id/pager"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      />
 </LinearLayout>

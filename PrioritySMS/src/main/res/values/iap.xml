@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2013 Matthew Precious
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +15,6 @@
   -->
 
 <resources>
-    <string name="iap_key"></string>
-    <string name="iap_sku_pro">pro</string>
+  <string name="iap_key"></string>
+  <string name="iap_sku_pro">pro</string>
 </resources>

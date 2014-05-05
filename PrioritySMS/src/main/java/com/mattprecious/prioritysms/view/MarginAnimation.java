@@ -22,71 +22,74 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
 public class MarginAnimation extends Animation {
-    private View mView;
+  private View view;
 
-    private int mFromMarginBottom;
-    private int mFromMarginLeft;
-    private int mFromMarginRight;
-    private int mFromMarginTop;
+  private int fromMarginBottom;
+  private int fromMarginLeft;
+  private int fromMarginRight;
+  private int fromMarginTop;
 
-    private int mToMarginBottom;
-    private int mToMarginLeft;
-    private int mToMarginRight;
-    private int mToMarginTop;
+  private int toMarginBottom;
+  private int toMarginLeft;
+  private int toMarginRight;
+  private int toMarginTop;
 
-    public MarginAnimation(View view) {
-        mView = view;
+  public MarginAnimation(View view) {
+    this.view = view;
 
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-        mFromMarginBottom = params.bottomMargin;
-        mFromMarginLeft = params.leftMargin;
-        mFromMarginRight = params.rightMargin;
-        mFromMarginTop = params.topMargin;
-    }
+    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+    fromMarginBottom = params.bottomMargin;
+    fromMarginLeft = params.leftMargin;
+    fromMarginRight = params.rightMargin;
+    fromMarginTop = params.topMargin;
+  }
 
-    public void setMarginBottom(int toMarginBottom) {
-        mToMarginBottom = toMarginBottom;
-    }
+  public void setMarginBottom(int toMarginBottom) {
+    this.toMarginBottom = toMarginBottom;
+  }
 
-    public void setMarginBottom(int fromMarginBottom, int toMarginBottom) {
-        mFromMarginBottom = fromMarginBottom;
-        mToMarginBottom = toMarginBottom;
-    }
+  public void setMarginBottom(int fromMarginBottom, int toMarginBottom) {
+    this.fromMarginBottom = fromMarginBottom;
+    this.toMarginBottom = toMarginBottom;
+  }
 
-    public void setMarginLeft(int toMarginLeft) {
-        mToMarginLeft = toMarginLeft;
-    }
+  public void setMarginLeft(int toMarginLeft) {
+    this.toMarginLeft = toMarginLeft;
+  }
 
-    public void setMarginLeft(int fromMarginLeft, int toMarginLeft) {
-        mFromMarginLeft = fromMarginLeft;
-        mToMarginLeft = toMarginLeft;
-    }
+  public void setMarginLeft(int fromMarginLeft, int toMarginLeft) {
+    this.fromMarginLeft = fromMarginLeft;
+    this.toMarginLeft = toMarginLeft;
+  }
 
-    public void setMarginRight(int toMarginRight) {
-        mToMarginRight = toMarginRight;
-    }
+  public void setMarginRight(int toMarginRight) {
+    this.toMarginRight = toMarginRight;
+  }
 
-    public void setMarginRight(int fromMarginRight, int toMarginRight) {
-        mFromMarginRight = fromMarginRight;
-        mToMarginRight = toMarginRight;
-    }
+  public void setMarginRight(int fromMarginRight, int toMarginRight) {
+    this.fromMarginRight = fromMarginRight;
+    this.toMarginRight = toMarginRight;
+  }
 
-    public void setMarginTop(int toMarginTop) {
-        mToMarginTop = toMarginTop;
-    }
+  public void setMarginTop(int toMarginTop) {
+    this.toMarginTop = toMarginTop;
+  }
 
-    public void setMarginTop(int fromMarginTop, int toMarginTop) {
-        mFromMarginTop = fromMarginTop;
-        mToMarginTop = toMarginTop;
-    }
+  public void setMarginTop(int fromMarginTop, int toMarginTop) {
+    this.fromMarginTop = fromMarginTop;
+    this.toMarginTop = toMarginTop;
+  }
 
-    @Override
-    protected void applyTransformation(float interpolatedTime, Transformation t) {
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mView.getLayoutParams();
-        params.bottomMargin = (int) (mFromMarginBottom + ((mToMarginBottom - mFromMarginBottom) * interpolatedTime));
-        params.leftMargin = (int) (mFromMarginLeft + ((mToMarginLeft - mFromMarginLeft) * interpolatedTime));
-        params.rightMargin = (int) (mFromMarginRight + ((mToMarginRight - mFromMarginRight) * interpolatedTime));
-        params.topMargin = (int) (mFromMarginTop + ((mToMarginTop - mFromMarginTop) * interpolatedTime));
-        mView.requestLayout();
-    }
+  @Override protected void applyTransformation(float interpolatedTime, Transformation t) {
+    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+    params.bottomMargin =
+        (int) (fromMarginBottom + ((toMarginBottom - fromMarginBottom) * interpolatedTime));
+    params.leftMargin =
+        (int) (fromMarginLeft + ((toMarginLeft - fromMarginLeft) * interpolatedTime));
+    params.rightMargin =
+        (int) (fromMarginRight + ((toMarginRight - fromMarginRight) * interpolatedTime));
+    params.topMargin =
+        (int) (fromMarginTop + ((toMarginTop - fromMarginTop) * interpolatedTime));
+    view.requestLayout();
+  }
 }

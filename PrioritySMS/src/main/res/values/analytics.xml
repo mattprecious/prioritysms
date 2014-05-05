@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<!--
+<?xml version="1.0" encoding="utf-8" ?><!--
   ~ Copyright 2013 Matthew Precious
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,12 +15,11 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyDashes">
+  <string name="ga_trackingId">UA-37292099-2</string>
 
-    <string name="ga_trackingId">UA-37292099-2</string>
+  <!--Enable automatic activity tracking-->
+  <bool name="ga_autoActivityTracking">true</bool>
 
-    <!--Enable automatic activity tracking-->
-    <bool name="ga_autoActivityTracking">true</bool>
-
-    <!--Enable automatic exception tracking-->
-    <bool name="ga_reportUncaughtExceptions">true</bool>
+  <!--Enable automatic exception tracking-->
+  <bool name="ga_reportUncaughtExceptions">true</bool>
 </resources>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2013 Matthew Precious
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,23 +15,22 @@
   -->
 
 <resources>
+  <dimen name="action_bar_switch_padding">16dip</dimen>
 
-    <dimen name="action_bar_switch_padding">16dip</dimen>
+  <!-- crouton -->
+  <dimen name="crouton_delete_padding">16dip</dimen>
 
-    <!-- crouton -->
-    <dimen name="crouton_delete_padding">16dip</dimen>
+  <!-- profile list -->
+  <dimen name="profile_list_margin">16dip</dimen>
+  <dimen name="profile_list_item_padding">12dip</dimen>
 
-    <!-- profile list -->
-    <dimen name="profile_list_margin">16dip</dimen>
-    <dimen name="profile_list_item_padding">12dip</dimen>
+  <!-- profile detail -->
+  <dimen name="profile_detail_card_margin">16dip</dimen>
+  <dimen name="profile_detail_padding">8dip</dimen>
+  <dimen name="profile_detail_header_divider_height">1dip</dimen>
+  <dimen name="profile_detail_avatar_size">48dip</dimen>
 
-    <!-- profile detail -->
-    <dimen name="profile_detail_card_margin">16dip</dimen>
-    <dimen name="profile_detail_padding">8dip</dimen>
-    <dimen name="profile_detail_header_divider_height">1dip</dimen>
-    <dimen name="profile_detail_avatar_size">48dip</dimen>
-
-    <!-- alarm -->
-    <dimen name="glowpad_outer_ring_diameter">270dip</dimen>
-    <dimen name="glowpad_outer_ring_radius">135dip</dimen>
+  <!-- alarm -->
+  <dimen name="glowpad_outer_ring_diameter">270dip</dimen>
+  <dimen name="glowpad_outer_ring_radius">135dip</dimen>
 </resources>

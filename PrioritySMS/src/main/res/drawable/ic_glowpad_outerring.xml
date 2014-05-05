@@ -18,11 +18,11 @@
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
-    <size
-        android:height="@dimen/glowpad_outer_ring_diameter"
-        android:width="@dimen/glowpad_outer_ring_diameter" />
-    <solid android:color="#00000000" />
-    <stroke
-        android:color="#1affffff"
-        android:width="2dp" />
+  <size
+      android:height="@dimen/glowpad_outer_ring_diameter"
+      android:width="@dimen/glowpad_outer_ring_diameter"/>
+  <solid android:color="#00000000"/>
+  <stroke
+      android:color="#1affffff"
+      android:width="2dp"/>
 </shape>

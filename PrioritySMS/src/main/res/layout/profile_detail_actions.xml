@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2013 Matthew Precious
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,53 +14,54 @@
   ~ limitations under the License.
   -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/ProfileDetailPage"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        style="@style/ProfileDetailCard.Last"
+    android:layout_height="match_parent"
+    >
+  <LinearLayout
+      style="@style/ProfileDetailCard.Last"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:animateLayoutChanges="true"
+      android:orientation="vertical"
+      >
+    <Spinner
+        android:id="@+id/action_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <View
+        style="@style/ProfileDetailHeaderDivider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_detail_header_divider_height"
+        />
+    <Button
+        android:id="@+id/action_sound"
+        style="@style/ProfileDetailActionsItem.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
-        android:orientation="vertical">
-
-        <Spinner
-            android:id="@+id/action_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <View
-            style="@style/ProfileDetailHeaderDivider"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/profile_detail_header_divider_height" />
-
-        <Button
-            android:id="@+id/action_sound"
-            style="@style/ProfileDetailActionsItem.Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <View
-            style="@style/ProfileDetailFooterDivider"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/profile_detail_header_divider_height" />
-
-        <CheckBox
-            android:id="@+id/action_override_silent"
-            style="@style/ProfileDetailActionsItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/actions_override_silent"
-            android:visibility="gone"/>
-
-        <CheckBox
-            android:id="@+id/action_vibrate"
-            style="@style/ProfileDetailActionsItem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/actions_vibrate" />
-    </LinearLayout>
-
+        />
+    <View
+        style="@style/ProfileDetailFooterDivider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_detail_header_divider_height"
+        />
+    <CheckBox
+        android:id="@+id/action_override_silent"
+        style="@style/ProfileDetailActionsItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/actions_override_silent"
+        android:visibility="gone"
+        />
+    <CheckBox
+        android:id="@+id/action_vibrate"
+        style="@style/ProfileDetailActionsItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/actions_vibrate"
+        />
+  </LinearLayout>
 </ScrollView>

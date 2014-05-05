@@ -16,34 +16,35 @@
   ~ limitations under the License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/list_background">
-
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:divider="@null"
-        android:dividerHeight="12dip"
-        android:listSelector="@android:color/transparent"
-        android:padding="8dip"
-        android:scrollbarStyle="outsideOverlay"
-        tools:listitem="@layout/profile_list_item" />
-
-    <TextView
-        android:id="@android:id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dip"
-        android:fontFamily="sans-serif-thin"
-        android:gravity="center"
-        android:padding="8dip"
-        android:text="@string/list_no_profiles"
-        android:textSize="24sp" />
-
+    android:background="@color/list_background"
+    >
+  <ListView
+      android:id="@android:id/list"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:clipToPadding="false"
+      android:divider="@null"
+      android:dividerHeight="12dip"
+      android:listSelector="@android:color/transparent"
+      android:padding="8dip"
+      android:scrollbarStyle="outsideOverlay"
+      tools:listitem="@layout/profile_list_item"
+      />
+  <TextView
+      android:id="@android:id/empty"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dip"
+      android:fontFamily="sans-serif-thin"
+      android:gravity="center"
+      android:padding="8dip"
+      android:text="@string/list_no_profiles"
+      android:textSize="24sp"
+      />
 </FrameLayout>

@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2013 Matthew Precious
  *
@@ -28,199 +27,187 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public abstract class BaseProfile implements Parcelable {
+  private int id;
+  private String name;
+  private boolean enabled;
+  private ActionType actionType;
+  private Uri ringtone;
+  private boolean overrideSilent;
+  private boolean vibrate;
+  private Set<String> contacts;
 
-    private int mId;
+  protected BaseProfile() {
+    id = -1;
+    enabled = true;
+    actionType = ActionType.ALARM;
+    contacts = new LinkedHashSet<>();
+  }
 
-    private String mName;
+  public boolean isNew() {
+    return id == -1;
+  }
 
-    private boolean mEnabled;
+  public void save(Context context) {
+    DbAdapter db = new DbAdapter(context);
 
-    private ActionType mActionType;
+    if (getId() == -1) {
+      db.insertProfile(this);
+    } else {
+      db.updateProfile(this);
+    }
+  }
 
-    private Uri mRingtone;
-
-    private boolean mOverrideSilent;
-
-    private boolean mVibrate;
-
-    private Set<String> mContacts;
-
-    protected BaseProfile() {
-        mId = -1;
-        mEnabled = true;
-        mActionType = ActionType.ALARM;
-        mContacts = new LinkedHashSet<>();
+  public void delete(Context context) {
+    if (getId() == -1) {
+      return;
     }
 
-    public boolean isNew() {
-        return mId == -1;
+    DbAdapter db = new DbAdapter(context);
+    db.deleteProfile(this);
+  }
+
+  public void undoDelete(Context context) {
+    if (getId() == -1) {
+      return;
     }
 
-    public void save(Context context) {
-        DbAdapter db = new DbAdapter(context);
+    DbAdapter db = new DbAdapter(context);
+    db.insertProfile(this);
+  }
 
-        if (getId() == -1) {
-            db.insertProfile(this);
-        } else {
-            db.updateProfile(this);
-        }
+  protected boolean matches(Context context, String number) {
+    Set<String> contacts = getContacts();
+
+    // no contacts set, so allow all
+    if (contacts.size() == 0) {
+      return true;
     }
 
-    public void delete(Context context) {
-        if (getId() == -1) {
-            return;
-        }
+    Set<String> incomingContactLookups = ContactHelper.getLookupKeysByNumber(context, number);
+    incomingContactLookups.retainAll(contacts);
 
-        DbAdapter db = new DbAdapter(context);
-        db.deleteProfile(this);
+    return !incomingContactLookups.isEmpty();
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  public ActionType getActionType() {
+    return actionType;
+  }
+
+  public void setActionType(ActionType actionType) {
+    this.actionType = actionType;
+  }
+
+  public Uri getRingtone() {
+    return ringtone;
+  }
+
+  public void setRingtone(Uri ringtone) {
+    this.ringtone = ringtone;
+  }
+
+  public boolean isOverrideSilent() {
+    return overrideSilent;
+  }
+
+  public void setOverrideSilent(boolean overrideSilent) {
+    this.overrideSilent = overrideSilent;
+  }
+
+  public boolean isVibrate() {
+    return vibrate;
+  }
+
+  public void setVibrate(boolean vibrate) {
+    this.vibrate = vibrate;
+  }
+
+  public Set<String> getContacts() {
+    Set<String> ret = new LinkedHashSet<>();
+    ret.addAll(contacts);
+    return ret;
+  }
+
+  public void setContacts(Set<String> contacts) {
+    this.contacts = new LinkedHashSet<>();
+    this.contacts.addAll(contacts);
+  }
+
+  public void addContact(String lookupKey) {
+    if (lookupKey != null) {
+      contacts.add(lookupKey);
     }
+  }
 
-    public void undoDelete(Context context) {
-        if (getId() == -1) {
-            return;
-        }
+  @Override public int describeContents() {
+    return 0;
+  }
 
-        DbAdapter db = new DbAdapter(context);
-        db.insertProfile(this);
+  @Override public void writeToParcel(Parcel dest, int flags) {
+    dest.writeInt(id);
+    dest.writeString(name);
+    dest.writeByte((byte) (enabled ? 1 : 0));
+    dest.writeInt(actionType.ordinal());
+    dest.writeString((ringtone == null) ? null : ringtone.toString());
+    dest.writeByte((byte) (overrideSilent ? 1 : 0));
+    dest.writeByte((byte) (vibrate ? 1 : 0));
+    dest.writeStringArray(contacts.toArray(new String[contacts.size()]));
+  }
+
+  public BaseProfile(Parcel in) {
+    id = in.readInt();
+    name = in.readString();
+    enabled = in.readByte() == 1;
+
+    actionType = ActionType.values()[in.readInt()];
+
+    String ringtoneStr = in.readString();
+    ringtone = (ringtoneStr == null) ? null : Uri.parse(ringtoneStr);
+
+    overrideSilent = in.readByte() == 1;
+    vibrate = in.readByte() == 1;
+
+    String[] contactsArr = in.createStringArray();
+    if (contactsArr == null) {
+      contacts = new LinkedHashSet<>();
+    } else {
+      contacts = new LinkedHashSet<>(Arrays.asList(contactsArr));
     }
+  }
 
-    protected boolean matches(Context context, String number) {
-        Set<String> contacts = getContacts();
-
-        // no contacts set, so allow all
-        if (contacts.size() == 0) {
-            return true;
-        }
-
-        Set<String> incomingContactLookups = ContactHelper.getLookupKeysByNumber(context, number);
-        incomingContactLookups.retainAll(contacts);
-
-        return !incomingContactLookups.isEmpty();
-    }
-
-    public int getId() {
-        return mId;
-    }
-
-    public void setId(int id) {
-        mId = id;
-    }
-
-    public String getName() {
-        return mName;
-    }
-
-    public void setName(String name) {
-        mName = name;
-    }
-
-    public boolean isEnabled() {
-        return mEnabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        mEnabled = enabled;
-    }
-
-    public ActionType getActionType() {
-        return mActionType;
-    }
-
-    public void setActionType(ActionType actionType) {
-        mActionType = actionType;
-    }
-
-    public Uri getRingtone() {
-        return mRingtone;
-    }
-
-    public void setRingtone(Uri ringtone) {
-        mRingtone = ringtone;
-    }
-
-    public boolean isOverrideSilent() {
-        return mOverrideSilent;
-    }
-
-    public void setOverrideSilent(boolean overrideSilent) {
-        mOverrideSilent = overrideSilent;
-    }
-
-    public boolean isVibrate() {
-        return mVibrate;
-    }
-
-    public void setVibrate(boolean vibrate) {
-        mVibrate = vibrate;
-    }
-
-    public Set<String> getContacts() {
-        Set<String> ret = new LinkedHashSet<>();
-        ret.addAll(mContacts);
-        return ret;
-    }
-
-    public void setContacts(Set<String> contacts) {
-        mContacts = new LinkedHashSet<>();
-        mContacts.addAll(contacts);
-    }
-
-    public void addContact(String lookupKey) {
-        if (lookupKey != null) {
-            mContacts.add(lookupKey);
-        }
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mId);
-        dest.writeString(mName);
-        dest.writeByte((byte) (mEnabled ? 1 : 0));
-        dest.writeInt(mActionType.ordinal());
-        dest.writeString((mRingtone == null) ? null : mRingtone.toString());
-        dest.writeByte((byte) (mOverrideSilent ? 1 : 0));
-        dest.writeByte((byte) (mVibrate ? 1 : 0));
-        dest.writeStringArray(mContacts.toArray(new String[mContacts.size()]));
-    }
-
-    public BaseProfile(Parcel in) {
-        mId = in.readInt();
-        mName = in.readString();
-        mEnabled = in.readByte() == 1;
-
-        mActionType = ActionType.values()[in.readInt()];
-
-        String ringtoneStr = in.readString();
-        mRingtone = (ringtoneStr == null) ? null : Uri.parse(ringtoneStr);
-
-        mOverrideSilent = in.readByte() == 1;
-        mVibrate = in.readByte() == 1;
-
-        String[] contactsArr = in.createStringArray();
-        if (contactsArr == null) {
-            mContacts = new LinkedHashSet<>();
-        } else {
-            mContacts = new LinkedHashSet<>(Arrays.asList(contactsArr));
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "BaseProfile{" +
-                "mId=" + mId +
-                ", mName='" + mName + '\'' +
-                ", mEnabled=" + mEnabled +
-                ", mActionType=" + mActionType +
-                ", mRingtone=" + mRingtone +
-                ", mOverrideSilent=" + mOverrideSilent +
-                ", mVibrate=" + mVibrate +
-                ", mContacts=" + mContacts +
-                '}';
-    }
-
+  @Override public String toString() {
+    return "BaseProfile{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", enabled=" + enabled +
+        ", actionType=" + actionType +
+        ", ringtone=" + ringtone +
+        ", overrideSilent=" + overrideSilent +
+        ", vibrate=" + vibrate +
+        ", contacts=" + contacts +
+        '}';
+  }
 }

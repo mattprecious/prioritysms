@@ -16,111 +16,104 @@
 
 package com.mattprecious.prioritysms.fragment;
 
-import com.mattprecious.prioritysms.R;
-import com.mattprecious.prioritysms.model.LogicMethod;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import com.mattprecious.prioritysms.R;
+import com.mattprecious.prioritysms.model.LogicMethod;
 
 public class SmsMethodDialogFragment extends BaseSupportDialogFragment {
+  public static final String EXTRA_CURRENT_VALUE = "current_value";
 
-    public static final String EXTRA_CURRENT_VALUE = "current_value";
+  private static final LogicMethod[] methods = new LogicMethod[] {
+      LogicMethod.ALL, LogicMethod.ANY, LogicMethod.ONLY,
+  };
 
-    private static final LogicMethod[] sMethods = new LogicMethod[] {
-        LogicMethod.ALL,
-        LogicMethod.ANY,
-        LogicMethod.ONLY,
-    };
+  private static final int[] methodDescriptionResIds = new int[] {
+      R.string.keywords_method_description_all, R.string.keywords_method_description_any,
+      R.string.keywords_method_description_only,
+  };
 
-    private static final int[] sMethodDescriptionResIds = new int[] {
-        R.string.keywords_method_description_all,
-        R.string.keywords_method_description_any,
-        R.string.keywords_method_description_only,
-    };
+  public static SmsMethodDialogFragment create(LogicMethod currentValue) {
+    Bundle args = new Bundle();
+    args.putInt(EXTRA_CURRENT_VALUE, currentValue.ordinal());
 
-    public static SmsMethodDialogFragment create(LogicMethod currentValue) {
-        Bundle args = new Bundle();
-        args.putInt(EXTRA_CURRENT_VALUE, currentValue.ordinal());
+    SmsMethodDialogFragment fragment = new SmsMethodDialogFragment();
+    fragment.setArguments(args);
 
-        SmsMethodDialogFragment fragment = new SmsMethodDialogFragment();
-        fragment.setArguments(args);
+    return fragment;
+  }
 
-        return fragment;
+  private String[] methodDescriptions = new String[methodDescriptionResIds.length];
+
+  private Callbacks callbacks;
+  private LogicMethod currentMethod;
+
+  public void setCallbacks(Callbacks callbacks) {
+    this.callbacks = callbacks;
+  }
+
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    if (callbacks == null) {
+      throw new IllegalStateException("must call setCallbacks() before showing dialog");
     }
 
-    private String[] mMethodDescriptions = new String[sMethodDescriptionResIds.length];
-
-    private Callbacks mCallbacks;
-    private LogicMethod mCurrentMethod;
-
-    public void setCallbacks(Callbacks callbacks) {
-        mCallbacks = callbacks;
+    Bundle args = getArguments();
+    if (args == null || !args.containsKey(EXTRA_CURRENT_VALUE)) {
+      throw new IllegalArgumentException(
+          String.format("must provide %s as an extra", EXTRA_CURRENT_VALUE));
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (mCallbacks == null) {
-            throw new IllegalStateException("must call setCallbacks() before showing dialog");
-        }
-
-        Bundle args = getArguments();
-        if (args == null || !args.containsKey(EXTRA_CURRENT_VALUE)) {
-            throw new IllegalArgumentException(String.format("must provide %s as an extra",
-                    EXTRA_CURRENT_VALUE));
-        }
-
-        for (int i = 0; i < sMethodDescriptionResIds.length; i++) {
-            mMethodDescriptions[i] = getString(sMethodDescriptionResIds[i]);
-        }
-
-        mCurrentMethod = LogicMethod.values()[args.getInt(EXTRA_CURRENT_VALUE)];
+    for (int i = 0; i < methodDescriptionResIds.length; i++) {
+      methodDescriptions[i] = getString(methodDescriptionResIds[i]);
     }
 
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    currentMethod = LogicMethod.values()[args.getInt(EXTRA_CURRENT_VALUE)];
+  }
 
-        int currentIndex = 0;
-        for (LogicMethod method : sMethods) {
-            if (mCurrentMethod == method) {
+  @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+    int currentIndex = 0;
+    for (LogicMethod method : methods) {
+      if (currentMethod == method) {
+        break;
+      }
+
+      currentIndex++;
+    }
+
+    builder.setTitle(R.string.keywords_method_title);
+    builder.setSingleChoiceItems(methodDescriptions, currentIndex,
+        new DialogInterface.OnClickListener() {
+          @Override public void onClick(DialogInterface dialog, int which) {
+            LogicMethod method = LogicMethod.ANY;
+            switch (which) {
+              case 0:
+                method = LogicMethod.ALL;
+                break;
+              case 1:
+                method = LogicMethod.ANY;
+                break;
+              case 2:
+                method = LogicMethod.ONLY;
                 break;
             }
 
-            currentIndex++;
+            callbacks.onSelected(method);
+            dialog.dismiss();
+          }
         }
+    );
 
-        builder.setTitle(R.string.keywords_method_title);
-        builder.setSingleChoiceItems(mMethodDescriptions, currentIndex,
-                new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                LogicMethod method = LogicMethod.ANY;
-                switch (which) {
-                    case 0:
-                        method = LogicMethod.ALL;
-                        break;
-                    case 1:
-                        method = LogicMethod.ANY;
-                        break;
-                    case 2:
-                        method = LogicMethod.ONLY;
-                        break;
-                }
+    return builder.create();
+  }
 
-                mCallbacks.onSelected(method);
-                dialog.dismiss();
-            }
-        });
+  public static interface Callbacks {
 
-        return builder.create();
-    }
-
-    public static interface Callbacks {
-
-        public void onSelected(LogicMethod method);
-    }
+    public void onSelected(LogicMethod method);
+  }
 }

@@ -15,167 +15,165 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
+  <style name="AppBaseTheme" parent="Red"></style>
 
-    <style name="AppBaseTheme" parent="Red"></style>
+  <!-- Application theme. -->
+  <style name="AppTheme" parent="AppBaseTheme">
+    <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+    <item name="switchStyle">@style/SwitchAppTheme</item>
+    <item name="switchStyleAb">@style/SwitchAppTheme.Dark</item>
+  </style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
-        <item name="switchStyle">@style/SwitchAppTheme</item>
-        <item name="switchStyleAb">@style/SwitchAppTheme.Dark</item>
-    </style>
+  <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
+    <item name="android:layout_height">60dip</item>
+    <item name="android:background">@drawable/tab_indicator_ab_red</item>
+    <item name="android:shadowColor">#88000000</item>
+    <item name="android:shadowRadius">0.1</item>
+    <item name="android:shadowDx">0</item>
+    <item name="android:shadowDy">-1</item>
+  </style>
 
-    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
-        <item name="android:layout_height">60dip</item>
-        <item name="android:background">@drawable/tab_indicator_ab_red</item>
-        <item name="android:shadowColor">#88000000</item>
-        <item name="android:shadowRadius">0.1</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">-1</item>
-    </style>
+  <style name="SwitchAppTheme" parent="Widget.Holo.Light.CompoundButton.Switch">
+    <item name="track">@drawable/red_switch_track_holo_light</item>
+    <item name="thumb">@drawable/red_switch_inner_holo_light</item>
+    <item name="switchTextAppearance">@style/SwitchTextAppearance</item>
+  </style>
 
-    <style name="SwitchAppTheme" parent="Widget.Holo.Light.CompoundButton.Switch">
-        <item name="track">@drawable/red_switch_track_holo_light</item>
-        <item name="thumb">@drawable/red_switch_inner_holo_light</item>
-        <item name="switchTextAppearance">@style/SwitchTextAppearance</item>
-    </style>
+  <style name="SwitchAppTheme.Dark">
+    <item name="track">@drawable/red_switch_track_holo_dark</item>
+    <item name="thumb">@drawable/red_switch_inner_holo_dark</item>
+  </style>
 
-    <style name="SwitchAppTheme.Dark">
-      <item name="track">@drawable/red_switch_track_holo_dark</item>
-      <item name="thumb">@drawable/red_switch_inner_holo_dark</item>
-    </style>
+  <style name="SwitchTextAppearance" parent="android:TextAppearance.Small.Inverse">
+    <item name="android:textColor">#FFFFFFFF</item>
+  </style>
 
-    <style name="SwitchTextAppearance" parent="android:TextAppearance.Small.Inverse">
-        <item name="android:textColor">#FFFFFFFF</item>
-    </style>
+  <!-- general -->
+  <style name="ClearButton">
+    <item name="android:background">@drawable/red_list_selector_holo_light</item>
+    <item name="android:gravity">center_vertical</item>
+  </style>
 
-    <!-- general -->
-    <style name="ClearButton">
-        <item name="android:background">@drawable/red_list_selector_holo_light</item>
-        <item name="android:gravity">center_vertical</item>
-    </style>
+  <style name="ClearImageButton">
+    <item name="android:background">@drawable/red_list_selector_holo_light</item>
+  </style>
 
-    <style name="ClearImageButton">
-        <item name="android:background">@drawable/red_list_selector_holo_light</item>
-    </style>
+  <!-- profile detail -->
+  <style name="ProfileDetailNameBar">
+    <item name="android:background">#FF2D2D2D</item>
+    <item name="android:padding">4dip</item>
+  </style>
 
-    <!-- profile detail -->
-    <style name="ProfileDetailNameBar">
-        <item name="android:background">#FF2D2D2D</item>
-        <item name="android:padding">4dip</item>
-    </style>
+  <style name="ProfileDetailPage">
+    <item name="android:background">@color/detail_background</item>
+    <item name="android:clipToPadding">false</item>
+    <item name="android:fadingEdge">none</item>
+    <item name="android:padding">@dimen/profile_detail_card_margin</item>
+    <item name="android:scrollbarStyle">outsideOverlay</item>
+  </style>
 
-    <style name="ProfileDetailPage">
-        <item name="android:background">@color/detail_background</item>
-        <item name="android:clipToPadding">false</item>
-        <item name="android:fadingEdge">none</item>
-        <item name="android:padding">@dimen/profile_detail_card_margin</item>
-        <item name="android:scrollbarStyle">outsideOverlay</item>
-    </style>
+  <style name="ProfileDetailCard">
+    <item name="android:layout_marginBottom">@dimen/profile_detail_card_margin</item>
+    <item name="android:background">@drawable/card_background</item>
+    <item name="android:orientation">vertical</item>
+    <item name="android:padding">@dimen/profile_detail_padding</item>
+  </style>
 
-    <style name="ProfileDetailCard">
-        <item name="android:layout_marginBottom">@dimen/profile_detail_card_margin</item>
-        <item name="android:background">@drawable/card_background</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:padding">@dimen/profile_detail_padding</item>
-    </style>
+  <style name="ProfileDetailCard.Last">
+    <item name="android:layout_marginBottom">0dip</item>
+  </style>
 
-    <style name="ProfileDetailCard.Last">
-        <item name="android:layout_marginBottom">0dip</item>
-    </style>
+  <style name="ProfileDetailHeader">
+    <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+    <item name="android:shadowColor">#33000000</item>
+    <item name="android:shadowDy">1</item>
+    <item name="android:shadowRadius">1</item>
+    <item name="android:textAllCaps" tools:ignore="NewApi">true</item>
+    <item name="android:textColor">@color/dark_red</item>
+    <item name="android:textSize">20sp</item>
+  </style>
 
-    <style name="ProfileDetailHeader">
-        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
-        <item name="android:shadowColor">#33000000</item>
-        <item name="android:shadowDy">1</item>
-        <item name="android:shadowRadius">1</item>
-        <item name="android:textAllCaps" tools:ignore="NewApi">true</item>
-        <item name="android:textColor">@color/dark_red</item>
-        <item name="android:textSize">20sp</item>
-    </style>
+  <style name="ProfileDetailHeader.FauxSpinner">
+    <item name="android:background">@drawable/red_spinner_background_holo_light</item>
+    <item name="android:paddingBottom">4dip</item>
+    <item name="android:paddingLeft">12dip</item>
+    <item name="android:paddingTop">4dip</item>
+  </style>
 
-    <style name="ProfileDetailHeader.FauxSpinner">
-        <item name="android:background">@drawable/red_spinner_background_holo_light</item>
-        <item name="android:paddingBottom">4dip</item>
-        <item name="android:paddingLeft">12dip</item>
-        <item name="android:paddingTop">4dip</item>
-    </style>
+  <style name="ProfileDetailHeaderDivider">
+    <item name="android:layout_marginTop">2dip</item>
+    <item name="android:background">@color/dark_red</item>
+  </style>
 
-    <style name="ProfileDetailHeaderDivider">
-        <item name="android:layout_marginTop">2dip</item>
-        <item name="android:background">@color/dark_red</item>
-    </style>
+  <style name="ProfileDetailFooterDivider">
+    <item name="android:background">#22000000</item>
+  </style>
 
-    <style name="ProfileDetailFooterDivider">
-        <item name="android:background">#22000000</item>
-    </style>
+  <style name="ProfileDetailFooterButton" parent="ClearButton">
+    <item name="android:textColor">@color/detail_footer_button_text</item>
+    <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+    <item name="android:paddingLeft">8dip</item>
+  </style>
 
-    <style name="ProfileDetailFooterButton" parent="ClearButton">
-        <item name="android:textColor">@color/detail_footer_button_text</item>
-        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
-        <item name="android:paddingLeft">8dip</item>
-    </style>
+  <style name="ProfileDetailActionsItem">
+    <!-- copied below to ProfileDetailActionsItem.Button" -->
+    <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+    <item name="android:paddingBottom">8dip</item>
+    <item name="android:paddingTop">8dip</item>
+    <item name="android:textSize">20sp</item>
+  </style>
 
-    <style name="ProfileDetailActionsItem">
-        <!-- copied below to ProfileDetailActionsItem.Button" -->
-        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
-        <item name="android:paddingBottom">8dip</item>
-        <item name="android:paddingTop">8dip</item>
-        <item name="android:textSize">20sp</item>
-    </style>
+  <style name="ProfileDetailActionsItem.Button" parent="ClearButton">
+    <item name="android:background">@drawable/red_spinner_background_holo_light</item>
+    <!-- copied from ProfileDetailActionsItem -->
+    <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+    <item name="android:padding">8dip</item>
+    <item name="android:textSize">20sp</item>
+  </style>
 
-    <style name="ProfileDetailActionsItem.Button" parent="ClearButton">
-        <item name="android:background">@drawable/red_spinner_background_holo_light</item>
-        <!-- copied from ProfileDetailActionsItem -->
-        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
-        <item name="android:padding">8dip</item>
-        <item name="android:textSize">20sp</item>
-    </style>
+  <style name="ProfileDetailConditionEmpty">
+    <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+    <item name="android:padding">8dip</item>
+    <item name="android:textColor">#FF666666</item>
+    <item name="android:textSize">18sp</item>
+  </style>
 
-    <style name="ProfileDetailConditionEmpty">
-        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
-        <item name="android:padding">8dip</item>
-        <item name="android:textColor">#FF666666</item>
-        <item name="android:textSize">18sp</item>
-    </style>
+  <!-- alarm -->
+  <style name="AlarmContactName">
+    <item name="android:layout_marginBottom">16dip</item>
+    <item name="android:gravity">center</item>
+    <item name="android:maxLines">2</item>
+    <item name="android:paddingLeft">16dip</item>
+    <item name="android:paddingRight">16dip</item>
+    <item name="android:shadowColor">#FF000000</item>
+    <item name="android:shadowDy">1</item>
+    <item name="android:shadowRadius">1</item>
+    <item name="android:textIsSelectable" tools:ignore="NewApi">false</item>
+    <item name="android:textSize">30sp</item>
+  </style>
 
-    <!-- alarm -->
-    <style name="AlarmContactName">
-        <item name="android:layout_marginBottom">16dip</item>
-        <item name="android:gravity">center</item>
-        <item name="android:maxLines">2</item>
-        <item name="android:paddingLeft">16dip</item>
-        <item name="android:paddingRight">16dip</item>
-        <item name="android:shadowColor">#FF000000</item>
-        <item name="android:shadowDy">1</item>
-        <item name="android:shadowRadius">1</item>
-        <item name="android:textIsSelectable" tools:ignore="NewApi">false</item>
-        <item name="android:textSize">30sp</item>
-    </style>
+  <style name="AlarmMessage">
+    <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
+    <item name="android:paddingLeft">24dip</item>
+    <item name="android:paddingRight">24dip</item>
+    <item name="android:textIsSelectable" tools:ignore="NewApi">false</item>
+    <item name="android:textSize">20sp</item>
+  </style>
 
-    <style name="AlarmMessage">
-        <item name="android:fontFamily" tools:ignore="NewApi">sans-serif-light</item>
-        <item name="android:paddingLeft">24dip</item>
-        <item name="android:paddingRight">24dip</item>
-        <item name="android:textIsSelectable" tools:ignore="NewApi">false</item>
-        <item name="android:textSize">20sp</item>
-    </style>
-
-    <style name="AlarmGlowPad">
-        <item name="android:focusable">true</item>
-        <item name="android:gravity">center</item>
-        <item name="directionDescriptions">@array/alarm_direction_descriptions</item>
-        <item name="feedbackCount">1</item>
-        <item name="glowRadius">75dip</item>
-        <item name="handleDrawable">@drawable/ic_glowpad_touch_handle</item>
-        <item name="innerRadius">15dip</item>
-        <item name="outerRadius">@dimen/glowpad_outer_ring_radius</item>
-        <item name="outerRingDrawable">@drawable/ic_glowpad_outerring</item>
-        <item name="pointDrawable">@drawable/ic_glowpad_glowdot</item>
-        <item name="snapMargin">40dip</item>
-        <item name="targetDescriptions">@array/alarm_descriptions</item>
-        <item name="targetDrawables">@array/alarm_drawables</item>
-        <item name="vibrationDuration">20</item>
-    </style>
-
+  <style name="AlarmGlowPad">
+    <item name="android:focusable">true</item>
+    <item name="android:gravity">center</item>
+    <item name="directionDescriptions">@array/alarm_direction_descriptions</item>
+    <item name="feedbackCount">1</item>
+    <item name="glowRadius">75dip</item>
+    <item name="handleDrawable">@drawable/ic_glowpad_touch_handle</item>
+    <item name="innerRadius">15dip</item>
+    <item name="outerRadius">@dimen/glowpad_outer_ring_radius</item>
+    <item name="outerRingDrawable">@drawable/ic_glowpad_outerring</item>
+    <item name="pointDrawable">@drawable/ic_glowpad_glowdot</item>
+    <item name="snapMargin">40dip</item>
+    <item name="targetDescriptions">@array/alarm_descriptions</item>
+    <item name="targetDrawables">@array/alarm_drawables</item>
+    <item name="vibrationDuration">20</item>
+  </style>
 </resources>

@@ -17,10 +17,10 @@
   -->
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/card_background" />
-    <item>
-        <shape>
-            <solid android:color="@color/list_item_press_overlay" />
-        </shape>
-    </item>
+  <item android:drawable="@drawable/card_background"/>
+  <item>
+    <shape>
+      <solid android:color="@color/list_item_press_overlay"/>
+    </shape>
+  </item>
 </layer-list>

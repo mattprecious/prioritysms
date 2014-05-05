@@ -29,52 +29,51 @@ import com.mattprecious.prioritysms.util.Helpers;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class AboutPreferenceFragment extends BasePreferenceFragment {
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        addPreferencesFromResource(R.xml.about_preferences);
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-        findPreference(getString(R.string.pref_key_about_version))
-                .setSummary(SettingsActivity.getAppVersion(getActivity()));
-        findPreference(getString(R.string.pref_key_about_change_log)).setOnPreferenceClickListener(
-                new OnPreferenceClickListener() {
+    addPreferencesFromResource(R.xml.about_preferences);
 
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-                        DialogFragment changeLogDialog = new ChangeLogDialogFragment();
-                        changeLogDialog.show(getFragmentManager(), null);
+    findPreference(getString(R.string.pref_key_about_version)).setSummary(
+        SettingsActivity.getAppVersion(getActivity()));
+    findPreference(getString(R.string.pref_key_about_change_log)).setOnPreferenceClickListener(
+        new OnPreferenceClickListener() {
 
-                        return false;
-                    }
-                });
-        findPreference(getString(R.string.pref_key_about_attributions))
-                .setOnPreferenceClickListener(new OnPreferenceClickListener() {
+          @Override public boolean onPreferenceClick(Preference preference) {
+            DialogFragment changeLogDialog = new ChangeLogDialogFragment();
+            changeLogDialog.show(getFragmentManager(), null);
 
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-                        DialogFragment licensesDialog = new AttributionsDialogFragment();
-                        licensesDialog.show(getFragmentManager(), null);
+            return false;
+          }
+        }
+    );
+    findPreference(getString(R.string.pref_key_about_attributions)).setOnPreferenceClickListener(
+        new OnPreferenceClickListener() {
 
-                        return false;
-                    }
-                });
-        findPreference(getString(R.string.pref_key_about_translate)).setOnPreferenceClickListener(
-                new OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-                        Helpers.openTranslatePage(getActivity());
-                        return false;
-                    }
-                });
-        findPreference(getString(R.string.pref_key_about_feedback)).setOnPreferenceClickListener(
-                new OnPreferenceClickListener() {
+          @Override public boolean onPreferenceClick(Preference preference) {
+            DialogFragment licensesDialog = new AttributionsDialogFragment();
+            licensesDialog.show(getFragmentManager(), null);
 
-                    @Override
-                    public boolean onPreferenceClick(Preference preference) {
-                        Helpers.openSupportPage(getActivity());
-                        return false;
-                    }
-                });
-    }
+            return false;
+          }
+        });
+    findPreference(getString(R.string.pref_key_about_translate)).setOnPreferenceClickListener(
+        new OnPreferenceClickListener() {
+          @Override public boolean onPreferenceClick(Preference preference) {
+            Helpers.openTranslatePage(getActivity());
+            return false;
+          }
+        }
+    );
+    findPreference(getString(R.string.pref_key_about_feedback)).setOnPreferenceClickListener(
+        new OnPreferenceClickListener() {
+
+          @Override public boolean onPreferenceClick(Preference preference) {
+            Helpers.openSupportPage(getActivity());
+            return false;
+          }
+        }
+    );
+  }
 }

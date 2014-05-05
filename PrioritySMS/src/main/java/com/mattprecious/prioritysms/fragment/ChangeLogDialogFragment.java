@@ -24,8 +24,8 @@ import com.mattprecious.prioritysms.preferences.SettingsActivity;
 
 public class ChangeLogDialogFragment extends BaseDialogFragment {
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB) @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return SettingsActivity.buildChangeLogDialog(getActivity());
-    }
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+  @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+    return SettingsActivity.buildChangeLogDialog(getActivity());
+  }
 }

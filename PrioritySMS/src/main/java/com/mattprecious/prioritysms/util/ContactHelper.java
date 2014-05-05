@@ -32,117 +32,116 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class ContactHelper {
-    private static final String TAG = ContactHelper.class.getSimpleName();
+  private static final String TAG = ContactHelper.class.getSimpleName();
 
-    public static String getLookupKeyByUri(Context context, Uri contactUri) {
-        String[] columns = new String[]{Contacts.LOOKUP_KEY};
-        Cursor c = context.getContentResolver().query(contactUri, columns, null, null, null);
+  public static String getLookupKeyByUri(Context context, Uri contactUri) {
+    String[] columns = new String[] { Contacts.LOOKUP_KEY };
+    Cursor c = context.getContentResolver().query(contactUri, columns, null, null, null);
 
-        String lookupKey = "";
-        if (c.moveToFirst()) {
-            lookupKey = c.getString(c.getColumnIndex(Contacts.LOOKUP_KEY));
-        }
-
-        c.close();
-
-        return lookupKey;
+    String lookupKey = "";
+    if (c.moveToFirst()) {
+      lookupKey = c.getString(c.getColumnIndex(Contacts.LOOKUP_KEY));
     }
 
-    public static String getNameByLookupKey(Context context, String lookupKey) {
-        String name = context.getString(R.string.contact_name_not_found);
-        if (!lookupKey.equals("")) {
-            Uri lookupUri = Uri.withAppendedPath(Contacts.CONTENT_LOOKUP_URI, lookupKey);
+    c.close();
 
-            String[] columns = new String[]{Contacts.DISPLAY_NAME};
-            Cursor c = context.getContentResolver().query(lookupUri, columns, null, null, null);
+    return lookupKey;
+  }
 
-            if (c != null && c.moveToFirst()) {
-                name = c.getString(c.getColumnIndex(Contacts.DISPLAY_NAME));
-            }
+  public static String getNameByLookupKey(Context context, String lookupKey) {
+    String name = context.getString(R.string.contact_name_not_found);
+    if (!lookupKey.equals("")) {
+      Uri lookupUri = Uri.withAppendedPath(Contacts.CONTENT_LOOKUP_URI, lookupKey);
 
-            c.close();
-        }
+      String[] columns = new String[] { Contacts.DISPLAY_NAME };
+      Cursor c = context.getContentResolver().query(lookupUri, columns, null, null, null);
 
-        return name;
+      if (c != null && c.moveToFirst()) {
+        name = c.getString(c.getColumnIndex(Contacts.DISPLAY_NAME));
+      }
+
+      c.close();
     }
 
-    public static String getNameByNumber(Context context, String number) {
-        Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+    return name;
+  }
 
-        String[] columns = new String[]{PhoneLookup.DISPLAY_NAME};
-        Cursor c = context.getContentResolver().query(uri, columns, null, null, null);
+  public static String getNameByNumber(Context context, String number) {
+    Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
 
-        String name = number;
-        if (c.moveToFirst()) {
-            name = c.getString(c.getColumnIndex(PhoneLookup.DISPLAY_NAME));
-        }
+    String[] columns = new String[] { PhoneLookup.DISPLAY_NAME };
+    Cursor c = context.getContentResolver().query(uri, columns, null, null, null);
 
-        c.close();
-
-        return name;
+    String name = number;
+    if (c.moveToFirst()) {
+      name = c.getString(c.getColumnIndex(PhoneLookup.DISPLAY_NAME));
     }
 
-    public static String getContactIdByLookupKey(Context context, String lookupKey) {
-        Uri uri = Uri.withAppendedPath(Contacts.CONTENT_LOOKUP_URI, lookupKey);
+    c.close();
 
-        String[] columns = new String[]{Contacts._ID};
-        Cursor c = context.getContentResolver().query(uri, columns, null, null, null);
+    return name;
+  }
 
-        String contactId = null;
-        if (c.moveToFirst()) {
-            contactId = c.getString(c.getColumnIndex(Contacts._ID));
-        }
+  public static String getContactIdByLookupKey(Context context, String lookupKey) {
+    Uri uri = Uri.withAppendedPath(Contacts.CONTENT_LOOKUP_URI, lookupKey);
 
-        c.close();
+    String[] columns = new String[] { Contacts._ID };
+    Cursor c = context.getContentResolver().query(uri, columns, null, null, null);
 
-        return contactId;
+    String contactId = null;
+    if (c.moveToFirst()) {
+      contactId = c.getString(c.getColumnIndex(Contacts._ID));
     }
 
-    public static Set<String> getLookupKeysByNumber(Context context, String number) {
-        Set<String> ids = new LinkedHashSet<>();
+    c.close();
 
-        Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+    return contactId;
+  }
 
-        String[] columns = new String[]{PhoneLookup.LOOKUP_KEY};
-        Cursor c = context.getContentResolver().query(uri, columns, null, null, null);
+  public static Set<String> getLookupKeysByNumber(Context context, String number) {
+    Set<String> ids = new LinkedHashSet<>();
 
-        c.moveToFirst();
-        while (!c.isAfterLast()) {
-            ids.add(c.getString(c.getColumnIndex(PhoneLookup.LOOKUP_KEY)));
-            c.moveToNext();
-        }
+    Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
 
-        c.close();
+    String[] columns = new String[] { PhoneLookup.LOOKUP_KEY };
+    Cursor c = context.getContentResolver().query(uri, columns, null, null, null);
 
-        return ids;
+    c.moveToFirst();
+    while (!c.isAfterLast()) {
+      ids.add(c.getString(c.getColumnIndex(PhoneLookup.LOOKUP_KEY)));
+      c.moveToNext();
     }
 
-    public static Bitmap getContactPhoto(Context context, String lookup) {
-        String contactIdString = getContactIdByLookupKey(context, lookup);
-        if (contactIdString == null) {
-            return getDefaultContactPhoto(context);
-        }
+    c.close();
 
-        long contactId = Long.parseLong(contactIdString);
-        Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
-        Uri photoUri = Uri.withAppendedPath(contactUri, Contacts.Photo.CONTENT_DIRECTORY);
+    return ids;
+  }
 
-        InputStream stream = null;
-        try {
-            stream = context.getContentResolver().openInputStream(photoUri);
-        } catch (FileNotFoundException e) {
-            Log.d(TAG, "could not find contact picture");
-        }
-
-        if (stream == null) {
-            return getDefaultContactPhoto(context);
-        }
-
-        return BitmapFactory.decodeStream(stream);
+  public static Bitmap getContactPhoto(Context context, String lookup) {
+    String contactIdString = getContactIdByLookupKey(context, lookup);
+    if (contactIdString == null) {
+      return getDefaultContactPhoto(context);
     }
 
-    private static Bitmap getDefaultContactPhoto(Context context) {
-        return BitmapFactory.decodeResource(context.getResources(),
-            R.drawable.ic_contact_picture);
+    long contactId = Long.parseLong(contactIdString);
+    Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
+    Uri photoUri = Uri.withAppendedPath(contactUri, Contacts.Photo.CONTENT_DIRECTORY);
+
+    InputStream stream = null;
+    try {
+      stream = context.getContentResolver().openInputStream(photoUri);
+    } catch (FileNotFoundException e) {
+      Log.d(TAG, "could not find contact picture");
     }
+
+    if (stream == null) {
+      return getDefaultContactPhoto(context);
+    }
+
+    return BitmapFactory.decodeStream(stream);
+  }
+
+  private static Bitmap getDefaultContactPhoto(Context context) {
+    return BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_contact_picture);
+  }
 }

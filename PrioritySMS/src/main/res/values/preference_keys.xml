@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2013 Matthew Precious
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,20 +15,20 @@
   -->
 
 <resources>
-    <!-- general -->
-    <string name="pref_key_enabled">enabled</string>
-    <string name="pref_key_general_analytics">general_analytics</string>
+  <!-- general -->
+  <string name="pref_key_enabled">enabled</string>
+  <string name="pref_key_general_analytics">general_analytics</string>
 
-    <!-- alarm -->
-    <string name="pref_key_alarm_timeout">alarm_timeout</string>
+  <!-- alarm -->
+  <string name="pref_key_alarm_timeout">alarm_timeout</string>
 
-    <!-- advanced -->
-    <string name="pref_key_advanced_log_delay">call_log_delay</string>
+  <!-- advanced -->
+  <string name="pref_key_advanced_log_delay">call_log_delay</string>
 
-    <!-- about -->
-    <string name="pref_key_about_version">about_version</string>
-    <string name="pref_key_about_change_log">about_change_log</string>
-    <string name="pref_key_about_attributions">about_attributions</string>
-    <string name="pref_key_about_translate">about_translate</string>
-    <string name="pref_key_about_feedback">about_feedback</string>
+  <!-- about -->
+  <string name="pref_key_about_version">about_version</string>
+  <string name="pref_key_about_change_log">about_change_log</string>
+  <string name="pref_key_about_attributions">about_attributions</string>
+  <string name="pref_key_about_translate">about_translate</string>
+  <string name="pref_key_about_feedback">about_feedback</string>
 </resources>

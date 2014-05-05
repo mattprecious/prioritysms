@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2013 Matthew Precious
  *
@@ -46,377 +45,340 @@ import java.util.Set;
 import static butterknife.ButterKnife.findById;
 
 public class ProfileDetailConditionsFragment extends BaseDetailFragment {
+  public static final String EXTRA_PROFILE = "profile";
 
-    public static final String EXTRA_PROFILE = "profile";
+  public static ProfileDetailConditionsFragment create(BaseProfile profile) {
+    Bundle args = new Bundle();
+    args.putParcelable(EXTRA_PROFILE, profile);
 
-    public static ProfileDetailConditionsFragment create(BaseProfile profile) {
-        Bundle args = new Bundle();
-        args.putParcelable(EXTRA_PROFILE, profile);
+    ProfileDetailConditionsFragment fragment = new ProfileDetailConditionsFragment();
+    fragment.setArguments(args);
+    return fragment;
+  }
 
-        ProfileDetailConditionsFragment fragment = new ProfileDetailConditionsFragment();
-        fragment.setArguments(args);
-        return fragment;
+  private static final int REQUEST_CONTACT_PICKER = 1;
+  private static final int NUM_CHILDREN_CONTACTS_LIST = 3;
+  private static final int NUM_CHILDREN_KEYWORDS_LIST = 3;
+
+  @InjectView(R.id.contact_list) ViewGroup contactsList;
+  @InjectView(R.id.no_contacts) TextView noContactsView;
+  @InjectView(R.id.add_contact) Button addContactButton;
+  @InjectView(R.id.keywords_container) ViewGroup keywordsContainer;
+  @InjectView(R.id.keyword_method) TextView keywordMethodButton;
+  @InjectView(R.id.keyword_list) ViewGroup keywordsList;
+  @InjectView(R.id.no_keywords) TextView noKeywordsView;
+  @InjectView(R.id.add_keyword) Button addKeywordButton;
+
+  private LayoutInflater inflater;
+  private BaseProfile profile;
+  private SmsProfile smsProfile;
+  // private PhoneProfile phoneProfile;
+
+  private ContactViewHolder contactPickerSource;
+
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    Bundle args = getArguments();
+    if (args != null && args.containsKey(EXTRA_PROFILE)) {
+      profile = args.getParcelable(EXTRA_PROFILE);
+      if (profile instanceof SmsProfile) {
+        smsProfile = (SmsProfile) profile;
+        // } else {
+        // mPhoneProfile = (PhoneProfile) profile;
+      }
+    } else {
+      throw new IllegalArgumentException(
+          String.format("must provide %s as intent extra", EXTRA_PROFILE));
     }
 
-    private static final int REQUEST_CONTACT_PICKER = 1;
+    inflater = LayoutInflater.from(getActivity());
+  }
 
-    private static final int NUM_CHILDREN_CONTACTS_LIST = 3;
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    View rootView = inflater.inflate(R.layout.profile_detail_conditions, container, false);
+    ButterKnife.inject(this, rootView);
 
-    private static final int NUM_CHILDREN_KEYWORDS_LIST = 3;
-
-    private LayoutInflater mInflater;
-
-    private BaseProfile mProfile;
-
-    private SmsProfile mSmsProfile;
-    // private PhoneProfile mPhoneProfile;
-
-    @InjectView(R.id.contact_list)
-    ViewGroup mContactsList;
-
-    @InjectView(R.id.no_contacts)
-    TextView mNoContactsView;
-
-    @InjectView(R.id.add_contact)
-    Button mAddContactButton;
-
-    @InjectView(R.id.keywords_container)
-    ViewGroup mKeywordsContainer;
-
-    @InjectView(R.id.keyword_method)
-    TextView mKeywordMethodButton;
-
-    @InjectView(R.id.keyword_list)
-    ViewGroup mKeywordsList;
-
-    @InjectView(R.id.no_keywords)
-    TextView mNoKeywordsView;
-
-    @InjectView(R.id.add_keyword)
-    Button mAddKeywordButton;
-
-    private ContactViewHolder mContactPickerSource;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Bundle args = getArguments();
-        if (args != null && args.containsKey(EXTRA_PROFILE)) {
-            mProfile = args.getParcelable(EXTRA_PROFILE);
-            if (mProfile instanceof SmsProfile) {
-                mSmsProfile = (SmsProfile) mProfile;
-                // } else {
-                // mPhoneProfile = (PhoneProfile) mProfile;
-            }
-        } else {
-            throw new IllegalArgumentException(String.format("must provide %s as intent extra",
-                    EXTRA_PROFILE));
-        }
-
-        mInflater = LayoutInflater.from(getActivity());
+    for (String contact : profile.getContacts()) {
+      addContact(contact);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.profile_detail_conditions, container, false);
-        ButterKnife.inject(this, rootView);
+    if (smsProfile != null) {
+      keywordsContainer.setVisibility(View.VISIBLE);
+      for (String keyword : smsProfile.getKeywords()) {
+        addKeyword(keyword);
+      }
 
-        for (String contact : mProfile.getContacts()) {
-            addContact(contact);
-        }
-
-        if (mSmsProfile != null) {
-            mKeywordsContainer.setVisibility(View.VISIBLE);
-            for (String keyword : mSmsProfile.getKeywords()) {
-                addKeyword(keyword);
-            }
-
-            mKeywordMethodButton.setOnClickListener(mKeywordMethodListener);
-            updateKeywordMethod();
-            updateAddKeywordButton();
-        }
-
-        mAddContactButton.setOnClickListener(mAddContactListener);
-        mAddKeywordButton.setOnClickListener(mAddKeywordListener);
-
-        return rootView;
+      keywordMethodButton.setOnClickListener(keywordMethodListener);
+      updateKeywordMethod();
+      updateAddKeywordButton();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_CONTACT_PICKER:
-                if (resultCode == Activity.RESULT_OK) {
-                    String lookup = ContactHelper.getLookupKeyByUri(getActivity(), data.getData());
-                    if (mContactPickerSource == null) {
-                        addContact(lookup);
-                    } else {
-                        updateContact(mContactPickerSource, lookup);
-                    }
-                }
+    addContactButton.setOnClickListener(addContactListener);
+    addKeywordButton.setOnClickListener(addKeywordListener);
 
-                mContactPickerSource = null;
-                break;
-            default:
-                super.onActivityResult(requestCode, resultCode, data);
-                break;
+    return rootView;
+  }
+
+  @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    switch (requestCode) {
+      case REQUEST_CONTACT_PICKER:
+        if (resultCode == Activity.RESULT_OK) {
+          String lookup = ContactHelper.getLookupKeyByUri(getActivity(), data.getData());
+          if (contactPickerSource == null) {
+            addContact(lookup);
+          } else {
+            updateContact(contactPickerSource, lookup);
+          }
         }
+
+        contactPickerSource = null;
+        break;
+      default:
+        super.onActivityResult(requestCode, resultCode, data);
+        break;
+    }
+  }
+
+  @Override public void updateProfile(BaseProfile profile) {
+    Set<String> contacts = new LinkedHashSet<>();
+    for (int i = 0; i < contactsList.getChildCount() - NUM_CHILDREN_CONTACTS_LIST; i++) {
+      View v = contactsList.getChildAt(i);
+      contacts.add(((ContactViewHolder) v.getTag()).lookup);
     }
 
-    @Override
-    public void updateProfile(BaseProfile profile) {
-        Set<String> contacts = new LinkedHashSet<>();
-        for (int i = 0; i < mContactsList.getChildCount() - NUM_CHILDREN_CONTACTS_LIST; i++) {
-            View v = mContactsList.getChildAt(i);
-            contacts.add(((ContactViewHolder) v.getTag()).lookup);
+    profile.setContacts(contacts);
+
+    if (profile instanceof SmsProfile) {
+      SmsProfile smsProfile = (SmsProfile) profile;
+
+      smsProfile.setKeywordMethod(this.smsProfile.getKeywordMethod());
+
+      Set<String> keywords = new LinkedHashSet<>();
+      for (int i = 0; i < keywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST; i++) {
+        View v = keywordsList.getChildAt(i);
+        String keyword = ((TextView) v.getTag()).getText().toString();
+        if (!Strings.isBlank(keyword)) {
+          keywords.add(keyword.trim());
         }
+      }
 
-        profile.setContacts(contacts);
+      smsProfile.setKeywords(keywords);
+    }
+  }
 
-        if (profile instanceof SmsProfile) {
-            SmsProfile smsProfile = (SmsProfile) profile;
+  @Override public ValidationResponse validate() {
+    updateProfile(profile);
 
-            smsProfile.setKeywordMethod(mSmsProfile.getKeywordMethod());
+    if (smsProfile != null) {
+      String keywordError = null;
+      if (smsProfile.getKeywordMethod() == LogicMethod.ONLY
+          && keywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST > 1) {
+        keywordError = getString(R.string.conditions_error_only_many_keywords);
+      }
 
-            Set<String> keywords = new LinkedHashSet<>();
-            for (int i = 0; i < mKeywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST; i++) {
-                View v = mKeywordsList.getChildAt(i);
-                String keyword = ((TextView) v.getTag()).getText().toString();
-                if (!Strings.isBlank(keyword)) {
-                    keywords.add(keyword.trim());
-                }
-            }
+      if (keywordsList.getChildCount() > NUM_CHILDREN_KEYWORDS_LIST) {
+        ((EditText) keywordsList.getChildAt(0).getTag()).setError(null);
+      }
 
-            smsProfile.setKeywords(keywords);
-        }
+      for (int i = 1; i < keywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST; i++) {
+        ((EditText) keywordsList.getChildAt(i).getTag()).setError(keywordError);
+      }
+
+      if (keywordError != null) {
+        return new ValidationResponse(false);
+      }
     }
 
-    @Override
-    public ValidationResponse validate() {
-        updateProfile(mProfile);
-
-        if (mSmsProfile != null) {
-            String keywordError = null;
-            if (mSmsProfile.getKeywordMethod() == LogicMethod.ONLY
-                    && mKeywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST > 1) {
-                keywordError = getString(R.string.conditions_error_only_many_keywords);
-            }
-
-            if (mKeywordsList.getChildCount() > NUM_CHILDREN_KEYWORDS_LIST) {
-                ((EditText) mKeywordsList.getChildAt(0).getTag()).setError(null);
-            }
-
-            for (int i = 1; i < mKeywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST; i++) {
-                ((EditText) mKeywordsList.getChildAt(i).getTag()).setError(keywordError);
-            }
-
-            if (keywordError != null) {
-                return new ValidationResponse(false);
-            }
-        }
-
-        boolean isConditionSet = mProfile.getContacts().size() > 0;
-        if (!isConditionSet) {
-            isConditionSet = mSmsProfile != null && mSmsProfile.getKeywords().size() > 0;
-        }
-
-        if (isConditionSet) {
-            return new ValidationResponse(true);
-        } else {
-            return new ValidationResponse(false, mSmsProfile == null
-                    ? R.string.conditions_error_no_contacts
-                    : R.string.conditions_error_no_conditions);
-        }
+    boolean isConditionSet = profile.getContacts().size() > 0;
+    if (!isConditionSet) {
+      isConditionSet = smsProfile != null && smsProfile.getKeywords().size() > 0;
     }
 
-    private void addContact(String contactLookup) {
-        mNoContactsView.setVisibility(View.GONE);
+    if (isConditionSet) {
+      return new ValidationResponse(true);
+    } else {
+      return new ValidationResponse(false,
+          smsProfile == null ? R.string.conditions_error_no_contacts
+              : R.string.conditions_error_no_conditions);
+    }
+  }
 
-        View v = mInflater.inflate(R.layout.profile_detail_contact_item, mContactsList, false);
+  private void addContact(String contactLookup) {
+    noContactsView.setVisibility(View.GONE);
 
-        ContactViewHolder holder = new ContactViewHolder(v);
-        v.setTag(holder);
-        v.setOnClickListener(mContactClickListener);
+    View v = inflater.inflate(R.layout.profile_detail_contact_item, contactsList, false);
 
-        updateContact(holder, contactLookup);
+    ContactViewHolder holder = new ContactViewHolder(v);
+    v.setTag(holder);
+    v.setOnClickListener(contactClickListener);
 
-        holder.delete.setOnClickListener(mContactDeleteListener);
+    updateContact(holder, contactLookup);
 
-        // set the tag to the main view so we can easily delete
-        holder.delete.setTag(v);
+    holder.delete.setOnClickListener(contactDeleteListener);
 
-        mContactsList.addView(v, mContactsList.getChildCount() - NUM_CHILDREN_CONTACTS_LIST);
+    // set the tag to the main view so we can easily delete
+    holder.delete.setTag(v);
+
+    contactsList.addView(v, contactsList.getChildCount() - NUM_CHILDREN_CONTACTS_LIST);
+  }
+
+  private void addKeyword(String keyword) {
+    noKeywordsView.setVisibility(View.GONE);
+
+    View v = inflater.inflate(R.layout.profile_detail_keyword_item, keywordsList, false);
+
+    EditText nameText = findById(v, R.id.text);
+    nameText.setText(keyword);
+
+    // GB bug: Android caches the value by id when saving the state, and
+    // since each keyword EditText has the same id they will all be
+    // restored to the same value after a rotation
+    nameText.setSaveEnabled(false);
+
+    ImageButton deleteButton = findById(v, R.id.delete);
+    deleteButton.setOnClickListener(keywordDeleteListener);
+
+    // set the tag to the main view so we can easily delete
+    deleteButton.setTag(v);
+
+    // set data holder view as the tag on the main view so we don't
+    // have to do any lookups as we loop through to save
+    v.setTag(nameText);
+    keywordsList.addView(v, keywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST);
+
+    // GB bug: need to request focus AFTER it's been added to a parent
+    nameText.requestFocus();
+  }
+
+  private void updateContact(ContactViewHolder holder, String contactLookup) {
+    try {
+      holder.name.setText(ContactHelper.getNameByLookupKey(getActivity(), contactLookup));
+    } catch (IllegalArgumentException e) {
+      holder.name.setText(R.string.conditions_contact_not_found);
     }
 
-    private void addKeyword(String keyword) {
-        mNoKeywordsView.setVisibility(View.GONE);
+    holder.avatar.setImageBitmap(ContactHelper.getContactPhoto(getActivity(), contactLookup));
 
-        View v = mInflater.inflate(R.layout.profile_detail_keyword_item, mKeywordsList, false);
+    // this view will store the contact lookup
+    holder.lookup = contactLookup;
+  }
 
-        EditText nameText = findById(v, R.id.text);
-        nameText.setText(keyword);
+  private void openContactPicker() {
+    startActivityForResult(new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI),
+        REQUEST_CONTACT_PICKER);
+  }
 
-        // GB bug: Android caches the value by id when saving the state, and
-        // since each keyword EditText has the same id they will all be
-        // restored to the same value after a rotation
-        nameText.setSaveEnabled(false);
+  private void updateKeywordMethod() {
+    int methodResId;
 
-        ImageButton deleteButton = findById(v, R.id.delete);
-        deleteButton.setOnClickListener(mKeywordDeleteListener);
-
-        // set the tag to the main view so we can easily delete
-        deleteButton.setTag(v);
-
-        // set data holder view as the tag on the main view so we don't
-        // have to do any lookups as we loop through to save
-        v.setTag(nameText);
-        mKeywordsList.addView(v, mKeywordsList.getChildCount() - NUM_CHILDREN_KEYWORDS_LIST);
-
-        // GB bug: need to request focus AFTER it's been added to a parent
-        nameText.requestFocus();
+    switch (smsProfile.getKeywordMethod()) {
+      case ALL:
+        methodResId = R.string.conditions_keywords_method_all;
+        break;
+      case ONLY:
+        methodResId = R.string.conditions_keywords_method_only;
+        break;
+      case ANY:
+      default:
+        methodResId = R.string.conditions_keywords_method_any;
+        break;
     }
 
-    private void updateContact(ContactViewHolder holder, String contactLookup) {
-        try {
-            holder.name.setText(ContactHelper.getNameByLookupKey(getActivity(), contactLookup));
-        } catch (IllegalArgumentException e) {
-            holder.name.setText(R.string.conditions_contact_not_found);
-        }
+    keywordMethodButton.setText(methodResId);
+  }
 
-        holder.avatar.setImageBitmap(ContactHelper.getContactPhoto(getActivity(), contactLookup));
-
-        // this view will store the contact lookup
-        holder.lookup = contactLookup;
+  private void updateAddKeywordButton() {
+    if (smsProfile != null) {
+      boolean enabled = smsProfile.getKeywordMethod() != LogicMethod.ONLY
+          || keywordsList.getChildCount() < NUM_CHILDREN_KEYWORDS_LIST + 1;
+      addKeywordButton.setEnabled(enabled);
     }
+  }
 
-    private void openContactPicker() {
-        startActivityForResult(new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI),
-                REQUEST_CONTACT_PICKER);
+  public static class ContactViewHolder {
+    @InjectView(R.id.avatar) ImageView avatar;
+    @InjectView(R.id.name) TextView name;
+    @InjectView(R.id.delete) ImageButton delete;
+
+    String lookup;
+
+    public ContactViewHolder(View view) {
+      ButterKnife.inject(this, view);
     }
+  }
 
-    private void updateKeywordMethod() {
-        int methodResId;
+  private OnClickListener addContactListener = new OnClickListener() {
 
-        switch (mSmsProfile.getKeywordMethod()) {
-            case ALL:
-                methodResId = R.string.conditions_keywords_method_all;
-                break;
-            case ONLY:
-                methodResId = R.string.conditions_keywords_method_only;
-                break;
-            case ANY:
-            default:
-                methodResId = R.string.conditions_keywords_method_any;
-                break;
-        }
-
-        mKeywordMethodButton.setText(methodResId);
+    @Override public void onClick(View v) {
+      openContactPicker();
     }
+  };
 
-    private void updateAddKeywordButton() {
-        if (mSmsProfile != null) {
-            boolean enabled = mSmsProfile.getKeywordMethod() != LogicMethod.ONLY
-                    || mKeywordsList.getChildCount() < NUM_CHILDREN_KEYWORDS_LIST + 1;
-            mAddKeywordButton.setEnabled(enabled);
-        }
+  private OnClickListener keywordMethodListener = new OnClickListener() {
+
+    @Override public void onClick(View v) {
+      SmsMethodDialogFragment methodFragment =
+          SmsMethodDialogFragment.create(smsProfile.getKeywordMethod());
+      methodFragment.setCallbacks(keywordMethodCallback);
+      methodFragment.show(getFragmentManager(), null);
     }
+  };
 
-    public static class ContactViewHolder {
-        @InjectView(R.id.avatar)
-        ImageView avatar;
-        @InjectView(R.id.name)
-        TextView name;
-        @InjectView(R.id.delete)
-        ImageButton delete;
+  private SmsMethodDialogFragment.Callbacks keywordMethodCallback =
+      new SmsMethodDialogFragment.Callbacks() {
 
-        String lookup;
-
-        public ContactViewHolder(View view) {
-            ButterKnife.inject(this, view);
+        @Override public void onSelected(LogicMethod method) {
+          smsProfile.setKeywordMethod(method);
+          updateKeywordMethod();
+          updateAddKeywordButton();
+          validate();
         }
+      };
+
+  private OnClickListener addKeywordListener = new OnClickListener() {
+
+    @Override public void onClick(View v) {
+      addKeyword(null);
+      updateAddKeywordButton();
     }
+  };
 
-    private OnClickListener mAddContactListener = new OnClickListener() {
+  private OnClickListener contactClickListener = new OnClickListener() {
 
-        @Override
-        public void onClick(View v) {
-            openContactPicker();
-        }
-    };
+    @Override public void onClick(View v) {
+      contactPickerSource = (ContactViewHolder) v.getTag();
+      openContactPicker();
+    }
+  };
 
-    private OnClickListener mKeywordMethodListener = new OnClickListener() {
+  private OnClickListener contactDeleteListener = new OnClickListener() {
 
-        @Override
-        public void onClick(View v) {
-            SmsMethodDialogFragment methodFragment = SmsMethodDialogFragment
-                    .create(mSmsProfile.getKeywordMethod());
-            methodFragment.setCallbacks(mKeywordMethodCallback);
-            methodFragment.show(getFragmentManager(), null);
-        }
-    };
+    @Override public void onClick(View v) {
+      View viewToRemove = (View) v.getTag();
+      ((ViewGroup) viewToRemove.getParent()).removeView(viewToRemove);
 
-    private SmsMethodDialogFragment.Callbacks mKeywordMethodCallback =
-            new SmsMethodDialogFragment.Callbacks() {
+      validate();
 
-                @Override
-                public void onSelected(LogicMethod method) {
-                    mSmsProfile.setKeywordMethod(method);
-                    updateKeywordMethod();
-                    updateAddKeywordButton();
-                    validate();
-                }
-            };
+      if (contactsList.getChildCount() == NUM_CHILDREN_CONTACTS_LIST) {
+        noContactsView.setVisibility(View.VISIBLE);
+      }
+    }
+  };
 
-    private OnClickListener mAddKeywordListener = new OnClickListener() {
+  private OnClickListener keywordDeleteListener = new OnClickListener() {
 
-        @Override
-        public void onClick(View v) {
-            addKeyword(null);
-            updateAddKeywordButton();
-        }
-    };
+    @Override public void onClick(View v) {
+      View viewToRemove = (View) v.getTag();
+      ((ViewGroup) viewToRemove.getParent()).removeView(viewToRemove);
 
-    private OnClickListener mContactClickListener = new OnClickListener() {
+      updateAddKeywordButton();
+      validate();
 
-        @Override
-        public void onClick(View v) {
-            mContactPickerSource = (ContactViewHolder) v.getTag();
-            openContactPicker();
-        }
-    };
-
-    private OnClickListener mContactDeleteListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            View viewToRemove = (View) v.getTag();
-            ((ViewGroup) viewToRemove.getParent()).removeView(viewToRemove);
-
-            validate();
-
-            if (mContactsList.getChildCount() == NUM_CHILDREN_CONTACTS_LIST) {
-                mNoContactsView.setVisibility(View.VISIBLE);
-            }
-        }
-
-    };
-
-    private OnClickListener mKeywordDeleteListener = new OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            View viewToRemove = (View) v.getTag();
-            ((ViewGroup) viewToRemove.getParent()).removeView(viewToRemove);
-
-            updateAddKeywordButton();
-            validate();
-
-            if (mKeywordsList.getChildCount() == NUM_CHILDREN_KEYWORDS_LIST) {
-                mNoKeywordsView.setVisibility(View.VISIBLE);
-            }
-        }
-
-    };
+      if (keywordsList.getChildCount() == NUM_CHILDREN_KEYWORDS_LIST) {
+        noKeywordsView.setVisibility(View.VISIBLE);
+      }
+    }
+  };
 }

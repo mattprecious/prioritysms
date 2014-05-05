@@ -40,54 +40,50 @@ import java.util.List;
 
 public class TriggerAlarmPhoneDialogFragment extends SherlockDialogFragment {
 
-    @InjectView(R.id.profile_spinner)
-    Spinner mProfileSpinner;
-    @InjectView(R.id.number)
-    EditText mNumberText;
-    @InjectView(R.id.go)
-    Button mGoButton;
+  @InjectView(R.id.profile_spinner) Spinner profileSpinner;
+  @InjectView(R.id.number) EditText numberText;
+  @InjectView(R.id.go) Button goButton;
 
-    private List<PhoneProfile> mPhoneProfileList;
+  private List<PhoneProfile> phoneProfileList;
 
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+  @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+    LayoutInflater inflater = LayoutInflater.from(getActivity());
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        View rootView = inflater.inflate(R.layout.dev_tools_trigger_alarm_phone, null);
-        ButterKnife.inject(this, rootView);
+    View rootView = inflater.inflate(R.layout.dev_tools_trigger_alarm_phone, null);
+    ButterKnife.inject(this, rootView);
 
-        mPhoneProfileList = new DbAdapter(getActivity()).getEnabledPhoneProfiles();
+    phoneProfileList = new DbAdapter(getActivity()).getEnabledPhoneProfiles();
 
-        List<String> profileNames = new ArrayList<>(mPhoneProfileList.size());
-        for (BaseProfile profile : mPhoneProfileList) {
-            profileNames.add(profile.getName());
-        }
-
-        mProfileSpinner.setAdapter(new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_dropdown_item, profileNames));
-
-        mGoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent alarmIntent = new Intent(Intents.ACTION_ALERT);
-                alarmIntent.putExtra(Intents.EXTRA_PROFILE,
-                        mPhoneProfileList.get(mProfileSpinner.getSelectedItemPosition()));
-                alarmIntent.putExtra(Intents.EXTRA_NUMBER, mNumberText.getText().toString());
-
-                getActivity().sendBroadcast(alarmIntent);
-            }
-        });
-
-        builder.setTitle("Trigger Call Alarm");
-        builder.setView(rootView);
-        builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        return builder.create();
+    List<String> profileNames = new ArrayList<>(phoneProfileList.size());
+    for (BaseProfile profile : phoneProfileList) {
+      profileNames.add(profile.getName());
     }
+
+    profileSpinner.setAdapter(
+        new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item,
+            profileNames)
+    );
+
+    goButton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        Intent alarmIntent = new Intent(Intents.ACTION_ALERT);
+        alarmIntent.putExtra(Intents.EXTRA_PROFILE,
+            phoneProfileList.get(profileSpinner.getSelectedItemPosition()));
+        alarmIntent.putExtra(Intents.EXTRA_NUMBER, numberText.getText().toString());
+
+        getActivity().sendBroadcast(alarmIntent);
+      }
+    });
+
+    builder.setTitle("Trigger Call Alarm");
+    builder.setView(rootView);
+    builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+      @Override public void onClick(DialogInterface dialog, int which) {
+        dialog.dismiss();
+      }
+    });
+
+    return builder.create();
+  }
 }

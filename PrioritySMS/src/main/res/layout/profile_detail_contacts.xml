@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2013 Matthew Precious
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,48 +14,49 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/ProfileDetailCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    >
+  <TextView
+      style="@style/ProfileDetailHeader"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/conditions_contacts_header"
+      />
+  <View
+      style="@style/ProfileDetailHeaderDivider"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/profile_detail_header_divider_height"
+      />
+  <LinearLayout
+      android:id="@+id/contact_list"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:animateLayoutChanges="true"
+      android:orientation="vertical"
+      >
     <TextView
-        style="@style/ProfileDetailHeader"
+        android:id="@+id/no_contacts"
+        style="@style/ProfileDetailConditionEmpty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/conditions_contacts_header" />
-
+        android:text="@string/conditions_contacts_empty"
+        />
     <View
-        style="@style/ProfileDetailHeaderDivider"
+        style="@style/ProfileDetailFooterDivider"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/profile_detail_header_divider_height" />
-
-    <LinearLayout
-        android:id="@+id/contact_list"
+        android:layout_height="@dimen/profile_detail_header_divider_height"
+        />
+    <Button
+        android:id="@+id/add_contact"
+        style="@style/ProfileDetailFooterButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/no_contacts"
-            style="@style/ProfileDetailConditionEmpty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/conditions_contacts_empty" />
-
-        <View
-            style="@style/ProfileDetailFooterDivider"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/profile_detail_header_divider_height" />
-
-        <Button
-            android:id="@+id/add_contact"
-            style="@style/ProfileDetailFooterButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/conditions_contact_add" />
-    </LinearLayout>
-
+        android:text="@string/conditions_contact_add"
+        />
+  </LinearLayout>
 </LinearLayout>

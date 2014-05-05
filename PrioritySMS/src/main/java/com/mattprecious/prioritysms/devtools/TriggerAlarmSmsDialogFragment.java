@@ -40,57 +40,52 @@ import java.util.List;
 
 public class TriggerAlarmSmsDialogFragment extends SherlockDialogFragment {
 
-    @InjectView(R.id.profile_spinner)
-    Spinner mProfileSpinner;
-    @InjectView(R.id.number)
-    EditText mNumberText;
-    @InjectView(R.id.message)
-    EditText mMessageText;
-    @InjectView(R.id.go)
-    Button mGoButton;
+  @InjectView(R.id.profile_spinner) Spinner profileSpinner;
+  @InjectView(R.id.number) EditText numberText;
+  @InjectView(R.id.message) EditText messageText;
+  @InjectView(R.id.go) Button goButton;
 
-    private List<SmsProfile> mSmsProfileList;
+  private List<SmsProfile> smsProfileList;
 
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+  @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+    LayoutInflater inflater = LayoutInflater.from(getActivity());
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        View rootView = inflater.inflate(R.layout.dev_tools_trigger_alarm_sms, null);
-        ButterKnife.inject(this, rootView);
+    View rootView = inflater.inflate(R.layout.dev_tools_trigger_alarm_sms, null);
+    ButterKnife.inject(this, rootView);
 
-        mSmsProfileList = new DbAdapter(getActivity()).getEnabledSmsProfiles();
+    smsProfileList = new DbAdapter(getActivity()).getEnabledSmsProfiles();
 
-        List<String> profileNames = new ArrayList<>(mSmsProfileList.size());
-        for (BaseProfile profile : mSmsProfileList) {
-            profileNames.add(profile.getName());
-        }
-
-        mProfileSpinner.setAdapter(new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_dropdown_item, profileNames));
-
-        mGoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent alarmIntent = new Intent(Intents.ACTION_ALERT);
-                alarmIntent.putExtra(Intents.EXTRA_PROFILE,
-                        mSmsProfileList.get(mProfileSpinner.getSelectedItemPosition()));
-                alarmIntent.putExtra(Intents.EXTRA_NUMBER, mNumberText.getText().toString());
-                alarmIntent.putExtra(Intents.EXTRA_MESSAGE, mMessageText.getText().toString());
-
-                getActivity().sendBroadcast(alarmIntent);
-            }
-        });
-
-        builder.setTitle("Trigger SMS Alarm");
-        builder.setView(rootView);
-        builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        return builder.create();
+    List<String> profileNames = new ArrayList<>(smsProfileList.size());
+    for (BaseProfile profile : smsProfileList) {
+      profileNames.add(profile.getName());
     }
+
+    profileSpinner.setAdapter(
+        new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item,
+            profileNames)
+    );
+
+    goButton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        Intent alarmIntent = new Intent(Intents.ACTION_ALERT);
+        alarmIntent.putExtra(Intents.EXTRA_PROFILE,
+            smsProfileList.get(profileSpinner.getSelectedItemPosition()));
+        alarmIntent.putExtra(Intents.EXTRA_NUMBER, numberText.getText().toString());
+        alarmIntent.putExtra(Intents.EXTRA_MESSAGE, messageText.getText().toString());
+
+        getActivity().sendBroadcast(alarmIntent);
+      }
+    });
+
+    builder.setTitle("Trigger SMS Alarm");
+    builder.setView(rootView);
+    builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+      @Override public void onClick(DialogInterface dialog, int which) {
+        dialog.dismiss();
+      }
+    });
+
+    return builder.create();
+  }
 }

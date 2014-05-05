@@ -24,8 +24,8 @@ import com.mattprecious.prioritysms.preferences.SettingsActivity;
 
 public class AttributionsDialogFragment extends BaseDialogFragment {
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB) @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return SettingsActivity.buildAttributionsDialog(getActivity());
-    }
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+  @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+    return SettingsActivity.buildAttributionsDialog(getActivity());
+  }
 }

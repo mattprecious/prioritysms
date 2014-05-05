@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2013 Matthew Precious
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,24 +16,28 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/menu_add"
-        android:icon="@drawable/ic_action_add"
-        android:showAsAction="ifRoom"
-        android:title="@string/menu_new_profile">
-        <menu>
-            <item
-                android:id="@+id/menu_add_sms"
-                android:title="@string/menu_new_profile_sms" />
-            <item
-                android:id="@+id/menu_add_phone"
-                android:title="@string/menu_new_profile_phone" />
-        </menu>
-    </item>
-    <item
-        android:id="@+id/menu_sort"
-        android:icon="@drawable/ic_action_sort"
-        android:showAsAction="ifRoom"
-        android:title="@string/menu_sort" />
+  <item
+      android:id="@+id/menu_add"
+      android:icon="@drawable/ic_action_add"
+      android:showAsAction="ifRoom"
+      android:title="@string/menu_new_profile"
+      >
+    <menu>
+      <item
+          android:id="@+id/menu_add_sms"
+          android:title="@string/menu_new_profile_sms"
+          />
+      <item
+          android:id="@+id/menu_add_phone"
+          android:title="@string/menu_new_profile_phone"
+          />
+    </menu>
+  </item>
+  <item
+      android:id="@+id/menu_sort"
+      android:icon="@drawable/ic_action_sort"
+      android:showAsAction="ifRoom"
+      android:title="@string/menu_sort"
+      />
 
 </menu>

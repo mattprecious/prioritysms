@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2013 Matthew Precious
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,10 +15,10 @@
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/preference_header_general" >
-
-    <CheckBoxPreference
-        android:key="@string/pref_key_general_analytics"
-        android:summary="@string/general_analytics_summary"
-        android:title="@string/general_analytics_title" />
+    android:title="@string/preference_header_general">
+  <CheckBoxPreference
+      android:key="@string/pref_key_general_analytics"
+      android:summary="@string/general_analytics_summary"
+      android:title="@string/general_analytics_title"
+      />
 </PreferenceScreen>

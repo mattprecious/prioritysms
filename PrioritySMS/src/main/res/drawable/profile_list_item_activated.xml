@@ -17,12 +17,12 @@
   -->
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/card_background" />
-    <item>
-        <shape>
-            <stroke
-                android:color="@color/list_item_active_border"
-                android:width="1dip" />
-        </shape>
-    </item>
+  <item android:drawable="@drawable/card_background"/>
+  <item>
+    <shape>
+      <stroke
+          android:color="@color/list_item_active_border"
+          android:width="1dip"/>
+    </shape>
+  </item>
 </layer-list>
