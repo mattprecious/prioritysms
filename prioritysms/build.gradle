@@ -5,8 +5,8 @@ buildscript {
     maven { url 'http://download.crashlytics.com/maven' }
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:0.9.+'
-    classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.+'
+    classpath 'com.android.tools.build:gradle:1.0.0'
+    classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.14.7'
   }
 }
 
@@ -16,7 +16,7 @@ def versionMinor = 1
 def versionPatch = 0
 def versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 def isRelease = Boolean.valueOf(System.getProperty("release", "false"))
 if (isRelease) {
@@ -32,18 +32,19 @@ repositories {
 dependencies {
   compile fileTree(dir: 'libs', include: '*.jar')
 
-  compile 'com.android.support:support-v4:19.1.+'
+  compile 'com.android.support:support-v4:21.0.3'
 
-  compile 'com.crashlytics.android:crashlytics:1.+'
+  compile 'com.crashlytics.android:crashlytics:1.1.13'
 
-  compile 'com.jakewharton:butterknife:5.0.+'
-  compile 'com.nineoldandroids:library:2.4.+'
-  compile 'com.actionbarsherlock:actionbarsherlock:4.4.+@aar'
-  compile 'com.viewpagerindicator:library:2.4.+@aar'
+  compile 'com.jakewharton:butterknife:6.0.0'
+  compile 'com.nineoldandroids:library:2.4.0'
+  compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+  compile 'fr.baloomba:viewpagerindicator:2.4.2@aar'
+  compile 'net.frakbot.glowpadbackport:glowpadbackport:2.1.0@aar'
+  compile('de.keyboardsurfer.android.widget:crouton:1.8.5@aar') {
+    exclude group: 'com.google.android', module: 'support-v4'
+  }
 
-  compile 'de.keyboardsurfer.android.widget:crouton:1.8.+'
-
-  compile 'net.sebastianopoggi:glowpadbackport:1.0.0-SNAPSHOT@aar'
   compile 'org.jraf:android-switch-backport:1.0.1-SNAPSHOT@aar'
 }
 
@@ -51,12 +52,12 @@ def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim
 def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
 
 android {
-  compileSdkVersion 19
-  buildToolsVersion '19.0.3'
+  compileSdkVersion 21
+  buildToolsVersion '21.1.2'
 
   defaultConfig {
-    minSdkVersion 8
-    targetSdkVersion 19
+    minSdkVersion 9
+    targetSdkVersion 21
 
     versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
     versionName "${versionMajor}.${versionMinor}.${versionPatch}"
@@ -80,11 +81,11 @@ android {
 
   buildTypes {
     debug {
-      packageNameSuffix '.dev'
+      applicationIdSuffix '.dev'
       versionNameSuffix '-dev'
     }
     dogfood {
-      packageNameSuffix '.woof'
+      applicationIdSuffix '.woof'
       versionNameSuffix '-woof'
 
       if (isRelease) {
