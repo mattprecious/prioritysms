@@ -46,7 +46,7 @@ import com.mattprecious.prioritysms.util.ContactHelper;
 import com.mattprecious.prioritysms.util.Intents;
 import com.mattprecious.prioritysms.util.Strings;
 import com.mattprecious.prioritysms.view.MarginAnimation;
-import net.sebastianopoggi.ui.GlowPadBackport.GlowPadView;
+import net.frakbot.glowpadbackport.GlowPadView;
 
 public class AlarmActivity extends BaseActivity implements GlowPadView.OnTriggerListener {
   private static final String TAG = AlarmActivity.class.getSimpleName();
