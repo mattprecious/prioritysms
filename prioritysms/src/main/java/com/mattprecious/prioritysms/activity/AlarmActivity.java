@@ -37,8 +37,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.model.BaseProfile;
 import com.mattprecious.prioritysms.model.SmsProfile;
@@ -60,11 +60,11 @@ public class AlarmActivity extends BaseActivity implements GlowPadView.OnTrigger
   private static final int EXPAND_ANIMATION_DURATION = 200;
   private static final int EXPAND_ANIMATION_DELAY = 200;
 
-  @InjectView(R.id.contact_name) TextView nameView;
-  @InjectView(R.id.message_container) View messageContainerView;
-  @InjectView(R.id.message) TextView messageView;
-  @InjectView(R.id.image) ImageView iconView;
-  @InjectView(R.id.glow_pad_view) GlowPadView glowPadView;
+  @Bind(R.id.contact_name) TextView nameView;
+  @Bind(R.id.message_container) View messageContainerView;
+  @Bind(R.id.message) TextView messageView;
+  @Bind(R.id.image) ImageView iconView;
+  @Bind(R.id.glow_pad_view) GlowPadView glowPadView;
 
   private BaseProfile profile;
   private SmsProfile smsProfile;
@@ -134,7 +134,7 @@ public class AlarmActivity extends BaseActivity implements GlowPadView.OnTrigger
     final View rootView = inflater.inflate(R.layout.alarm, null);
     updateSystemUi(rootView);
     setContentView(rootView);
-    ButterKnife.inject(this);
+    ButterKnife.bind(this);
 
     final Window win = getWindow();
     win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED

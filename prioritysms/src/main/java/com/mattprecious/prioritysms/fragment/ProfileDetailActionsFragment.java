@@ -33,8 +33,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.BaseDetailFragment;
 import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.ValidationResponse;
@@ -57,10 +57,10 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
 
   private static final int REQUEST_CODE_RINGTONE_PICKER = 1;
 
-  @InjectView(R.id.action_type) Spinner actionTypeSpinner;
-  @InjectView(R.id.action_sound) Button soundButton;
-  @InjectView(R.id.action_override_silent) CheckBox overrideSilentCheckBox;
-  @InjectView(R.id.action_vibrate) CheckBox vibrateCheckBox;
+  @Bind(R.id.action_type) Spinner actionTypeSpinner;
+  @Bind(R.id.action_sound) Button soundButton;
+  @Bind(R.id.action_override_silent) CheckBox overrideSilentCheckBox;
+  @Bind(R.id.action_vibrate) CheckBox vibrateCheckBox;
 
   private BaseProfile profile;
   private boolean spinnerReady;
@@ -80,7 +80,7 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.profile_detail_actions, container, false);
-    ButterKnife.inject(this, rootView);
+    ButterKnife.bind(this, rootView);
 
     actionTypeSpinner.setAdapter(new ActionTypeAdapter(getActivity()));
     actionTypeSpinner.setOnItemSelectedListener(mActionTypeSelectedListener);

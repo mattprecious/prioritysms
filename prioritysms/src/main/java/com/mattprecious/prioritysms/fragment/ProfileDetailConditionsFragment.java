@@ -29,8 +29,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.BaseDetailFragment;
 import com.mattprecious.prioritysms.fragment.ProfileDetailFragment.ValidationResponse;
@@ -60,14 +60,14 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
   private static final int NUM_CHILDREN_CONTACTS_LIST = 3;
   private static final int NUM_CHILDREN_KEYWORDS_LIST = 3;
 
-  @InjectView(R.id.contact_list) ViewGroup contactsList;
-  @InjectView(R.id.no_contacts) TextView noContactsView;
-  @InjectView(R.id.add_contact) Button addContactButton;
-  @InjectView(R.id.keywords_container) ViewGroup keywordsContainer;
-  @InjectView(R.id.keyword_method) TextView keywordMethodButton;
-  @InjectView(R.id.keyword_list) ViewGroup keywordsList;
-  @InjectView(R.id.no_keywords) TextView noKeywordsView;
-  @InjectView(R.id.add_keyword) Button addKeywordButton;
+  @Bind(R.id.contact_list) ViewGroup contactsList;
+  @Bind(R.id.no_contacts) TextView noContactsView;
+  @Bind(R.id.add_contact) Button addContactButton;
+  @Bind(R.id.keywords_container) ViewGroup keywordsContainer;
+  @Bind(R.id.keyword_method) TextView keywordMethodButton;
+  @Bind(R.id.keyword_list) ViewGroup keywordsList;
+  @Bind(R.id.no_keywords) TextView noKeywordsView;
+  @Bind(R.id.add_keyword) Button addKeywordButton;
 
   private LayoutInflater inflater;
   private BaseProfile profile;
@@ -98,7 +98,7 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.profile_detail_conditions, container, false);
-    ButterKnife.inject(this, rootView);
+    ButterKnife.bind(this, rootView);
 
     for (String contact : profile.getContacts()) {
       addContact(contact);
@@ -298,14 +298,14 @@ public class ProfileDetailConditionsFragment extends BaseDetailFragment {
   }
 
   public static class ContactViewHolder {
-    @InjectView(R.id.avatar) ImageView avatar;
-    @InjectView(R.id.name) TextView name;
-    @InjectView(R.id.delete) ImageButton delete;
+    @Bind(R.id.avatar) ImageView avatar;
+    @Bind(R.id.name) TextView name;
+    @Bind(R.id.delete) ImageButton delete;
 
     String lookup;
 
     public ContactViewHolder(View view) {
-      ButterKnife.inject(this, view);
+      ButterKnife.bind(this, view);
     }
   }
 

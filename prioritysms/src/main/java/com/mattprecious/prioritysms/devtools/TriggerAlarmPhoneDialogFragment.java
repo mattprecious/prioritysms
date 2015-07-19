@@ -27,8 +27,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.db.DbAdapter;
@@ -40,9 +40,9 @@ import java.util.List;
 
 public class TriggerAlarmPhoneDialogFragment extends SherlockDialogFragment {
 
-  @InjectView(R.id.profile_spinner) Spinner profileSpinner;
-  @InjectView(R.id.number) EditText numberText;
-  @InjectView(R.id.go) Button goButton;
+  @Bind(R.id.profile_spinner) Spinner profileSpinner;
+  @Bind(R.id.number) EditText numberText;
+  @Bind(R.id.go) Button goButton;
 
   private List<PhoneProfile> phoneProfileList;
 
@@ -51,7 +51,7 @@ public class TriggerAlarmPhoneDialogFragment extends SherlockDialogFragment {
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
     View rootView = inflater.inflate(R.layout.dev_tools_trigger_alarm_phone, null);
-    ButterKnife.inject(this, rootView);
+    ButterKnife.bind(this, rootView);
 
     phoneProfileList = new DbAdapter(getActivity()).getEnabledPhoneProfiles();
 

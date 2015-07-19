@@ -33,8 +33,8 @@ import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -80,11 +80,11 @@ public class ProfileDetailFragment extends BaseFragment {
     return fragment;
   }
 
-  @InjectView(R.id.profile_name_container) View nameContainer;
-  @InjectView(R.id.profile_name) EditText nameText;
-  @InjectView(R.id.close_rename) ImageButton closeRenameButton;
-  @InjectView(R.id.pager) ViewPager pager;
-  @InjectView(R.id.indicator) TabPageIndicator titleIndicator;
+  @Bind(R.id.profile_name_container) View nameContainer;
+  @Bind(R.id.profile_name) EditText nameText;
+  @Bind(R.id.close_rename) ImageButton closeRenameButton;
+  @Bind(R.id.pager) ViewPager pager;
+  @Bind(R.id.indicator) TabPageIndicator titleIndicator;
 
   private Callbacks callbacks = dummyCallbacks;
   private BaseProfile profile;
@@ -131,7 +131,7 @@ public class ProfileDetailFragment extends BaseFragment {
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_profile_detail, container, false);
-    ButterKnife.inject(this, rootView);
+    ButterKnife.bind(this, rootView);
 
     callbacks.onNameUpdated(profile.getName());
 
