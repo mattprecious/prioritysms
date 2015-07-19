@@ -19,6 +19,7 @@ package com.mattprecious.prioritysms.model;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import com.mattprecious.prioritysms.util.Strings;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -98,11 +99,11 @@ public class SmsProfile extends BaseProfile {
     }
   }
 
-  @Override public void writeToParcel(Parcel dest, int flags) {
+  @Override public void writeToParcel(@NonNull Parcel dest, int flags) {
     super.writeToParcel(dest, flags);
 
     dest.writeInt(keywordMethod.ordinal());
-    dest.writeStringArray(keywords.toArray(new String[0]));
+    dest.writeStringArray(keywords.toArray(new String[keywords.size()]));
   }
 
   public SmsProfile(Parcel in) {
@@ -120,11 +121,11 @@ public class SmsProfile extends BaseProfile {
 
   public static final Parcelable.Creator<SmsProfile> CREATOR =
       new Parcelable.Creator<SmsProfile>() {
-        @Override public SmsProfile createFromParcel(Parcel source) {
+        @Override public SmsProfile createFromParcel(@NonNull Parcel source) {
           return new SmsProfile(source);
         }
 
-        @Override public SmsProfile[] newArray(int size) {
+        @NonNull @Override public SmsProfile[] newArray(int size) {
           return new SmsProfile[size];
         }
       };

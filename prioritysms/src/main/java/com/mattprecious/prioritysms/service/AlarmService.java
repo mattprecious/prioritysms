@@ -30,6 +30,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.format.DateUtils;
@@ -101,11 +102,11 @@ public class AlarmService extends Service {
     AlarmAlertWakeLock.releaseCpuLock();
   }
 
-  @Override public IBinder onBind(Intent intent) {
+  @Override public IBinder onBind(@NonNull Intent intent) {
     return null;
   }
 
-  @Override public int onStartCommand(Intent intent, int flags, int startId) {
+  @Override public int onStartCommand(@NonNull Intent intent, int flags, int startId) {
     // No intent, tell the system not to restart us.
     if (intent == null) {
       stopSelf();

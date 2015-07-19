@@ -20,6 +20,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.model.LogicMethod;
 
@@ -74,7 +75,7 @@ public class SmsMethodDialogFragment extends BaseSupportDialogFragment {
     currentMethod = LogicMethod.values()[args.getInt(EXTRA_CURRENT_VALUE)];
   }
 
-  @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+  @NonNull @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
     int currentIndex = 0;
@@ -89,7 +90,7 @@ public class SmsMethodDialogFragment extends BaseSupportDialogFragment {
     builder.setTitle(R.string.keywords_method_title);
     builder.setSingleChoiceItems(methodDescriptions, currentIndex,
         new DialogInterface.OnClickListener() {
-          @Override public void onClick(DialogInterface dialog, int which) {
+          @Override public void onClick(@NonNull DialogInterface dialog, int which) {
             LogicMethod method = LogicMethod.ANY;
             switch (which) {
               case 0:
@@ -112,8 +113,7 @@ public class SmsMethodDialogFragment extends BaseSupportDialogFragment {
     return builder.create();
   }
 
-  public static interface Callbacks {
-
-    public void onSelected(LogicMethod method);
+  public interface Callbacks {
+    void onSelected(LogicMethod method);
   }
 }

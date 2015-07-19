@@ -21,6 +21,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -47,7 +48,7 @@ public class TriggerAlarmSmsDialogFragment extends SherlockDialogFragment {
 
   private List<SmsProfile> smsProfileList;
 
-  @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
+  @NonNull @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
     LayoutInflater inflater = LayoutInflater.from(getActivity());
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -62,12 +63,12 @@ public class TriggerAlarmSmsDialogFragment extends SherlockDialogFragment {
     }
 
     profileSpinner.setAdapter(
-        new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item,
+        new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,
             profileNames)
     );
 
     goButton.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
+      @Override public void onClick(@NonNull View v) {
         Intent alarmIntent = new Intent(Intents.ACTION_ALERT);
         alarmIntent.putExtra(Intents.EXTRA_PROFILE,
             smsProfileList.get(profileSpinner.getSelectedItemPosition()));
@@ -81,7 +82,7 @@ public class TriggerAlarmSmsDialogFragment extends SherlockDialogFragment {
     builder.setTitle("Trigger SMS Alarm");
     builder.setView(rootView);
     builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-      @Override public void onClick(DialogInterface dialog, int which) {
+      @Override public void onClick(@NonNull DialogInterface dialog, int which) {
         dialog.dismiss();
       }
     });

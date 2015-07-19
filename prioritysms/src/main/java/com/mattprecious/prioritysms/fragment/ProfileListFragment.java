@@ -39,9 +39,9 @@ public class ProfileListFragment extends SherlockListFragment {
   private static final int FREE_PROFILE_LIMIT = 3;
 
   public interface Callbacks {
-    public void onItemSelected(BaseProfile profile);
-    public void onNewProfile(BaseProfile profile);
-    public boolean isPro();
+    void onItemSelected(BaseProfile profile);
+    void onNewProfile(BaseProfile profile);
+    boolean isPro();
   }
 
   private static Callbacks dummyCallbacks = new Callbacks() {
@@ -72,9 +72,7 @@ public class ProfileListFragment extends SherlockListFragment {
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    View rootView = inflater.inflate(R.layout.profile_list_content, container, false);
-
-    return rootView;
+    return inflater.inflate(R.layout.profile_list_content, container, false);
   }
 
   @Override public void onResume() {

@@ -23,6 +23,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import com.mattprecious.prioritysms.model.ActionType;
 import com.mattprecious.prioritysms.model.BaseProfile;
@@ -51,7 +52,7 @@ public class DbAdapter {
     dbHelper = new DbHelper(context);
   }
 
-  public static enum SortOrder {
+  public enum SortOrder {
     NAME_ASC(DbHelper.PROFILES_KEY_NAME, ASC),
     NAME_DESC(DbHelper.PROFILES_KEY_NAME, DESC);
 
@@ -601,7 +602,7 @@ public class DbAdapter {
       super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    @Override public void onCreate(SQLiteDatabase db) {
+    @Override public void onCreate(@NonNull SQLiteDatabase db) {
       db.execSQL(PRAGMA);
 
       db.execSQL(PROFILES_TABLE_CREATE);
@@ -617,10 +618,7 @@ public class DbAdapter {
       db.execSQL(METHOD_TABLE_POPULATE);
     }
 
-    @Override public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-      switch (oldVersion) {
-
-      }
+    @Override public void onUpgrade(@NonNull SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
     @Override public synchronized SQLiteDatabase getReadableDatabase() {

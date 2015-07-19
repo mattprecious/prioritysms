@@ -20,6 +20,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import com.mattprecious.prioritysms.db.DbAdapter;
 import com.mattprecious.prioritysms.util.ContactHelper;
 import java.util.Arrays;
@@ -166,7 +167,7 @@ public abstract class BaseProfile implements Parcelable {
     return 0;
   }
 
-  @Override public void writeToParcel(Parcel dest, int flags) {
+  @Override public void writeToParcel(@NonNull Parcel dest, int flags) {
     dest.writeInt(id);
     dest.writeString(name);
     dest.writeByte((byte) (enabled ? 1 : 0));
@@ -185,7 +186,7 @@ public abstract class BaseProfile implements Parcelable {
     actionType = ActionType.values()[in.readInt()];
 
     String ringtoneStr = in.readString();
-    ringtone = (ringtoneStr == null) ? null : Uri.parse(ringtoneStr);
+    ringtone = ringtoneStr == null ? null : Uri.parse(ringtoneStr);
 
     overrideSilent = in.readByte() == 1;
     vibrate = in.readByte() == 1;

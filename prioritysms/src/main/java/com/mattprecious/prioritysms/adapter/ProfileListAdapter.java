@@ -17,6 +17,7 @@
 package com.mattprecious.prioritysms.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,7 @@ public class ProfileListAdapter extends BaseAdapter {
     return data.get(position).getId();
   }
 
-  @Override public View getView(int position, View convertView, ViewGroup parent) {
+  @Override public View getView(int position, View convertView, @NonNull ViewGroup parent) {
     BaseProfile profile = getItem(position);
 
     if (convertView == null) {

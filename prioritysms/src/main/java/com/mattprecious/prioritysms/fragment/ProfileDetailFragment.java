@@ -18,6 +18,7 @@ package com.mattprecious.prioritysms.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -57,10 +58,13 @@ public class ProfileDetailFragment extends BaseFragment {
   private static final int ERROR_FLAG_PAGER = 1 << 1;
 
   public interface Callbacks {
-    public void onNameUpdated(String name);
-    public void onDiscard();
-    public void onDelete(BaseProfile profile);
-    public void onSave();
+    void onNameUpdated(String name);
+
+    void onDiscard();
+
+    void onDelete(BaseProfile profile);
+
+    void onSave();
   }
 
   private static Callbacks dummyCallbacks = new Callbacks() {
@@ -148,7 +152,8 @@ public class ProfileDetailFragment extends BaseFragment {
     });
     nameText.addTextChangedListener(new TextWatcher() {
 
-      @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+      @Override
+      public void onTextChanged(@NonNull CharSequence s, int start, int before, int count) {
       }
 
       @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -161,7 +166,7 @@ public class ProfileDetailFragment extends BaseFragment {
 
     closeRenameButton.setOnClickListener(new OnClickListener() {
 
-      @Override public void onClick(View v) {
+      @Override public void onClick(@NonNull View v) {
         closeRename();
       }
     });
@@ -288,8 +293,7 @@ public class ProfileDetailFragment extends BaseFragment {
   private class ProfilePagerAdapter extends FragmentPagerAdapter {
     private static final int NUM_FRAGMENTS = 2;
 
-    SparseArray<WeakReference<Fragment>> mRegisteredFragments =
-        new SparseArray<WeakReference<Fragment>>();
+    SparseArray<WeakReference<Fragment>> mRegisteredFragments = new SparseArray<>();
     private final String[] mTitles = new String[NUM_FRAGMENTS];
 
     public ProfilePagerAdapter(FragmentManager fm) {
@@ -313,7 +317,7 @@ public class ProfileDetailFragment extends BaseFragment {
 
     @Override public Object instantiateItem(ViewGroup container, int position) {
       Fragment fragment = (Fragment) super.instantiateItem(container, position);
-      mRegisteredFragments.put(position, new WeakReference<Fragment>(fragment));
+      mRegisteredFragments.put(position, new WeakReference<>(fragment));
       return fragment;
     }
 

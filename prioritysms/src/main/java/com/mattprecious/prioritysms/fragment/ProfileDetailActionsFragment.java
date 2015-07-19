@@ -23,6 +23,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -89,7 +90,7 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
     updateRingtone(profile.getRingtone());
     soundButton.setOnClickListener(new OnClickListener() {
 
-      @Override public void onClick(View v) {
+      @Override public void onClick(@NonNull View v) {
         Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE,
             getSelectedActionType() == ActionType.ALARM ? RingtoneManager.TYPE_ALARM
@@ -212,7 +213,7 @@ public class ProfileDetailActionsFragment extends BaseDetailFragment {
       }
     }
 
-    @Override public View getView(int position, View convertView, ViewGroup parent) {
+    @Override public View getView(int position, View convertView, @NonNull ViewGroup parent) {
       if (convertView == null) {
         convertView = inflater.inflate(R.layout.profile_detail_header_spinner_item, parent, false);
       }

@@ -29,6 +29,7 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import com.mattprecious.prioritysms.R;
@@ -50,7 +51,7 @@ public class AlarmReceiver extends BroadcastReceiver {
       150, 150, 150, 150, 150
   };
 
-  @Override public void onReceive(final Context context, final Intent intent) {
+  @Override public void onReceive(@NonNull final Context context, @NonNull final Intent intent) {
     final PendingResult result = safelyGoAsync();
     final WakeLock wl = AlarmAlertWakeLock.createPartialWakeLock(context);
     wl.acquire();
@@ -208,9 +209,7 @@ public class AlarmReceiver extends BroadcastReceiver {
           vibrator.vibrate(VIBRATE_PATTERN, -1);
         }
       }
-    } catch (IllegalArgumentException e) {
-      Log.e(TAG, "failed to play audio", e);
-    } catch (IOException e) {
+    } catch (IllegalArgumentException | IOException e) {
       Log.e(TAG, "failed to play audio", e);
     }
   }

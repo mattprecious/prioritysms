@@ -19,6 +19,7 @@ package com.mattprecious.prioritysms.model;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 public class PhoneProfile extends BaseProfile {
 
@@ -29,7 +30,7 @@ public class PhoneProfile extends BaseProfile {
     return super.matches(context, number);
   }
 
-  @Override public void writeToParcel(Parcel dest, int flags) {
+  @Override public void writeToParcel(@NonNull Parcel dest, int flags) {
     super.writeToParcel(dest, flags);
   }
 
@@ -39,11 +40,11 @@ public class PhoneProfile extends BaseProfile {
 
   public static final Parcelable.Creator<PhoneProfile> CREATOR =
       new Parcelable.Creator<PhoneProfile>() {
-        @Override public PhoneProfile createFromParcel(Parcel source) {
+        @Override public PhoneProfile createFromParcel(@NonNull Parcel source) {
           return new PhoneProfile(source);
         }
 
-        @Override public PhoneProfile[] newArray(int size) {
+        @NonNull @Override public PhoneProfile[] newArray(int size) {
           return new PhoneProfile[size];
         }
       };

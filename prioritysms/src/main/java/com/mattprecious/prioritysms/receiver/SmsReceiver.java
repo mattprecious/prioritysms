@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.telephony.SmsMessage;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.db.DbAdapter;
@@ -31,7 +32,7 @@ import java.util.List;
 
 public class SmsReceiver extends BroadcastReceiver {
 
-  @Override public void onReceive(Context context, Intent intent) {
+  @Override public void onReceive(@NonNull Context context, @NonNull Intent intent) {
     SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
     boolean enabled = settings.getBoolean(context.getString(R.string.pref_key_enabled), false);
     if (!enabled) {
@@ -39,9 +40,11 @@ public class SmsReceiver extends BroadcastReceiver {
     }
 
     Bundle bundle = intent.getExtras();
-    SmsMessage[] msgs = null;
+    SmsMessage[] msgs;
     if (bundle != null) {
       Object[] pdus = (Object[]) bundle.get("pdus");
+      if (pdus == null) return;
+
       msgs = new SmsMessage[pdus.length];
       for (int i = 0; i < msgs.length; i++) {
         msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);

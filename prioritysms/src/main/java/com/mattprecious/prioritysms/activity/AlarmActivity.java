@@ -27,6 +27,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -77,22 +78,27 @@ public class AlarmActivity extends BaseActivity implements GlowPadView.OnTrigger
   private int messageMarginBottom;
 
   private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-    @Override public void onReceive(Context context, Intent intent) {
+    @Override public void onReceive(@NonNull Context context, @NonNull Intent intent) {
       String action = intent.getAction();
       Log.v(TAG, "onReceive " + action);
 
-      if (action.equals(Intents.ACTION_DISMISS)) {
-        dismiss(false, false);
-      } else if (action.equals(Intents.ACTION_REPLY)) {
-        reply();
-      } else if (action.equals(Intents.ACTION_CALL)) {
-        call();
-      } else {
-        BaseProfile profile = intent.getParcelableExtra(Intents.EXTRA_PROFILE);
-        boolean replaced = intent.getBooleanExtra(Intents.ALARM_REPLACED, false);
-        if (profile != null && AlarmActivity.this.profile.getId() == profile.getId()) {
-          dismiss(true, replaced);
-        }
+      switch (action) {
+        case Intents.ACTION_DISMISS:
+          dismiss(false, false);
+          break;
+        case Intents.ACTION_REPLY:
+          reply();
+          break;
+        case Intents.ACTION_CALL:
+          call();
+          break;
+        default:
+          BaseProfile profile = intent.getParcelableExtra(Intents.EXTRA_PROFILE);
+          boolean replaced = intent.getBooleanExtra(Intents.ALARM_REPLACED, false);
+          if (profile != null && AlarmActivity.this.profile.getId() == profile.getId()) {
+            dismiss(true, replaced);
+          }
+          break;
       }
     }
   };
@@ -181,7 +187,6 @@ public class AlarmActivity extends BaseActivity implements GlowPadView.OnTrigger
 
   @Override public void onBackPressed() {
     // don't allow the activity to be closed
-    return;
   }
 
   @Override public boolean onKeyDown(int keyCode, KeyEvent event) {

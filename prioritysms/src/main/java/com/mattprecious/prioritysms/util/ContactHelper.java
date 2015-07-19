@@ -56,11 +56,13 @@ public class ContactHelper {
       String[] columns = new String[] { Contacts.DISPLAY_NAME };
       Cursor c = context.getContentResolver().query(lookupUri, columns, null, null, null);
 
-      if (c != null && c.moveToFirst()) {
-        name = c.getString(c.getColumnIndex(Contacts.DISPLAY_NAME));
-      }
+      if (c != null) {
+        if (c.moveToFirst()) {
+          name = c.getString(c.getColumnIndex(Contacts.DISPLAY_NAME));
+        }
 
-      c.close();
+        c.close();
+      }
     }
 
     return name;

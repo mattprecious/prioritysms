@@ -20,11 +20,12 @@ import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import com.mattprecious.prioritysms.preferences.SettingsActivity;
 
 public class ChangeLogDialogFragment extends BaseDialogFragment {
 
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+  @NonNull @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
     return SettingsActivity.buildChangeLogDialog(getActivity());
   }

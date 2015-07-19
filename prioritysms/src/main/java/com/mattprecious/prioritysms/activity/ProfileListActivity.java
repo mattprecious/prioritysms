@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
@@ -298,7 +299,7 @@ public class ProfileListActivity extends BaseActivity
     invalidateOptionsMenu();
 
     // not sure if I need to do this... play seems to cache this
-    preferences.edit().putBoolean(KEY_IS_PRO, isPro).commit();
+    preferences.edit().putBoolean(KEY_IS_PRO, isPro).apply();
   }
 
   private void configureActionBar() {
@@ -307,7 +308,7 @@ public class ProfileListActivity extends BaseActivity
     actionBarSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
       @Override public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        preferences.edit().putBoolean(getString(R.string.pref_key_enabled), isChecked).commit();
+        preferences.edit().putBoolean(getString(R.string.pref_key_enabled), isChecked).apply();
       }
     });
 
@@ -355,7 +356,7 @@ public class ProfileListActivity extends BaseActivity
     crouton.setConfiguration(
         new Configuration.Builder().setDuration(Configuration.DURATION_LONG).build());
     crouton.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
+      @Override public void onClick(@NonNull View v) {
         Crouton.clearCroutonsForActivity(ProfileListActivity.this);
         profile.undoDelete(getApplicationContext());
         refreshList();
@@ -467,12 +468,12 @@ public class ProfileListActivity extends BaseActivity
         preferences.edit()
             .putBoolean(getString(R.string.pref_key_enabled), true)
             .putBoolean(getString(R.string.pref_key_general_analytics), true)
-            .commit();
+            .apply();
       }
 
       int currentVersion = packageInfo.versionCode;
       if (lastVersion < currentVersion) {
-        doUpdate(lastVersion, currentVersion);
+        doUpdate(lastVersion);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
           showChangeLog();
@@ -482,7 +483,7 @@ public class ProfileListActivity extends BaseActivity
 
         getPreferences(MODE_PRIVATE).edit()
             .putInt(KEY_CHANGE_LOG_VERSION, packageInfo.versionCode)
-            .commit();
+            .apply();
       }
     } catch (PackageManager.NameNotFoundException e) {
       Log.e(TAG, "Failed to show change log", e);
@@ -491,7 +492,7 @@ public class ProfileListActivity extends BaseActivity
 
   // TODO: move this to another file
   // TODO: pop loading dialog
-  private void doUpdate(int from, int to) {
+  private void doUpdate(int from) {
     switch (from) {
       case 1:
       case 2:
@@ -502,14 +503,14 @@ public class ProfileListActivity extends BaseActivity
         preferences.edit()
             .putString("sms_contact", preferences.getString("contact", null))
             .remove("contact")
-            .commit();
+            .apply();
 
       case 4:
         // enabled defaulted to false previously
         preferences.edit()
             .putBoolean(getString(R.string.pref_key_enabled),
                 preferences.getBoolean("enabled", false))
-            .commit();
+            .apply();
 
         SmsProfile smsProfile = new SmsProfile();
         smsProfile.setName("SMS Profile");
@@ -540,7 +541,7 @@ public class ProfileListActivity extends BaseActivity
         String keywords = preferences.getString("keyword", null);
         if (preferences.getBoolean("filter_keyword", false) && !Strings.isBlank(keywords)) {
           String[] keywordArr = keywords.split(",");
-          smsProfile.setKeywords(new LinkedHashSet<String>(Arrays.asList(keywordArr)));
+          smsProfile.setKeywords(new LinkedHashSet<>(Arrays.asList(keywordArr)));
           smsWorthSaving = true;
         }
 
@@ -574,7 +575,7 @@ public class ProfileListActivity extends BaseActivity
             .remove("alarm")
             .remove("override")
             .remove("vibrate")
-            .commit();
+            .apply();
     }
   }
 

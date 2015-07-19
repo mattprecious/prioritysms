@@ -23,13 +23,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 import com.mattprecious.prioritysms.R;
 import com.mattprecious.prioritysms.service.CallLogScanner;
 
 public class PhoneStateReceiver extends BroadcastReceiver {
 
-  @Override public void onReceive(Context context, Intent intent) {
+  @Override public void onReceive(@NonNull Context context, @NonNull Intent intent) {
     SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
     boolean enabled = settings.getBoolean(context.getString(R.string.pref_key_enabled), false);
     if (!enabled) {

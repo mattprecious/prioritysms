@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -198,7 +199,7 @@ public class SettingsActivity extends SherlockPreferenceActivity
       PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
 
       return packageInfo.versionName;
-    } catch (PackageManager.NameNotFoundException e) {
+    } catch (PackageManager.NameNotFoundException ignored) {
     }
 
     return null;
@@ -225,7 +226,7 @@ public class SettingsActivity extends SherlockPreferenceActivity
 
     builder.setNeutralButton(R.string.change_log_close, new DialogInterface.OnClickListener() {
 
-      @Override public void onClick(DialogInterface dialog, int which) {
+      @Override public void onClick(@NonNull DialogInterface dialog, int which) {
         dialog.dismiss();
       }
     });
@@ -254,7 +255,7 @@ public class SettingsActivity extends SherlockPreferenceActivity
     builder.setView(rootView);
     builder.setPositiveButton(R.string.attributions_close, new DialogInterface.OnClickListener() {
 
-      @Override public void onClick(DialogInterface dialog, int which) {
+      @Override public void onClick(@NonNull DialogInterface dialog, int which) {
         dialog.dismiss();
       }
     });
