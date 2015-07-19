@@ -5,7 +5,7 @@ buildscript {
     maven { url 'http://download.crashlytics.com/maven' }
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:1.0.1'
+    classpath 'com.android.tools.build:gradle:1.2.3'
     classpath 'com.crashlytics.tools.gradle:crashlytics-gradle:1.14.7'
   }
 }
@@ -32,7 +32,7 @@ repositories {
 dependencies {
   compile fileTree(dir: 'libs', include: '*.jar')
 
-  compile 'com.android.support:support-v4:21.0.3'
+  compile 'com.android.support:support-v4:22.2.0'
 
   compile 'com.crashlytics.android:crashlytics:1.1.13'
 
@@ -52,12 +52,12 @@ def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim
 def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
 
 android {
-  compileSdkVersion 21
-  buildToolsVersion '21.1.2'
+  compileSdkVersion 22
+  buildToolsVersion '22.0.1'
 
   defaultConfig {
     minSdkVersion 9
-    targetSdkVersion 21
+    targetSdkVersion 22
 
     versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
     versionName "${versionMajor}.${versionMinor}.${versionPatch}"
