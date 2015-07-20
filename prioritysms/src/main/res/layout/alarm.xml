@@ -35,7 +35,7 @@
       android:layout_below="@id/image"
       style="@style/AlarmContactName"
       />
-  <net.sebastianopoggi.ui.GlowPadBackport.GlowPadView
+  <net.frakbot.glowpadbackport.GlowPadView
       android:id="@+id/glow_pad_view"
       style="@style/AlarmGlowPad"
       android:layout_width="wrap_content"
